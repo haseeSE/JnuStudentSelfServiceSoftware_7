@@ -225,9 +225,9 @@ public class ViewMain {
 		panel_main.updateUI();
 		records.add(panel);
 		// 防止过多记录；
-		if (records.size() > 10) {
-			records.remove(0);
-		}
+//		if (records.size() > 10) {
+//			records.remove(0);
+//		}
 	}
 	
 	public static JFrame getFrame() {

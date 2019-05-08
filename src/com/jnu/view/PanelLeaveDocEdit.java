@@ -122,7 +122,7 @@ setLayout(null);
 				// TODO
 				
 				JOptionPane.showMessageDialog(ViewMain.getFrame(), "提交成功", "请假文档上传", JOptionPane.PLAIN_MESSAGE);
-				ViewMain.panelBack();
+//				ViewMain.panelBack();
 			}
 		});
 		btnNewButton.setBounds(433, 333, 113, 27);
