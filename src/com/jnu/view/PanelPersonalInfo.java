@@ -167,7 +167,7 @@ public class PanelPersonalInfo extends JPanel {
 				// TODO
 				
 				JOptionPane.showMessageDialog(ViewMain.getFrame(), "保存成功", "用户信息修改", JOptionPane.PLAIN_MESSAGE);
-				ViewMain.panelBack();
+//				ViewMain.panelBack();
 				MyLog.write(PanelPersonalInfo.class, "点击了个人信息保存");
 			}
 		});

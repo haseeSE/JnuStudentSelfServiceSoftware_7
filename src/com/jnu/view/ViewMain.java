@@ -82,6 +82,17 @@ public class ViewMain {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				
+				MyLog.write(ViewMain.class, "关闭程序窗口");
+			}
+			@Override
+			public void windowOpened(WindowEvent e) {
+				MyLog.write(ViewMain.class, "打开程序窗口");
+			}
+		});
 		frame.setTitle("暨南大学珠海校区学生自助程序");
 		frame.setResizable(false);
 		frame.setBounds(x, y, width, height);
