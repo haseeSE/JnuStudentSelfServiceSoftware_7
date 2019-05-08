@@ -12,6 +12,8 @@ import javax.swing.JMenu;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Logger;
+
 import com.jnu.model.MyLog;
 
 import javax.swing.GroupLayout;

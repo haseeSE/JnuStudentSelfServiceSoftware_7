@@ -7,6 +7,5 @@
 	<classpathentry kind="lib" path="Library/djnativeswing.jar"/>
 	<classpathentry kind="lib" path="Library/djnativeswing-swt.jar"/>
 	<classpathentry kind="lib" path="Library/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="src/log4j.properties"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
