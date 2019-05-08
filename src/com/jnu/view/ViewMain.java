@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JMenu;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
+import com.jnu.model.MyLog;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.MouseAdapter;
@@ -51,6 +54,8 @@ public class ViewMain {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		// TODO read File;
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -110,6 +115,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelMessage());
+				MyLog.write(ViewMain.class, "通知及余额");
 			}
 		});
 		menu_campuInquire.add(menuItem_message);

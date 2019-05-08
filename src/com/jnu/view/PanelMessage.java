@@ -19,6 +19,9 @@ public class PanelMessage extends JPanel {
 		setSubMessage();
 		
 		// TODO		
+		JPanel panel_notice_container = new PanelNoticeContainer();
+		panel_notice_container.setBounds(34, 30, 630, 412);
+		add(panel_notice_container);
 
 	}
 
@@ -28,6 +31,8 @@ public class PanelMessage extends JPanel {
 		JPanel panel_subMessage = new PanelSubMessage();
 		panel_subMessage.setBounds(668, 27, 330, 352);
 		add(panel_subMessage);
+		
+		
 
 //		panel_subMessage.removeAll();
 //		panel_subMessage.add(new PanelSubMessage(), BorderLayout.CENTER);
