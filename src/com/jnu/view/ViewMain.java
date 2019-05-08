@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import com.webbrowser.SimpleWebBrowserExample;
-
 import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import java.awt.CardLayout;

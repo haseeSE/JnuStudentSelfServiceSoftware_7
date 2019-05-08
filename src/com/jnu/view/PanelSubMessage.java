@@ -8,7 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import com.jnu.model.WebOperator;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 
