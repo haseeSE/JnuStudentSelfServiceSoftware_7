@@ -17,9 +17,9 @@ public class PanelNoticeContainer extends JPanel {
 	public PanelNoticeContainer() {
 		super(new BorderLayout());
 		//往JTabbedPane添加Panel
-		JPanel panel_school_notice = new PanelNotice();
-		JPanel panel_college_notice = new PanelNotice();
-		JPanel panel_academic_adminstration_notice = new PanelNotice();
+		JPanel panel_school_notice = new PanelNotice(1);
+		JPanel panel_college_notice = new PanelNotice(2);
+		JPanel panel_academic_adminstration_notice = new PanelNotice(3);
 		tab.setFont(new Font("新宋体", Font.BOLD, 20));
 		tab.setForeground(Color.BLACK);
 		

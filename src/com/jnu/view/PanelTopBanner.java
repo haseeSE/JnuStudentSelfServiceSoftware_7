@@ -38,7 +38,7 @@ public class PanelTopBanner extends JPanel {
 		btn_search.setBounds(215, 10, 46, 23);
 		add(btn_search);
 		
-		JLabel lblUsera = new JLabel("陈某某");
+		JLabel lblUsera = new JLabel("未登录");
 		lblUsera.setFont(new Font("新宋体", Font.BOLD, 22));
 		lblUsera.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsera.setBounds(750, 10, 120, 28);

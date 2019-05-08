@@ -27,11 +27,11 @@ public class PanelNotice extends JPanel implements ListSelectionListener {
 	ArrayList<String> notice_date_container = new ArrayList<String>();
 	ArrayList<String> notice_content_container = new ArrayList<String>();
 	
-	public PanelNotice() {
+	public PanelNotice(int notice_type) {
 		super(new BorderLayout());
 		listModel = new DefaultListModel<String>();
 		//添加数据
-		addData();
+		addData(notice_type);
 		
 		notice_list = new JList<String>(listModel);
         notice_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -62,18 +62,45 @@ public class PanelNotice extends JPanel implements ListSelectionListener {
 	
 	//双击事件
 	private void whenDbClickLst(Object value){
-		//ViewMain.changePanelTemplate(new    );
+		ViewMain.changePanelTemplate(new PanelNoticeDetail());
 	}
 
-	private void addData(){
-		notice_date_container.add("2019-4-24");
-		notice_content_container.add("包装工程学院举行“思想育人、模范育人、实践育人‘三位一体’党建领航工程”之“党建引领、逐梦数模”品牌活动基地揭牌仪式");
-		notice_date_container.add("2019-4-19");
-		notice_content_container.add("树立正确的入党动机，以实际行动争取早日入党 ——校区党工委常务副书记林晓灵为第83期分党校学员作专题辅导报告");
-		notice_date_container.add("2019-4-17");
-		notice_content_container.add("第九届“勇源杯”商业精英挑战赛圆满落幕，校企合作助力大学生创新创业");
-		for(int i=0;i<notice_date_container.size();i++)
-			listModel.addElement(notice_date_container.get(i)+"                        "+notice_content_container.get(i));
+	private void addData(int notice_type){
+		switch(notice_type){
+			case 1:
+			notice_date_container.add("2019-4-24");
+			notice_content_container.add("包装工程学院举行“思想育人、模范育人、实践育人‘三位一体’党建领航工程”之“党建引领、逐梦数模”品牌活动基地揭牌仪式");
+			notice_date_container.add("2019-4-19");
+			notice_content_container.add("树立正确的入党动机，以实际行动争取早日入党 ——校区党工委常务副书记林晓灵为第83期分党校学员作专题辅导报告");
+			notice_date_container.add("2019-4-17");
+			notice_content_container.add("第九届“勇源杯”商业精英挑战赛圆满落幕，校企合作助力大学生创新创业");
+			for(int i=0;i<notice_date_container.size();i++)
+				listModel.addElement(notice_date_container.get(i)+"                        "+notice_content_container.get(i));
+			break;
+		
+			case 2:
+				listModel = new DefaultListModel<String>();
+				for(int i=0;i<=50;i++){
+					notice_date_container.add("date"+i);
+					notice_content_container.add("test"+String.valueOf(i));
+					listModel.addElement(notice_date_container.get(i)+"                        "+notice_content_container.get(i));
+				}
+				break;
+				
+			case 3:
+				listModel = new DefaultListModel<String>();
+				notice_date_container.add("2019-4-22");
+				notice_content_container.add("第四届人文戏剧节之“暨侨传韵•戏绎人生”话剧之夜圆满落幕");
+				notice_date_container.add("2019-4-19");
+				notice_content_container.add("包装工程学院深入学习贯彻习近平总书记在《告台湾同胞书》发表40周年纪念会上的重要讲话精神");
+				notice_date_container.add("2019-4-19");
+				notice_content_container.add("校区持续开展“干部综合能力提升”专题培训");
+				for(int i=0;i<notice_date_container.size();i++)
+					listModel.addElement(notice_date_container.get(i)+"                        "+notice_content_container.get(i));
+		        break;
+				
+		}
+		
 	}
 
 }
