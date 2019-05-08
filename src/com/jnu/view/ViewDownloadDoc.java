@@ -12,9 +12,14 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import com.jnu.model.MyLog;
+
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 /*
  * created bu dingyiyuan;
@@ -83,6 +88,7 @@ public class ViewDownloadDoc {
 				// TODO
 				
 				JOptionPane.showMessageDialog(frame, "下载成功", "提示信息", JOptionPane.PLAIN_MESSAGE);
+				MyLog.write(ViewDownloadDoc.class, "成功下载了模板");
 			}
 		});
 		

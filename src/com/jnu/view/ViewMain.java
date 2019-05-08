@@ -115,7 +115,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelMessage());
-				MyLog.write(ViewMain.class, "通知及余额");
+				MyLog.write(ViewMain.class, "点击了查看通知及余额");
 			}
 		});
 		menu_campuInquire.add(menuItem_message);
@@ -126,6 +126,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelGradeRecord());
+				MyLog.write(ViewMain.class, "点击了查询成绩");
 			}
 		});
 		menu_campuInquire.add(menuItem_grade);
@@ -137,6 +138,7 @@ public class ViewMain {
 				// TODO
 //				JOptionPane.showMessageDialog(frame, "JOB", "Message", JOptionPane.PLAIN_MESSAGE);
 				changePanelTemplate(new PanelEmploymentInfo());
+				MyLog.write(ViewMain.class, "点击了查看就业信息");
 			}
 		});
 		menu_campuInquire.add(menuItem_jobInfo);
@@ -150,6 +152,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelCourseSelection());
+				MyLog.write(ViewMain.class, "点击了选课");
 			}
 		});
 		menu_study.add(menuItem_courseSelection);
@@ -160,6 +163,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelTrainingProgram());
+				MyLog.write(ViewMain.class, "点击了查看裴燕方案");
 			}
 		});
 		menu_study.add(menuItem_trainingProgram);
@@ -170,6 +174,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelLeaveDocEdit());
+				MyLog.write(ViewMain.class, "点击了打开请假功能");
 			}
 		});
 		menu_study.add(menuItem_leave);
@@ -191,6 +196,7 @@ public class ViewMain {
 						frame.setEnabled(true);
 					}
 				});
+				MyLog.write(ViewMain.class, "点击了打开模板下载");
 			}
 			
 		});
@@ -210,6 +216,7 @@ public class ViewMain {
 		            }
 		        });
 		        NativeInterface.runEventPump();
+		        MyLog.write(ViewMain.class, "点击了打开学校论坛");
 			}
 			
 		});

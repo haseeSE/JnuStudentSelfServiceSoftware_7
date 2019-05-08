@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.jnu.model.MyLog;
+
 import java.awt.Font;
 import javax.swing.JScrollPane;
 
@@ -36,6 +38,8 @@ public class PanelSubMessage extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO
+				
+				MyLog.write(PanelSubMessage.class, "点击了电费充值");
 			}
 		});
 		button_electAdd.setBackground(Color.CYAN);
@@ -63,6 +67,8 @@ public class PanelSubMessage extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO
+				
+				MyLog.write(PanelSubMessage.class, "点击了电费信息更新");
 			}
 		});
 		button_electFresh.setBackground(Color.CYAN);
@@ -110,6 +116,13 @@ public class PanelSubMessage extends JPanel {
 		add(txtrTime_1);
 		
 		JButton button_cardFresh = new JButton("\u5237\u65B0");
+		button_cardFresh.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				MyLog.write(PanelSubMessage.class, "点击了饭卡信息刷新");
+			}
+		});
 		button_cardFresh.setBackground(Color.CYAN);
 		button_cardFresh.setBounds(210, 252, 69, 25);
 		add(button_cardFresh);
@@ -120,6 +133,7 @@ public class PanelSubMessage extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO
 				
+				MyLog.write(PanelSubMessage.class, "点击了饭卡充值");
 			}
 		});
 		button_cardAdd.setBackground(Color.CYAN);

@@ -11,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+
+import com.jnu.model.MyLog;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -123,6 +126,7 @@ setLayout(null);
 				
 				JOptionPane.showMessageDialog(ViewMain.getFrame(), "提交成功", "请假文档上传", JOptionPane.PLAIN_MESSAGE);
 //				ViewMain.panelBack();
+				MyLog.write(PanelLeaveDocEdit.class, "点击了请假文档提交");
 			}
 		});
 		btnNewButton.setBounds(433, 333, 113, 27);

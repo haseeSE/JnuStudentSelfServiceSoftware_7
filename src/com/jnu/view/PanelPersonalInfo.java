@@ -12,6 +12,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
 
+import com.jnu.model.MyLog;
+
 /*
  * created by zhujiayu;
  */
@@ -166,6 +168,7 @@ public class PanelPersonalInfo extends JPanel {
 				
 				JOptionPane.showMessageDialog(ViewMain.getFrame(), "保存成功", "用户信息修改", JOptionPane.PLAIN_MESSAGE);
 				ViewMain.panelBack();
+				MyLog.write(PanelPersonalInfo.class, "点击了个人信息保存");
 			}
 		});
 		button_save.setBounds(429, 456, 113, 27);

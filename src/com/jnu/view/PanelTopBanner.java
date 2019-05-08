@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import com.jnu.model.MyLog;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -47,6 +50,7 @@ public class PanelTopBanner extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Switch to PanelPersonalInfo;
 				ViewMain.changePanelMain(new PanelPersonalInfo());
+				MyLog.write(PanelTopBanner.class, "点击了修改用户信息");
 			}
 		});
 		lblEdit.setForeground(Color.RED);
