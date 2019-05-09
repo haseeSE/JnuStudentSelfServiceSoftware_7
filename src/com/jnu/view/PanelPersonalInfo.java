@@ -182,6 +182,7 @@ public class PanelPersonalInfo extends JPanel {
 				
 				JOptionPane.showMessageDialog(ViewMain.getFrame(), "保存成功", "用户信息修改", JOptionPane.PLAIN_MESSAGE);
 //				ViewMain.panelBack();
+				ViewMain.changePanelTemplate(new PanelMessage());
 				
 				// TODO Auto-generated method stub
 				//将用户输入文本中的值依次赋给User

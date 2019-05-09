@@ -183,7 +183,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelTrainingProgram());
-				MyLog.write(ViewMain.class, "点击了查看裴燕方案");
+				MyLog.write(ViewMain.class, "点击了查看培养方案");
 			}
 		});
 		menu_study.add(menuItem_trainingProgram);
