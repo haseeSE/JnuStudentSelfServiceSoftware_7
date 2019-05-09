@@ -59,11 +59,8 @@ public class ViewMain {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		// TODO read File;
-		// TODO 读取UserData中的用户信息到user,再将user中的值保存到userManager
-		//这么做的原因是：userManager为全局变量，无法序列化和反序列化；而user不是全局变量，可序列化和反序列化
-		User user = MyFileOperator.load();
-		UserManager UserManager = new UserManager(user);
+		//读取用户信息到静态全局变量UserManager
+		UserManager.initialize();
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -92,6 +89,9 @@ public class ViewMain {
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				//保存用户信息到UserData文件
+				User user = new User(new UserManager());
+				MyFileOperator.save(user);
 				
 				MyLog.write(ViewMain.class, "关闭程序窗口");
 			}
@@ -183,7 +183,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelTrainingProgram());
-				MyLog.write(ViewMain.class, "点击了查看裴燕方案");
+				MyLog.write(ViewMain.class, "点击了查看培养方案");
 			}
 		});
 		menu_study.add(menuItem_trainingProgram);

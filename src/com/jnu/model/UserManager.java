@@ -32,6 +32,16 @@ public class UserManager {
 		_JnuEduAdminSystemPassword = user.get_JnuEduAdminSystemPassword();
 	}
 	
+	public static void initialize(){
+		/*
+		 * 	读取文件UserData中的（用户）信息到user,再将user中的值保存到userManager。
+		 * 	这么做的原因是：userManager为全局变量，无法直接通过反序列化得到；
+		 * 	而user不是全局变量，可直接反序列化得到，再将值传给userManager。
+		 */
+		User user = MyFileOperator.load();
+		UserManager UserManager = new UserManager(user);
+	}
+	
 	public static String get_name() {
 		return _name;
 	}

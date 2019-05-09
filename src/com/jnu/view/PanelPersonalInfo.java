@@ -182,9 +182,9 @@ public class PanelPersonalInfo extends JPanel {
 				
 				JOptionPane.showMessageDialog(ViewMain.getFrame(), "保存成功", "用户信息修改", JOptionPane.PLAIN_MESSAGE);
 //				ViewMain.panelBack();
+				ViewMain.changePanelTemplate(new PanelMessage());
 				
-				// TODO Auto-generated method stub
-				//将用户输入文本中的值依次赋给User
+				//将用户输入文本中的值依次赋给UserManager
 				UserManager.set_name(textField_Name.getText());
 				UserManager.set_studentId(textField_studentId.getText());
 				UserManager.set_phoneNum(textField_phoneNum.getText());
@@ -198,38 +198,9 @@ public class PanelPersonalInfo extends JPanel {
 				UserManager.set_JnuEduAdiminSystemId(textField_jnuEduAdminSystemId.getText());
 				UserManager.set_JnuEduAdminSystemPassword(textField_jnuEduAdminSystemPassword.getText());
 				
-				User user = new User(new UserManager());
-				MyFileOperator.save(user);
-				//MyFileOperator.save(new User());
 			}
 		});
 		button_save.setBounds(438, 458, 113, 27);
 		add(button_save);
-		/*button_save.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0e) {
-				// TODO Auto-generated method stub
-				//将用户输入文本中的值依次赋给User
-				UserManager.set_name(textField_Name.getText());
-				UserManager.set_studentId(textField_studentId.getText());
-				UserManager.set_phoneNum(textField_phoneNum.getText());
-				UserManager.set_college(textField_college.getText());
-				UserManager.set_major(textField_major.getText());
-				UserManager.set_dormitory(textField_dormitory.getText());
-				UserManager.set_JnuDCPId(textField_jnuDCPId.getText());
-				UserManager.set_JnuDCPPassword(textField_jnuDCPPassword.getText());;
-				UserManager.set_JnuForumId(textField_jnuForumId.getText());
-				UserManager.set_JnuForumPassword(textField_jnuForumPassword.getText());
-				UserManager.set_JnuEduAdiminSystemId(textField_jnuEduAdminSystemId.getText());
-				UserManager.set_JnuEduAdminSystemPassword(textField_jnuEduAdminSystemPassword.getText());
-				
-				User user = new User(new UserManager());
-				MyFileOperator.save(user);
-				//MyFileOperator.save(new User());
-			}		
-		});*/
-
-
 	}
 }
