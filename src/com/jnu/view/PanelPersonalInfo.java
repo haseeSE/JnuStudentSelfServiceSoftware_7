@@ -12,7 +12,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
 
+import com.jnu.model.MyFileOperator;
 import com.jnu.model.MyLog;
+import com.jnu.model.User;
+import com.jnu.model.UserManager;
 
 /*
  * created by zhujiayu;
@@ -40,15 +43,16 @@ public class PanelPersonalInfo extends JPanel {
 		JTextField textField_Name = new JTextField();
 		textField_Name.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_Name.setBounds(270, 94, 150, 24);
+		textField_Name.setText(UserManager.get_name());
 		add(textField_Name);
 		textField_Name.setColumns(10);
 		
 
 		
-		JLabel label_studentID = new JLabel("  学号：");
-		label_studentID.setFont(new Font("新宋体", Font.PLAIN, 20));
-		label_studentID.setBounds(180, 128, 80, 24);
-		add(label_studentID);
+		JLabel label_studentId = new JLabel("  学号：");
+		label_studentId.setFont(new Font("新宋体", Font.PLAIN, 20));
+		label_studentId.setBounds(180, 128, 80, 24);
+		add(label_studentId);
 		
 		JLabel label_phoneNum = new JLabel("电话号码：");
 		label_phoneNum.setFont(new Font("新宋体", Font.PLAIN, 20));
@@ -70,90 +74,100 @@ public class PanelPersonalInfo extends JPanel {
 		label_dormitory.setBounds(582, 162, 80, 24);
 		add(label_dormitory);
 		
-		JTextField textField_studentID = new JTextField();
-		textField_studentID.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_studentID.setColumns(10);
-		textField_studentID.setBounds(270, 128, 150, 24);
-		add(textField_studentID);
+		JTextField textField_studentId = new JTextField();
+		textField_studentId.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_studentId.setColumns(10);
+		textField_studentId.setBounds(270, 128, 150, 24);
+		textField_studentId.setText(UserManager.get_studentId());
+		add(textField_studentId);
 		
 		JTextField textField_phoneNum = new JTextField();
 		textField_phoneNum.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_phoneNum.setColumns(10);
 		textField_phoneNum.setBounds(270, 162, 150, 24);
+		textField_phoneNum.setText(UserManager.get_phoneNum());
 		add(textField_phoneNum);
 		
 		JTextField textField_college = new JTextField();
 		textField_college.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_college.setColumns(10);
 		textField_college.setBounds(662, 94, 150, 24);
+		textField_college.setText(UserManager.get_college());
 		add(textField_college);
 		
 		JTextField textField_major = new JTextField();
 		textField_major.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_major.setColumns(10);
 		textField_major.setBounds(662, 128, 150, 24);
+		textField_major.setText(UserManager.get_major());
 		add(textField_major);
 		
 		JTextField textField_dormitory = new JTextField();
 		textField_dormitory.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_dormitory.setColumns(10);
 		textField_dormitory.setBounds(662, 162, 150, 24);
+		textField_dormitory.setText(UserManager.get_dormitory());
 		add(textField_dormitory);
 		
-		JLabel label_jnuDCPID = new JLabel("数字暨大账号：");
-		label_jnuDCPID.setFont(new Font("新宋体", Font.PLAIN, 20));
-		label_jnuDCPID.setBounds(336, 220, 140, 24);
-		add(label_jnuDCPID);
+		JLabel label_jnuDCPId = new JLabel("数字暨大账号：");
+		label_jnuDCPId.setFont(new Font("新宋体", Font.PLAIN, 20));
+		label_jnuDCPId.setBounds(336, 220, 140, 24);
+		add(label_jnuDCPId);
 		
 		JLabel label_jnuDCPPassword = new JLabel("数字暨大密码：");
 		label_jnuDCPPassword.setFont(new Font("新宋体", Font.PLAIN, 20));
 		label_jnuDCPPassword.setBounds(336, 254, 140, 24);
 		add(label_jnuDCPPassword);
 		
-		JLabel label_jnuForumID = new JLabel("暨大论坛账号：");
-		label_jnuForumID.setFont(new Font("新宋体", Font.PLAIN, 20));
-		label_jnuForumID.setBounds(336, 288, 140, 24);
-		add(label_jnuForumID);
+		JLabel label_jnuForumId = new JLabel("暨大论坛账号：");
+		label_jnuForumId.setFont(new Font("新宋体", Font.PLAIN, 20));
+		label_jnuForumId.setBounds(336, 288, 140, 24);
+		add(label_jnuForumId);
 		
 		JLabel label_jnuForumPassword = new JLabel("暨大论坛密码：");
 		label_jnuForumPassword.setFont(new Font("新宋体", Font.PLAIN, 20));
 		label_jnuForumPassword.setBounds(336, 322, 140, 24);
 		add(label_jnuForumPassword);
 		
-		JLabel label_jnuEduAdminSystemID = new JLabel("教务系统账号：");
-		label_jnuEduAdminSystemID.setFont(new Font("新宋体", Font.PLAIN, 20));
-		label_jnuEduAdminSystemID.setBounds(336, 354, 140, 24);
-		add(label_jnuEduAdminSystemID);
+		JLabel label_jnuEduAdminSystemId = new JLabel("教务系统账号：");
+		label_jnuEduAdminSystemId.setFont(new Font("新宋体", Font.PLAIN, 20));
+		label_jnuEduAdminSystemId.setBounds(336, 354, 140, 24);
+		add(label_jnuEduAdminSystemId);
 		
 		JLabel label_jnuEduAdminSystemPassword = new JLabel("教务系统密码：");
 		label_jnuEduAdminSystemPassword.setFont(new Font("新宋体", Font.PLAIN, 20));
 		label_jnuEduAdminSystemPassword.setBounds(336, 390, 140, 24);
 		add(label_jnuEduAdminSystemPassword);
 		
-		JTextField textField_jnuDCPID = new JTextField();
-		textField_jnuDCPID.setColumns(10);
-		textField_jnuDCPID.setBounds(486, 220, 150, 24);
-		add(textField_jnuDCPID);
+		JTextField textField_jnuDCPId = new JTextField();
+		textField_jnuDCPId.setColumns(10);
+		textField_jnuDCPId.setBounds(486, 220, 150, 24);
+		textField_jnuDCPId.setText(UserManager.get_JnuDCPId());
+		add(textField_jnuDCPId);
 		
 		JTextField textField_jnuDCPPassword = new JTextField();
 		textField_jnuDCPPassword.setColumns(10);
 		textField_jnuDCPPassword.setBounds(486, 254, 150, 24);
+		textField_jnuDCPPassword.setText(UserManager.get_JnuDCPPassword());
 		add(textField_jnuDCPPassword);
 		
-		JTextField textField_jnuForumID = new JTextField();
-		textField_jnuForumID.setColumns(10);
-		textField_jnuForumID.setBounds(486, 288, 150, 24);
-		add(textField_jnuForumID);
+		JTextField textField_jnuForumId = new JTextField();
+		textField_jnuForumId.setColumns(10);
+		textField_jnuForumId.setBounds(486, 288, 150, 24);
+		textField_jnuForumId.setText(UserManager.get_JnuForumId());
+		add(textField_jnuForumId);
 		
 		JTextField textField_jnuForumPassword = new JTextField();
 		textField_jnuForumPassword.setColumns(10);
 		textField_jnuForumPassword.setBounds(486, 322, 150, 24);
+		textField_jnuForumPassword.setText(UserManager.get_JnuForumPassword());
 		add(textField_jnuForumPassword);
 		
-		JTextField textField_jnuEduAdminSystemID = new JTextField();
-		textField_jnuEduAdminSystemID.setColumns(10);
-		textField_jnuEduAdminSystemID.setBounds(486, 354, 150, 24);
-		add(textField_jnuEduAdminSystemID);
+		JTextField textField_jnuEduAdminSystemId = new JTextField();
+		textField_jnuEduAdminSystemId.setColumns(10);
+		textField_jnuEduAdminSystemId.setBounds(486, 354, 150, 24);
+		textField_jnuEduAdminSystemId.setText(UserManager.get_JnuEduAdminSystemId());
+		add(textField_jnuEduAdminSystemId);
 		
 		JTextField textField_jnuEduAdminSystemPassword = new JTextField();
 		textField_jnuEduAdminSystemPassword.setColumns(10);
@@ -168,11 +182,54 @@ public class PanelPersonalInfo extends JPanel {
 				
 				JOptionPane.showMessageDialog(ViewMain.getFrame(), "保存成功", "用户信息修改", JOptionPane.PLAIN_MESSAGE);
 //				ViewMain.panelBack();
-				MyLog.write(PanelPersonalInfo.class, "点击了个人信息保存");
+				
+				// TODO Auto-generated method stub
+				//将用户输入文本中的值依次赋给User
+				UserManager.set_name(textField_Name.getText());
+				UserManager.set_studentId(textField_studentId.getText());
+				UserManager.set_phoneNum(textField_phoneNum.getText());
+				UserManager.set_college(textField_college.getText());
+				UserManager.set_major(textField_major.getText());
+				UserManager.set_dormitory(textField_dormitory.getText());
+				UserManager.set_JnuDCPId(textField_jnuDCPId.getText());
+				UserManager.set_JnuDCPPassword(textField_jnuDCPPassword.getText());;
+				UserManager.set_JnuForumId(textField_jnuForumId.getText());
+				UserManager.set_JnuForumPassword(textField_jnuForumPassword.getText());
+				UserManager.set_JnuEduAdiminSystemId(textField_jnuEduAdminSystemId.getText());
+				UserManager.set_JnuEduAdminSystemPassword(textField_jnuEduAdminSystemPassword.getText());
+				
+				User user = new User(new UserManager());
+				MyFileOperator.save(user);
+				//MyFileOperator.save(new User());
 			}
 		});
-		button_save.setBounds(429, 456, 113, 27);
+		button_save.setBounds(438, 458, 113, 27);
 		add(button_save);
+		/*button_save.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0e) {
+				// TODO Auto-generated method stub
+				//将用户输入文本中的值依次赋给User
+				UserManager.set_name(textField_Name.getText());
+				UserManager.set_studentId(textField_studentId.getText());
+				UserManager.set_phoneNum(textField_phoneNum.getText());
+				UserManager.set_college(textField_college.getText());
+				UserManager.set_major(textField_major.getText());
+				UserManager.set_dormitory(textField_dormitory.getText());
+				UserManager.set_JnuDCPId(textField_jnuDCPId.getText());
+				UserManager.set_JnuDCPPassword(textField_jnuDCPPassword.getText());;
+				UserManager.set_JnuForumId(textField_jnuForumId.getText());
+				UserManager.set_JnuForumPassword(textField_jnuForumPassword.getText());
+				UserManager.set_JnuEduAdiminSystemId(textField_jnuEduAdminSystemId.getText());
+				UserManager.set_JnuEduAdminSystemPassword(textField_jnuEduAdminSystemPassword.getText());
+				
+				User user = new User(new UserManager());
+				MyFileOperator.save(user);
+				//MyFileOperator.save(new User());
+			}		
+		});*/
+
 
 	}
 }

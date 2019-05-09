@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.jnu.model.MyLog;
+import com.jnu.model.UserManager;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -38,7 +39,8 @@ public class PanelTopBanner extends JPanel {
 		btn_search.setBounds(215, 10, 46, 23);
 		add(btn_search);
 		
-		JLabel lblUsera = new JLabel("未登录");
+		String name = UserManager.get_name();
+		JLabel lblUsera = new JLabel( (name != null && !name.equals("")) ? name : "未登陆" );
 		lblUsera.setFont(new Font("新宋体", Font.BOLD, 22));
 		lblUsera.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsera.setBounds(750, 10, 120, 28);
