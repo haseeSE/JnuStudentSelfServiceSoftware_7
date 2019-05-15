@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class MyFileOperator {
-	private final static String adr = "D:/Data/UserData.ser";
+	private final static String adr = "Data/UserData.ser";
 	
 	public static User load() {
 		User user = null;

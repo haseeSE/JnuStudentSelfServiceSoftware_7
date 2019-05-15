@@ -9,15 +9,37 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import com.jnu.model.MyLog;
+import com.jnu.model.UserManager;
+import com.jnu.model.WebDigitalJnu;
+
+import chrriis.common.UIUtils;
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 
 import java.awt.Font;
 import javax.swing.JScrollPane;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.JTextField;
+import java.awt.SystemColor;
 
 /*
  * create by chenqinquan;
  */
 
 public class PanelSubMessage extends JPanel {
+	
+	private JLabel txt_dorm;
+	private JLabel txt_elebalance;
+	private JLabel txt_eleLog;
+	
+	private String eleBalance = "";
+	
+	private JLabel txt_cardID;
+	private JLabel txt_cardBalance;
+	private JLabel txt_cardLog;
+	
+	private String cardBalance = "";
 
 	/**
 	 * Create the panel.
@@ -25,119 +47,204 @@ public class PanelSubMessage extends JPanel {
 	public PanelSubMessage() {
 		setLayout(null);
 		
-		JTextArea textArea_dom = new JTextArea();
-		textArea_dom.setEditable(false);
-		textArea_dom.setFont(new Font("新宋体", Font.PLAIN, 14));
-		textArea_dom.setText("\u5BBF\u820D\u53F7\uFF1A");
-		textArea_dom.setBackground(Color.LIGHT_GRAY);
-		textArea_dom.setBounds(51, 62, 228, 25);
-		add(textArea_dom);
+		JPanel panel_electrity = new JPanel();
+		panel_electrity.setBackground(Color.LIGHT_GRAY);
+		panel_electrity.setBounds(51, 22, 228, 110);
+		add(panel_electrity);
+		panel_electrity.setLayout(null);
 		
-		JButton button_electAdd = new JButton("\u5145\u503C");
-		button_electAdd.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO
-				
-				MyLog.write(PanelSubMessage.class, "点击了电费充值");
-			}
-		});
-		button_electAdd.setBackground(Color.CYAN);
-		button_electAdd.setBounds(210, 87, 69, 25);
-		add(button_electAdd);
+		JLabel label_electrityInfo = new JLabel("宿舍电费相关");
+		label_electrityInfo.setFont(new Font("新宋体", Font.BOLD, 16));
+		label_electrityInfo.setHorizontalAlignment(SwingConstants.LEFT);
+		label_electrityInfo.setBounds(10, 6, 206, 25);
+		panel_electrity.add(label_electrityInfo);
 		
-		JTextArea textArea_elect = new JTextArea();
-		textArea_elect.setEditable(false);
-		textArea_elect.setFont(new Font("新宋体", Font.BOLD, 16));
-		textArea_elect.setText("\u6C34\u7535\u8D39\u76F8\u5173");
-		textArea_elect.setBackground(Color.LIGHT_GRAY);
-		textArea_elect.setBounds(51, 37, 228, 25);
-		add(textArea_elect);
+		JScrollPane line = new JScrollPane();
+		line.setBounds(0, 30, 228, 2);
+		panel_electrity.add(line);
 		
-		JTextArea textArea_electLast = new JTextArea();
-		textArea_electLast.setEditable(false);
-		textArea_electLast.setFont(new Font("新宋体", Font.PLAIN, 14));
-		textArea_electLast.setText("\u4F59\u989D\uFF1A");
-		textArea_electLast.setBackground(Color.LIGHT_GRAY);
-		textArea_electLast.setBounds(51, 87, 160, 25);
-		add(textArea_electLast);
+		JLabel label_dorm = new JLabel("宿舍号：");
+		label_dorm.setHorizontalAlignment(SwingConstants.LEFT);
+		label_dorm.setFont(new Font("新宋体", Font.PLAIN, 14));
+		label_dorm.setBounds(6, 40, 60, 15);
+		panel_electrity.add(label_dorm);
 		
-		JButton button_electFresh = new JButton("\u5237\u65B0");
-		button_electFresh.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO
-				
-				MyLog.write(PanelSubMessage.class, "点击了电费信息更新");
-			}
-		});
-		button_electFresh.setBackground(Color.CYAN);
-		button_electFresh.setBounds(210, 112, 69, 25);
-		add(button_electFresh);
+		txt_dorm = new JLabel("");
+		txt_dorm.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_dorm.setFont(new Font("新宋体", Font.PLAIN, 14));
+		txt_dorm.setBounds(70, 40, 90, 15);
+		panel_electrity.add(txt_dorm);
 		
-		JTextArea txtrTime = new JTextArea();
-		txtrTime.setEditable(false);
-		txtrTime.setText("Time:");
-		txtrTime.setFont(new Font("新宋体", Font.PLAIN, 14));
-		txtrTime.setBackground(Color.LIGHT_GRAY);
-		txtrTime.setBounds(51, 112, 160, 25);
-		add(txtrTime);
+		txt_elebalance = new JLabel("");
+		txt_elebalance.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_elebalance.setFont(new Font("新宋体", Font.PLAIN, 14));
+		txt_elebalance.setBounds(70, 65, 90, 15);
+		panel_electrity.add(txt_elebalance);
 		
-		JTextArea textArea_card = new JTextArea();
-		textArea_card.setEditable(false);
-		textArea_card.setFont(new Font("新宋体", Font.BOLD, 16));
-		textArea_card.setText("\u5B66\u751F\u996D\u5361\u76F8\u5173");
-		textArea_card.setBackground(Color.LIGHT_GRAY);
-		textArea_card.setBounds(51, 177, 228, 25);
-		add(textArea_card);
+		JLabel label_eleBalance = new JLabel("余额：");
+		label_eleBalance.setHorizontalAlignment(SwingConstants.LEFT);
+		label_eleBalance.setFont(new Font("新宋体", Font.PLAIN, 14));
+		label_eleBalance.setBounds(6, 65, 60, 15);
+		panel_electrity.add(label_eleBalance);
 		
-		JTextArea textArea_cardID = new JTextArea();
-		textArea_cardID.setEditable(false);
-		textArea_cardID.setFont(new Font("新宋体", Font.PLAIN, 14));
-		textArea_cardID.setText("\u996D\u5361\u53F7\uFF1A");
-		textArea_cardID.setBackground(Color.LIGHT_GRAY);
-		textArea_cardID.setBounds(51, 202, 228, 25);
-		add(textArea_cardID);
+		txt_eleLog = new JLabel("尚未加载，请点击更新！");
+		txt_eleLog.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_eleLog.setFont(new Font("新宋体", Font.ITALIC, 12));
+		txt_eleLog.setBounds(6, 90, 210, 15);
+		panel_electrity.add(txt_eleLog);
 		
-		JTextArea textArea_cardLast = new JTextArea();
-		textArea_cardLast.setEditable(false);
-		textArea_cardLast.setFont(new Font("新宋体", Font.PLAIN, 14));
-		textArea_cardLast.setText("\u4F59\u989D\uFF1A");
-		textArea_cardLast.setBackground(Color.LIGHT_GRAY);
-		textArea_cardLast.setBounds(51, 227, 160, 25);
-		add(textArea_cardLast);
-		
-		JTextArea txtrTime_1 = new JTextArea();
-		txtrTime_1.setEditable(false);
-		txtrTime_1.setFont(new Font("新宋体", Font.PLAIN, 14));
-		txtrTime_1.setText("Time:");
-		txtrTime_1.setBackground(Color.LIGHT_GRAY);
-		txtrTime_1.setBounds(51, 252, 160, 25);
-		add(txtrTime_1);
-		
-		JButton button_cardFresh = new JButton("\u5237\u65B0");
-		button_cardFresh.addMouseListener(new MouseAdapter() {
+		JLabel btn_eleTopUp = new JLabel("充值");
+		btn_eleTopUp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				MyLog.write(PanelSubMessage.class, "点击了饭卡信息刷新");
 			}
 		});
-		button_cardFresh.setBackground(Color.CYAN);
-		button_cardFresh.setBounds(210, 252, 69, 25);
-		add(button_cardFresh);
+		btn_eleTopUp.setForeground(new Color(0, 255, 255));
+		btn_eleTopUp.setHorizontalAlignment(SwingConstants.CENTER);
+		btn_eleTopUp.setFont(new Font("新宋体", Font.PLAIN, 14));
+		btn_eleTopUp.setBounds(170, 65, 50, 15);
+		panel_electrity.add(btn_eleTopUp);
 		
-		JButton button_cardAdd = new JButton("\u5145\u503C");
-		button_cardAdd.addMouseListener(new MouseAdapter() {
+		JLabel btn_eleUpdate = new JLabel("更新");
+		btn_eleUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO
 				
-				MyLog.write(PanelSubMessage.class, "点击了饭卡充值");
 			}
 		});
-		button_cardAdd.setBackground(Color.CYAN);
-		button_cardAdd.setBounds(210, 227, 69, 25);
-		add(button_cardAdd);
+		btn_eleUpdate.setHorizontalAlignment(SwingConstants.CENTER);
+		btn_eleUpdate.setForeground(Color.CYAN);
+		btn_eleUpdate.setFont(new Font("新宋体", Font.PLAIN, 14));
+		btn_eleUpdate.setBounds(170, 41, 50, 15);
+		panel_electrity.add(btn_eleUpdate);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBackground(Color.LIGHT_GRAY);
+		panel.setBounds(51, 170, 228, 110);
+		add(panel);
+		
+		JLabel label_cardInfo = new JLabel("学生卡相关");
+		label_cardInfo.setHorizontalAlignment(SwingConstants.LEFT);
+		label_cardInfo.setFont(new Font("新宋体", Font.BOLD, 16));
+		label_cardInfo.setBounds(10, 6, 206, 25);
+		panel.add(label_cardInfo);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 30, 228, 2);
+		panel.add(scrollPane);
+		
+		JLabel label_cardID = new JLabel("宿舍号：");
+		label_cardID.setHorizontalAlignment(SwingConstants.LEFT);
+		label_cardID.setFont(new Font("新宋体", Font.PLAIN, 14));
+		label_cardID.setBounds(6, 40, 60, 15);
+		panel.add(label_cardID);
+		
+		txt_cardID = new JLabel("");
+		txt_cardID.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_cardID.setFont(new Font("新宋体", Font.PLAIN, 14));
+		txt_cardID.setBounds(70, 40, 90, 15);
+		panel.add(txt_cardID);
+		
+		txt_cardBalance = new JLabel("");
+		txt_cardBalance.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_cardBalance.setFont(new Font("新宋体", Font.PLAIN, 14));
+		txt_cardBalance.setBounds(70, 65, 90, 15);
+		panel.add(txt_cardBalance);
+		
+		JLabel label_cardBalance = new JLabel("余额：");
+		label_cardBalance.setHorizontalAlignment(SwingConstants.LEFT);
+		label_cardBalance.setFont(new Font("新宋体", Font.PLAIN, 14));
+		label_cardBalance.setBounds(6, 65, 60, 15);
+		panel.add(label_cardBalance);
+		
+		txt_cardLog = new JLabel("尚未加载，请点击更新！");
+		txt_cardLog.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_cardLog.setFont(new Font("新宋体", Font.ITALIC, 12));
+		txt_cardLog.setBounds(6, 90, 210, 15);
+		panel.add(txt_cardLog);
+		
+		JLabel btn_cardTopUp = new JLabel("充值");
+		btn_cardTopUp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				UIUtils.setPreferredLookAndFeel();
+		        NativeInterface.open();
+		        SwingUtilities.invokeLater(new Runnable() {
+		            public void run() {
+		            	PanelWebBrowser web = new PanelWebBrowser();
+		            	web.openDigitalJnu();
+		            	ViewMain.changePanelMain(web);
+		            }
+		        });
+		        NativeInterface.runEventPump();
+			}
+		});
+		btn_cardTopUp.setHorizontalAlignment(SwingConstants.CENTER);
+		btn_cardTopUp.setForeground(Color.CYAN);
+		btn_cardTopUp.setFont(new Font("新宋体", Font.PLAIN, 14));
+		btn_cardTopUp.setBounds(170, 65, 50, 15);
+		panel.add(btn_cardTopUp);
+		
+		JLabel btn_cardUpdate = new JLabel("更新");
+		btn_cardUpdate.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				updateCardInfo();
+			}
+			
+		});
+		btn_cardUpdate.setHorizontalAlignment(SwingConstants.CENTER);
+		btn_cardUpdate.setForeground(Color.CYAN);
+		btn_cardUpdate.setFont(new Font("新宋体", Font.PLAIN, 14));
+		btn_cardUpdate.setBounds(170, 41, 50, 15);
+		panel.add(btn_cardUpdate);
+		
+		// 设置电费、卡费；
+//		updateElectrityInfo();
+//		updateCardInfo();
+	}
+
+	private void updateCardInfo() {
+		// TODO Auto-generated method stub
+		String username = UserManager.get_JnuDCPId();
+		String password = UserManager.get_JnuDCPPassword();
+		// 检查用户是否存在；
+		if(username == null || username.equals("")
+				|| password == null || password.equals("")) {
+			txt_cardLog.setText("未检测到相关用户账户信息！");
+			return;
+		}
+		txt_cardLog.setText("更新中。。。。。。");
+		// 创建线程执行爬取卡费；
+		UIUtils.setPreferredLookAndFeel();
+        NativeInterface.open();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+//            	MyLog.write(getClass(), "Thread Start");
+            	try {            		
+            		WebDigitalJnu web = new WebDigitalJnu();
+            		cardBalance = web.getBalance(username, password);
+            		if (cardBalance.equals("")) {
+            			txt_cardLog.setText("登录失败，请检查学号和密码！");
+            		}
+            		else {
+            			txt_cardID.setText(username);
+            			txt_cardBalance.setText(cardBalance);
+            			txt_cardLog.setText("更新成功！");
+            		}
+            		            		
+            	} catch(Exception e) {
+            		e.printStackTrace();
+            		txt_cardLog.setText("更新失败，请检查网络！");
+            	}
+            }
+        });
+        NativeInterface.runEventPump();
+	}
+
+	private void updateElectrityInfo() {
+		// TODO Auto-generated method stub
+		
 	}
 }
