@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="Library/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="Library/phantomjsdriver-1.4.4.jar"/>
 	<classpathentry kind="lib" path="Library/selenium-server-standalone-3.9.1.jar"/>
+	<classpathentry kind="lib" path="Library/jsoup-1.11.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

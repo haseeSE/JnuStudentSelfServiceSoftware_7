@@ -48,8 +48,6 @@ public class ViewMain {
 	private JMenuBar menuBar_top;
 	private static JPanel panel_main;
 	
-	private static ArrayList<JPanel> records;
-	
 	private int x = 100;
 	private int y = 100;
 	private int width = 1000;
@@ -112,8 +110,6 @@ public class ViewMain {
 		panel_main = new JPanel();
 		panel_main.setLayout(new CardLayout(0, 0));
 		frame.getContentPane().add(panel_main, "name_18902815292286");
-		
-		records = new ArrayList<JPanel>();
 		
 		topMenuAddItem();
 		
@@ -254,11 +250,6 @@ public class ViewMain {
 		panel_main.removeAll();
 		panel_main.add(panel);
 		panel_main.updateUI();
-		records.add(panel);
-		// 防止过多记录；
-//		if (records.size() > 10) {
-//			records.remove(0);
-//		}
 	}
 	
 	public static JFrame getFrame() {
@@ -266,16 +257,7 @@ public class ViewMain {
 	}
 	
 	public static void panelBack() {
-		int size = records.size();
-		if (size - 1 > 0) {
-			JPanel panel = records.get(size - 2);
-			// fresh;
-			panel.updateUI();
-			records.remove(size - 1);
-			panel_main.removeAll();
-			panel_main.add(panel);
-			panel_main.updateUI();
-		}
+		changePanelTemplate(new PanelMessage());
 	}
 	
 }

@@ -179,11 +179,13 @@ public class PanelPersonalInfo extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO
-				
+/*
 				JOptionPane.showMessageDialog(ViewMain.getFrame(), "保存成功", "用户信息修改", JOptionPane.PLAIN_MESSAGE);
 //				ViewMain.panelBack();
 				ViewMain.changePanelTemplate(new PanelMessage());
-				
+*
+*	逻辑错误，应该先保存到UserManage 再刷新Panel;
+*/				
 				// TODO Auto-generated method stub
 				//将用户输入文本中的值依次赋给User
 				UserManager.set_name(textField_Name.getText());
@@ -202,6 +204,10 @@ public class PanelPersonalInfo extends JPanel {
 				User user = new User(new UserManager());
 				MyFileOperator.save(user);
 				//MyFileOperator.save(new User());
+				
+				JOptionPane.showMessageDialog(ViewMain.getFrame(), "保存成功", "用户信息修改", JOptionPane.PLAIN_MESSAGE);
+				ViewMain.panelBack();
+				
 			}
 		});
 		button_save.setBounds(438, 458, 113, 27);
