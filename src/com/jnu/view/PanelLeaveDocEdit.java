@@ -8,10 +8,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import com.jnu.model.EditDoc;
 import com.jnu.model.MyLog;
 
 import java.awt.event.MouseAdapter;
@@ -26,111 +27,140 @@ public class PanelLeaveDocEdit extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	public static String DocReason;
+	public static String DocBeginYear;
+	public static int DocBeginMonth;
+	public static int DocBeginDay;
+	public static String DocEndYear;
+	public static int DocEndMonth;
+	public static int DocEndDay;
+	
 	public PanelLeaveDocEdit() {
 setLayout(null);
 		
-		JLabel label_2 = new JLabel("\u5E74");
-		label_2.setBounds(303, 251, 22, 18);
-		label_2.setFont(new Font("黑体", Font.PLAIN, 22));
-		add(label_2);
+JLabel label_beginYear = new JLabel("\u5E74");
+label_beginYear.setBounds(251, 176, 22, 18);
+label_beginYear.setFont(new Font("黑体", Font.PLAIN, 22));
+add(label_beginYear);
+
+JLabel label_beginMonth = new JLabel("\u6708");
+label_beginMonth.setBounds(335, 177, 22, 18);
+label_beginMonth.setFont(new Font("黑体", Font.PLAIN, 22));
+add(label_beginMonth);
+
+JLabel label_beginDay = new JLabel("\u65E5\u81F3");
+label_beginDay.setBounds(436, 177, 44, 18);
+label_beginDay.setFont(new Font("黑体", Font.PLAIN, 22));
+add(label_beginDay);
+
+final JComboBox comboBox_beginTimeMonth = new JComboBox();
+comboBox_beginTimeMonth.setMaximumRowCount(5);
+comboBox_beginTimeMonth.setBounds(277, 174, 51, 24);
+comboBox_beginTimeMonth.setFont(new Font("黑体", Font.PLAIN, 22));
+comboBox_beginTimeMonth.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+add(comboBox_beginTimeMonth);
+
+final JComboBox comboBox_beginTimeDay = new JComboBox();
+comboBox_beginTimeDay.setMaximumRowCount(5);
+comboBox_beginTimeDay.setBounds(371, 174, 51, 24);
+comboBox_beginTimeDay.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
+comboBox_beginTimeDay.setFont(new Font("黑体", Font.PLAIN, 22));
+add(comboBox_beginTimeDay);
+
+final JComboBox comboBox_beginTimeYear = new JComboBox();
+comboBox_beginTimeYear.setBounds(170, 173, 81, 24);
+comboBox_beginTimeYear.setModel(new DefaultComboBoxModel(new String[] {"2018", "2019", "2020", "2021", "2022"}));
+comboBox_beginTimeYear.setMaximumRowCount(5);
+comboBox_beginTimeYear.setFont(new Font("黑体", Font.PLAIN, 22));
+add(comboBox_beginTimeYear);
+
+final JComboBox comboBox_endTimeYear = new JComboBox();
+comboBox_endTimeYear.setBounds(494, 175, 81, 24);
+comboBox_endTimeYear.setModel(new DefaultComboBoxModel(new String[] {"2018", "2019", "2020", "2021", "2022"}));
+comboBox_endTimeYear.setMaximumRowCount(5);
+comboBox_endTimeYear.setFont(new Font("黑体", Font.PLAIN, 22));
+add(comboBox_endTimeYear);
+
+JLabel label_endYear = new JLabel("\u5E74");
+label_endYear.setBounds(584, 176, 22, 18);
+label_endYear.setFont(new Font("黑体", Font.PLAIN, 22));
+add(label_endYear);
+
+final JComboBox comboBox_endTimeMonth = new JComboBox();
+comboBox_endTimeMonth.setMaximumRowCount(5);
+comboBox_endTimeMonth.setBounds(610, 174, 51, 24);
+comboBox_endTimeMonth.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+comboBox_endTimeMonth.setFont(new Font("黑体", Font.PLAIN, 22));
+add(comboBox_endTimeMonth);
+
+JLabel label_endMonth = new JLabel("\u6708");
+label_endMonth.setBounds(668, 177, 22, 18);
+label_endMonth.setFont(new Font("黑体", Font.PLAIN, 22));
+add(label_endMonth);
+
+final JComboBox comboBox_endTimeDay = new JComboBox();
+comboBox_endTimeDay.setMaximumRowCount(5);
+comboBox_endTimeDay.setBounds(704, 174, 51, 24);
+comboBox_endTimeDay.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
+comboBox_endTimeDay.setFont(new Font("黑体", Font.PLAIN, 22));
+add(comboBox_endTimeDay);
+
+JTextPane textPane_editDocReason = new JTextPane();
+textPane_editDocReason.setEditable(false);
+textPane_editDocReason.setBounds(52, 30, 116, 36);
+textPane_editDocReason.setBackground(SystemColor.menu);
+textPane_editDocReason.setFont(new Font("黑体", Font.PLAIN, 22));
+textPane_editDocReason.setText("\u8BF7\u5047\u7406\u7531\uFF1A");
+add(textPane_editDocReason);
+
+JTextPane textPane_EditDocTime = new JTextPane();
+textPane_EditDocTime.setBounds(52, 166, 116, 32);
+textPane_EditDocTime.setEditable(false);
+textPane_EditDocTime.setText("\u8BF7\u5047\u65F6\u95F4\uFF1A");
+textPane_EditDocTime.setFont(new Font("黑体", Font.PLAIN, 22));
+textPane_EditDocTime.setBackground(SystemColor.menu);
+add(textPane_EditDocTime);
+
+JScrollPane scrollPane = new JScrollPane();
+scrollPane.setBounds(167, 30, 573, 103);
+add(scrollPane);
+
+final JTextPane textPane_editDocReasonText = new JTextPane();
+scrollPane.setViewportView(textPane_editDocReasonText);
+textPane_editDocReasonText.setBackground(Color.WHITE);
+textPane_editDocReasonText.setFont(new Font("黑体", Font.PLAIN, 22));
+
+JButton button_editDocCommit = new JButton("\u63D0\u4EA4");
+button_editDocCommit.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		DocReason = textPane_editDocReasonText.getText();
+		/*请假理由*/
 		
-		JLabel label_3 = new JLabel("\u6708");
-		label_3.setBounds(387, 252, 22, 18);
-		label_3.setFont(new Font("黑体", Font.PLAIN, 22));
-		add(label_3);
+		DocBeginYear = (String)comboBox_beginTimeYear.getSelectedItem();
+		DocBeginMonth = comboBox_beginTimeMonth.getSelectedIndex()+1;
+		DocBeginDay = comboBox_beginTimeDay.getSelectedIndex()+1;
+		/*开始请假时间： 年，月，日  */
 		
-		JLabel label_4 = new JLabel("\u65E5\u81F3");
-		label_4.setBounds(488, 252, 74, 18);
-		label_4.setFont(new Font("黑体", Font.PLAIN, 22));
-		add(label_4);
+		DocEndYear= (String)comboBox_endTimeYear.getSelectedItem();
+		DocEndMonth = comboBox_endTimeMonth.getSelectedIndex()+1;
+		DocEndDay= comboBox_endTimeDay.getSelectedIndex()+1;
+		/*结束请假时间： 年，月，日  */
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setMaximumRowCount(5);
-		comboBox.setBounds(329, 249, 51, 24);
-		comboBox.setFont(new Font("黑体", Font.PLAIN, 22));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		add(comboBox);
+		EditDoc doc = new EditDoc();
+		doc.createWord();
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setMaximumRowCount(5);
-		comboBox_1.setBounds(423, 249, 51, 24);
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
-		comboBox_1.setFont(new Font("黑体", Font.PLAIN, 22));
-		add(comboBox_1);
-		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(222, 248, 81, 24);
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"2018", "2019", "2020", "2021", "2022"}));
-		comboBox_2.setMaximumRowCount(5);
-		comboBox_2.setFont(new Font("黑体", Font.PLAIN, 22));
-		add(comboBox_2);
-		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBounds(546, 250, 81, 24);
-		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"2018", "2019", "2020", "2021", "2022"}));
-		comboBox_3.setMaximumRowCount(5);
-		comboBox_3.setFont(new Font("黑体", Font.PLAIN, 22));
-		add(comboBox_3);
-		
-		JLabel label_5 = new JLabel("\u5E74");
-		label_5.setBounds(636, 251, 22, 18);
-		label_5.setFont(new Font("黑体", Font.PLAIN, 22));
-		add(label_5);
-		
-		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setMaximumRowCount(5);
-		comboBox_4.setBounds(662, 249, 51, 24);
-		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		comboBox_4.setFont(new Font("黑体", Font.PLAIN, 22));
-		add(comboBox_4);
-		
-		JLabel label_6 = new JLabel("\u6708");
-		label_6.setBounds(720, 252, 22, 18);
-		label_6.setFont(new Font("黑体", Font.PLAIN, 22));
-		add(label_6);
-		
-		JComboBox comboBox_5 = new JComboBox();
-		comboBox_5.setMaximumRowCount(5);
-		comboBox_5.setBounds(756, 249, 51, 24);
-		comboBox_5.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
-		comboBox_5.setFont(new Font("黑体", Font.PLAIN, 22));
-		add(comboBox_5);
-		
-		JTextPane textPane_1 = new JTextPane();
-		textPane_1.setEditable(false);
-		textPane_1.setBounds(104, 85, 116, 36);
-		textPane_1.setBackground(SystemColor.menu);
-		textPane_1.setFont(new Font("黑体", Font.PLAIN, 22));
-		textPane_1.setText("\u8BF7\u5047\u7406\u7531\uFF1A");
-		add(textPane_1);
-		
-		JTextPane textPane_2 = new JTextPane();
-		textPane_2.setBounds(104, 241, 132, 32);
-		textPane_2.setEditable(false);
-		textPane_2.setText("\u8BF7\u5047\u65F6\u95F4\uFF1A");
-		textPane_2.setFont(new Font("黑体", Font.PLAIN, 22));
-		textPane_2.setBackground(SystemColor.menu);
-		add(textPane_2);
-		
-		JTextPane textPane = new JTextPane();
-		textPane.setBackground(Color.WHITE);
-		textPane.setBounds(231, 85, 561, 146);
-		add(textPane);
-		textPane.setFont(new Font("黑体", Font.PLAIN, 22));
-		
-		JButton btnNewButton = new JButton("\u63D0\u4EA4");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO
-				
-				JOptionPane.showMessageDialog(ViewMain.getFrame(), "提交成功", "请假文档上传", JOptionPane.PLAIN_MESSAGE);
-//				ViewMain.panelBack();
-				MyLog.write(PanelLeaveDocEdit.class, "点击了请假文档提交");
-			}
-		});
-		btnNewButton.setBounds(433, 333, 113, 27);
-		add(btnNewButton);
+		ViewMain.changePanelMain(new PanelPersonalInfo());
+		MyLog.write(PanelTopBanner.class, "点击了修改用户信息");
+	}
+});
+	button_editDocCommit.setBounds(381, 208, 113, 27);
+	add(button_editDocCommit);
+
+	JLabel label_endDay = new JLabel("\u65E5");
+	label_endDay.setFont(new Font("黑体", Font.PLAIN, 22));
+	label_endDay.setBounds(762, 176, 22, 18);
+	add(label_endDay);
 
 	}
 
