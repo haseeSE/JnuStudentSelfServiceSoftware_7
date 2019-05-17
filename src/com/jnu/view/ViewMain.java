@@ -60,8 +60,7 @@ public class ViewMain {
 		// TODO read File;
 		// TODO 读取UserData中的用户信息到user,再将user中的值保存到userManager
 		//这么做的原因是：userManager为全局变量，无法序列化和反序列化；而user不是全局变量，可序列化和反序列化
-		User user = MyFileOperator.load();
-		UserManager UserManager = new UserManager(user);
+		UserManager.loadUser();
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

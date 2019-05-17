@@ -33,18 +33,35 @@ public class PanelSubMessage extends JPanel {
 	private JLabel txt_elebalance;
 	private JLabel txt_eleLog;
 	
-	private String eleBalance = "";
-	
 	private JLabel txt_cardID;
 	private JLabel txt_cardBalance;
 	private JLabel txt_cardLog;
 	
-	private String cardBalance = "";
+	private static String dorm = "";
+	private static String cardID = "";
+	
+	private static String eleBalance = "";
+	private static String eleLog = "尚未加载，请点击加载！";
+	
+	
+	private static String cardBalance = "";
+	private static String cardLog = "尚未加载，请点击加载！";
+	
+	
+	
+	private void initialize() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelSubMessage() {
+		// 初始化各变量；
+		initialize();
+		
 		setLayout(null);
 		
 		JPanel panel_electrity = new JPanel();
@@ -69,13 +86,13 @@ public class PanelSubMessage extends JPanel {
 		label_dorm.setBounds(6, 40, 60, 15);
 		panel_electrity.add(label_dorm);
 		
-		txt_dorm = new JLabel("");
+		txt_dorm = new JLabel(dorm);
 		txt_dorm.setHorizontalAlignment(SwingConstants.LEFT);
 		txt_dorm.setFont(new Font("新宋体", Font.PLAIN, 14));
 		txt_dorm.setBounds(70, 40, 90, 15);
 		panel_electrity.add(txt_dorm);
 		
-		txt_elebalance = new JLabel("");
+		txt_elebalance = new JLabel(eleBalance);
 		txt_elebalance.setHorizontalAlignment(SwingConstants.LEFT);
 		txt_elebalance.setFont(new Font("新宋体", Font.PLAIN, 14));
 		txt_elebalance.setBounds(70, 65, 90, 15);
@@ -87,7 +104,7 @@ public class PanelSubMessage extends JPanel {
 		label_eleBalance.setBounds(6, 65, 60, 15);
 		panel_electrity.add(label_eleBalance);
 		
-		txt_eleLog = new JLabel("尚未加载，请点击更新！");
+		txt_eleLog = new JLabel(eleLog);
 		txt_eleLog.setHorizontalAlignment(SwingConstants.LEFT);
 		txt_eleLog.setFont(new Font("新宋体", Font.ITALIC, 12));
 		txt_eleLog.setBounds(6, 90, 210, 15);
@@ -140,13 +157,13 @@ public class PanelSubMessage extends JPanel {
 		label_cardID.setBounds(6, 40, 60, 15);
 		panel.add(label_cardID);
 		
-		txt_cardID = new JLabel("");
+		txt_cardID = new JLabel(cardID);
 		txt_cardID.setHorizontalAlignment(SwingConstants.LEFT);
 		txt_cardID.setFont(new Font("新宋体", Font.PLAIN, 14));
 		txt_cardID.setBounds(70, 40, 90, 15);
 		panel.add(txt_cardID);
 		
-		txt_cardBalance = new JLabel("");
+		txt_cardBalance = new JLabel(cardBalance);
 		txt_cardBalance.setHorizontalAlignment(SwingConstants.LEFT);
 		txt_cardBalance.setFont(new Font("新宋体", Font.PLAIN, 14));
 		txt_cardBalance.setBounds(70, 65, 90, 15);
@@ -158,7 +175,7 @@ public class PanelSubMessage extends JPanel {
 		label_cardBalance.setBounds(6, 65, 60, 15);
 		panel.add(label_cardBalance);
 		
-		txt_cardLog = new JLabel("尚未加载，请点击更新！");
+		txt_cardLog = new JLabel(cardLog);
 		txt_cardLog.setHorizontalAlignment(SwingConstants.LEFT);
 		txt_cardLog.setFont(new Font("新宋体", Font.ITALIC, 12));
 		txt_cardLog.setBounds(6, 90, 210, 15);
@@ -237,6 +254,9 @@ public class PanelSubMessage extends JPanel {
             	} catch(Exception e) {
             		e.printStackTrace();
             		txt_cardLog.setText("更新失败，请检查网络！");
+            	} finally {
+            		cardID = username;
+            		cardLog = txt_cardLog.getText();
             	}
             }
         });

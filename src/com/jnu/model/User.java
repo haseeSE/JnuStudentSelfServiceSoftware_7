@@ -14,24 +14,6 @@ public class User implements java.io.Serializable{
 	private String _JnuEduAdminSystemId;
 	private String _JnuEduAdminSystemPassword;
 	
-	public User() {
-		
-	}
-	public User(UserManager us) {
-		_name = UserManager.get_name();
-		_studentId = UserManager.get_studentId();
-		_phoneNum = UserManager.get_phoneNum();
-		_college = UserManager.get_college();
-		_major = UserManager.get_major();
-		_dormitory = UserManager.get_dormitory();
-		_JnuDCPId = UserManager.get_JnuDCPId();
-		_JnuDCPPassword = UserManager.get_JnuDCPPassword();
-		_JnuForumId = UserManager.get_JnuForumId();
-		_JnuForumPassword = UserManager.get_JnuForumPassword();
-		_JnuEduAdminSystemId = UserManager.get_JnuEduAdminSystemId();
-		_JnuEduAdminSystemPassword = UserManager.get_JnuEduAdminSystemPassword();
-	}
-	
 	public String get_name() {
 		return _name;
 	}

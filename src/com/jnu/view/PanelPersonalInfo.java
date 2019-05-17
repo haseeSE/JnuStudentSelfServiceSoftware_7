@@ -43,7 +43,7 @@ public class PanelPersonalInfo extends JPanel {
 		JTextField textField_Name = new JTextField();
 		textField_Name.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_Name.setBounds(270, 94, 150, 24);
-		textField_Name.setText(UserManager.get_name());
+		textField_Name.setText(UserManager.getUser().get_name());
 		add(textField_Name);
 		textField_Name.setColumns(10);
 		
@@ -78,35 +78,35 @@ public class PanelPersonalInfo extends JPanel {
 		textField_studentId.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_studentId.setColumns(10);
 		textField_studentId.setBounds(270, 128, 150, 24);
-		textField_studentId.setText(UserManager.get_studentId());
+		textField_studentId.setText(UserManager.getUser().get_studentId());
 		add(textField_studentId);
 		
 		JTextField textField_phoneNum = new JTextField();
 		textField_phoneNum.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_phoneNum.setColumns(10);
 		textField_phoneNum.setBounds(270, 162, 150, 24);
-		textField_phoneNum.setText(UserManager.get_phoneNum());
+		textField_phoneNum.setText(UserManager.getUser().get_phoneNum());
 		add(textField_phoneNum);
 		
 		JTextField textField_college = new JTextField();
 		textField_college.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_college.setColumns(10);
 		textField_college.setBounds(662, 94, 150, 24);
-		textField_college.setText(UserManager.get_college());
+		textField_college.setText(UserManager.getUser().get_college());
 		add(textField_college);
 		
 		JTextField textField_major = new JTextField();
 		textField_major.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_major.setColumns(10);
 		textField_major.setBounds(662, 128, 150, 24);
-		textField_major.setText(UserManager.get_major());
+		textField_major.setText(UserManager.getUser().get_major());
 		add(textField_major);
 		
 		JTextField textField_dormitory = new JTextField();
 		textField_dormitory.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_dormitory.setColumns(10);
 		textField_dormitory.setBounds(662, 162, 150, 24);
-		textField_dormitory.setText(UserManager.get_dormitory());
+		textField_dormitory.setText(UserManager.getUser().get_dormitory());
 		add(textField_dormitory);
 		
 		JLabel label_jnuDCPId = new JLabel("数字暨大账号：");
@@ -142,31 +142,31 @@ public class PanelPersonalInfo extends JPanel {
 		JTextField textField_jnuDCPId = new JTextField();
 		textField_jnuDCPId.setColumns(10);
 		textField_jnuDCPId.setBounds(486, 220, 150, 24);
-		textField_jnuDCPId.setText(UserManager.get_JnuDCPId());
+		textField_jnuDCPId.setText(UserManager.getUser().get_JnuDCPId());
 		add(textField_jnuDCPId);
 		
 		JTextField textField_jnuDCPPassword = new JTextField();
 		textField_jnuDCPPassword.setColumns(10);
 		textField_jnuDCPPassword.setBounds(486, 254, 150, 24);
-		textField_jnuDCPPassword.setText(UserManager.get_JnuDCPPassword());
+		textField_jnuDCPPassword.setText(UserManager.getUser().get_JnuDCPPassword());
 		add(textField_jnuDCPPassword);
 		
 		JTextField textField_jnuForumId = new JTextField();
 		textField_jnuForumId.setColumns(10);
 		textField_jnuForumId.setBounds(486, 288, 150, 24);
-		textField_jnuForumId.setText(UserManager.get_JnuForumId());
+		textField_jnuForumId.setText(UserManager.getUser().get_JnuForumId());
 		add(textField_jnuForumId);
 		
 		JTextField textField_jnuForumPassword = new JTextField();
 		textField_jnuForumPassword.setColumns(10);
 		textField_jnuForumPassword.setBounds(486, 322, 150, 24);
-		textField_jnuForumPassword.setText(UserManager.get_JnuForumPassword());
+		textField_jnuForumPassword.setText(UserManager.getUser().get_JnuForumPassword());
 		add(textField_jnuForumPassword);
 		
 		JTextField textField_jnuEduAdminSystemId = new JTextField();
 		textField_jnuEduAdminSystemId.setColumns(10);
 		textField_jnuEduAdminSystemId.setBounds(486, 354, 150, 24);
-		textField_jnuEduAdminSystemId.setText(UserManager.get_JnuEduAdminSystemId());
+		textField_jnuEduAdminSystemId.setText(UserManager.getUser().get_JnuEduAdminSystemId());
 		add(textField_jnuEduAdminSystemId);
 		
 		JTextField textField_jnuEduAdminSystemPassword = new JTextField();
@@ -188,22 +188,23 @@ public class PanelPersonalInfo extends JPanel {
 */				
 				// TODO Auto-generated method stub
 				//将用户输入文本中的值依次赋给User
-				UserManager.set_name(textField_Name.getText());
-				UserManager.set_studentId(textField_studentId.getText());
-				UserManager.set_phoneNum(textField_phoneNum.getText());
-				UserManager.set_college(textField_college.getText());
-				UserManager.set_major(textField_major.getText());
-				UserManager.set_dormitory(textField_dormitory.getText());
-				UserManager.set_JnuDCPId(textField_jnuDCPId.getText());
-				UserManager.set_JnuDCPPassword(textField_jnuDCPPassword.getText());;
-				UserManager.set_JnuForumId(textField_jnuForumId.getText());
-				UserManager.set_JnuForumPassword(textField_jnuForumPassword.getText());
-				UserManager.set_JnuEduAdiminSystemId(textField_jnuEduAdminSystemId.getText());
-				UserManager.set_JnuEduAdminSystemPassword(textField_jnuEduAdminSystemPassword.getText());
+				User user = UserManager.getUser();				
 				
-				User user = new User(new UserManager());
-				MyFileOperator.save(user);
-				//MyFileOperator.save(new User());
+				user.set_name(textField_Name.getText());
+				user.set_studentId(textField_studentId.getText());
+				user.set_phoneNum(textField_phoneNum.getText());
+				user.set_college(textField_college.getText());
+				user.set_major(textField_major.getText());
+				user.set_dormitory(textField_dormitory.getText());
+				user.set_JnuDCPId(textField_jnuDCPId.getText());
+				user.set_JnuDCPPassword(textField_jnuDCPPassword.getText());;
+				user.set_JnuForumId(textField_jnuForumId.getText());
+				user.set_JnuForumPassword(textField_jnuForumPassword.getText());
+				user.set_JnuEduAdiminSystemId(textField_jnuEduAdminSystemId.getText());
+				user.set_JnuEduAdminSystemPassword(textField_jnuEduAdminSystemPassword.getText());
+				
+				UserManager.setUser(user);
+				UserManager.saveUser();
 				
 				JOptionPane.showMessageDialog(ViewMain.getFrame(), "保存成功", "用户信息修改", JOptionPane.PLAIN_MESSAGE);
 				ViewMain.panelBack();

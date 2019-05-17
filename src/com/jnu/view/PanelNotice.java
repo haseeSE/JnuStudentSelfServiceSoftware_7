@@ -106,7 +106,7 @@ public class PanelNotice extends JPanel implements ListSelectionListener {
 				break;
 		
 			case 2:
-				String college = UserManager.get_college();
+				String college = UserManager.getUser().get_college();
 				if(college.contains("人文")){
 					ArrayList<NoticeContainer> collegeNotices = addCollegeNotices(1);
 					index = 0;
