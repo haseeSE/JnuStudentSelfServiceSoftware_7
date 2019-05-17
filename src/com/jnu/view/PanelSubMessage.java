@@ -3,6 +3,8 @@ package com.jnu.view;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -39,6 +41,7 @@ public class PanelSubMessage extends JPanel {
 	
 	private static String dorm = "";
 	private static String cardID = "";
+	private static String password = "";
 	
 	private static String eleBalance = "";
 	private static String eleLog = "尚未加载，请点击加载！";
@@ -51,7 +54,11 @@ public class PanelSubMessage extends JPanel {
 	
 	private void initialize() {
 		// TODO Auto-generated method stub
-		
+		dorm = UserManager.getUser().get_dormitory();
+		cardID = UserManager.getUser().get_JnuDCPId();
+		password = UserManager.getUser().get_JnuDCPPassword();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		eleLog = df.format(new Date());
 	}
 	
 
@@ -224,10 +231,8 @@ public class PanelSubMessage extends JPanel {
 
 	private void updateCardInfo() {
 		// TODO Auto-generated method stub
-		String username = UserManager.get_JnuDCPId();
-		String password = UserManager.get_JnuDCPPassword();
 		// 检查用户是否存在；
-		if(username == null || username.equals("")
+		if(cardID == null || cardID.equals("")
 				|| password == null || password.equals("")) {
 			txt_cardLog.setText("未检测到相关用户账户信息！");
 			return;
@@ -241,21 +246,21 @@ public class PanelSubMessage extends JPanel {
 //            	MyLog.write(getClass(), "Thread Start");
             	try {            		
             		WebDigitalJnu web = new WebDigitalJnu();
-            		cardBalance = web.getBalance(username, password);
+            		cardBalance = web.getBalance(cardID, password);
             		if (cardBalance.equals("")) {
             			txt_cardLog.setText("登录失败，请检查学号和密码！");
             		}
             		else {
-            			txt_cardID.setText(username);
             			txt_cardBalance.setText(cardBalance);
-            			txt_cardLog.setText("更新成功！");
+            			//设置日期格式
+            			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            			txt_cardLog.setText("更新成功！ " + df.format(new Date()));
             		}
             		            		
             	} catch(Exception e) {
             		e.printStackTrace();
             		txt_cardLog.setText("更新失败，请检查网络！");
             	} finally {
-            		cardID = username;
             		cardLog = txt_cardLog.getText();
             	}
             }

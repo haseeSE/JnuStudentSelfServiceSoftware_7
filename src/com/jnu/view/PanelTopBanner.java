@@ -46,7 +46,7 @@ public class PanelTopBanner extends JPanel {
 		lblUsera.setBounds(750, 10, 120, 28);
 		add(lblUsera);
 		
-		JLabel lblEdit = new JLabel("修改");
+		JLabel lblEdit = new JLabel( (name != null && !name.equals("")) ? "注销" : "登录" );
 		lblEdit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

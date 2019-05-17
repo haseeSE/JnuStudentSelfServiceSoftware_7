@@ -1,7 +1,11 @@
 package com.jnu.model;
 
+import java.util.ArrayList;
+
 public class UserManager {
+
 	private static User _user = new User();
+	private static ArrayList<Score> scores;
 	
 	public static User getUser() {
 		return _user;
@@ -20,4 +24,13 @@ public class UserManager {
 		MyFileOperator operator = new MyFileOperator();
 		operator.save(_user);
 	}
+
+	public static ArrayList<Score> getScores() {
+		return scores;
+	}
+
+	public static void setScores(ArrayList<Score> scores) {
+		UserManager.scores = scores;
+	}
+	
 }

@@ -114,7 +114,8 @@ public class ViewMain {
 		
 		// TODO
 		// 替换panel_main;
-		changePanelTemplate(new PanelMessage());
+		// 主界面改为用户信息界面；
+		changePanelMain(new PanelPersonalInfo());
 
 		
 	}

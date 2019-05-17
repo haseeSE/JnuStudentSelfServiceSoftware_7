@@ -21,7 +21,7 @@ public class PanelCourseSelection extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelCourseSelection() {
+	public PanelCourseSelection() {	
 		setLayout(null);
 		
 		JTextField textField_1 = new JTextField();
