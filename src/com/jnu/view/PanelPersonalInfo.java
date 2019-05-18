@@ -22,6 +22,7 @@ import com.jnu.model.MyFileOperator;
 import com.jnu.model.User;
 import com.jnu.model.UserManager;
 import com.jnu.model.WebTMSystem;
+import java.awt.Color;
 
 /*
  * created by zhujiayu;
@@ -227,12 +228,17 @@ public class PanelPersonalInfo extends JPanel {
 				
 				UserManager.setUser(user);
 				UserManager.saveUser();
-				
-				String vc = txt_signal.getText();
-				boolean res = web.logintmsystem(user.get_JnuEduAdminSystemId(),
+				try {
+					String vc = txt_signal.getText();
+					boolean res = web.logintmsystem(user.get_JnuEduAdminSystemId(),
 						user.get_JnuEduAdminSystemPassword(), vc);
+					
+				} catch(Exception e1) {
+					e1.printStackTrace();
+					Log.error("联网失败");
+					
+				}
 				
-//				MyLog.write(PanelPersonalInfo.class, "LOGIN");
 //				JOptionPane.showMessageDialog(ViewMain.getFrame(), res ? "true" : "false", "保存成功", JOptionPane.PLAIN_MESSAGE);
 				
 				ViewMain.openMainMessage();
@@ -247,7 +253,10 @@ public class PanelPersonalInfo extends JPanel {
 		txt_signal.setBounds(479, 409, 80, 24);
 		add(txt_signal);
 		
-		src_signal = new JLabel("");
+		src_signal = new JLabel("联网失败");
+		src_signal.setForeground(Color.RED);
+		src_signal.setFont(new Font("新宋体", Font.ITALIC, 12));
+		src_signal.setHorizontalAlignment(SwingConstants.CENTER);
 		setVcIcon();
 		src_signal.addMouseListener(new MouseAdapter() {
 			@Override
