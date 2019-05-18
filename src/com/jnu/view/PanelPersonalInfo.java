@@ -229,7 +229,7 @@ public class PanelPersonalInfo extends JPanel {
 //				MyLog.write(PanelPersonalInfo.class, "LOGIN");
 //				JOptionPane.showMessageDialog(ViewMain.getFrame(), res ? "true" : "false", "保存成功", JOptionPane.PLAIN_MESSAGE);
 				
-				ViewMain.panelBack();
+				ViewMain.openMainMessage();
 				
 			}
 		});

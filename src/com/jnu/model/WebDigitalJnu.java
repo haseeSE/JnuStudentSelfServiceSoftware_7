@@ -31,7 +31,7 @@ public class WebDigitalJnu {
 		
 		driver = new PhantomJSDriver();
 		// 设置js异步加载等待时间：10s；
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 		// 访问登陆页面；
 		driver.get(LOGIN_URL);	
 	}

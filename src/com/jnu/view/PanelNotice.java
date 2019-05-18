@@ -80,17 +80,18 @@ public class PanelNotice extends JPanel implements ListSelectionListener {
 	//双击事件
 	private void whenDbClickLst(Object value,String url){
 //		ViewMain.changePanelTemplate(new PanelNoticeDetail());
-		UIUtils.setPreferredLookAndFeel();
-        NativeInterface.open();
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	PanelWebBrowser web = new PanelWebBrowser();
-//            	web.openDigitalJnu();
-            	web.loadUrl(url, null);
-            	ViewMain.changePanelMain(web);
-            }
-        });
-        NativeInterface.runEventPump();
+//		UIUtils.setPreferredLookAndFeel();
+//        NativeInterface.open();
+//        SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//            	PanelWebBrowser web = new PanelWebBrowser();
+////            	web.openDigitalJnu();
+//            	web.loadUrl(url, null);
+//            	ViewMain.changePanelMain(web);
+//            }
+//        });
+//        NativeInterface.runEventPump();
+		ViewMain.openWeb(url);
 	}
 
 	private void addData(int notice_type) throws Exception{

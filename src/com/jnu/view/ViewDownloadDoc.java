@@ -38,7 +38,7 @@ public class ViewDownloadDoc {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewDownloadDoc window = new ViewDownloadDoc(100, 100);
+					ViewDownloadDoc window = new ViewDownloadDoc();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,18 +50,19 @@ public class ViewDownloadDoc {
 	/**
 	 * Create the application.
 	 */
-	public ViewDownloadDoc(int x, int y) {
-		initialize(x, y);
+	public ViewDownloadDoc() {
+		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(int x, int y) {
+	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("\u6A21\u677F\u4E0B\u8F7D");
 		frame.setResizable(false);
-		frame.setBounds(x, y, 450, 300);
+		frame.setSize(450, 300);
+		frame.setLocationRelativeTo(null);//在屏幕中居中显示
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel label = new JLabel("\u6A21\u677F\u7C7B\u578B\uFF1A");

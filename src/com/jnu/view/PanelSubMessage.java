@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.JTextField;
 import java.awt.SystemColor;
 
@@ -57,8 +59,6 @@ public class PanelSubMessage extends JPanel {
 		dorm = UserManager.getUser().get_dormitory();
 		cardID = UserManager.getUser().get_JnuDCPId();
 		password = UserManager.getUser().get_JnuDCPPassword();
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		eleLog = df.format(new Date());
 	}
 	
 
@@ -133,7 +133,7 @@ public class PanelSubMessage extends JPanel {
 		btn_eleUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+				updateElectrityInfo();
 			}
 		});
 		btn_eleUpdate.setHorizontalAlignment(SwingConstants.CENTER);
@@ -192,16 +192,7 @@ public class PanelSubMessage extends JPanel {
 		btn_cardTopUp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				UIUtils.setPreferredLookAndFeel();
-		        NativeInterface.open();
-		        SwingUtilities.invokeLater(new Runnable() {
-		            public void run() {
-		            	PanelWebBrowser web = new PanelWebBrowser();
-		            	web.openDigitalJnu();
-		            	ViewMain.changePanelMain(web);
-		            }
-		        });
-		        NativeInterface.runEventPump();
+				ViewMain.openWebDigitalJnu();
 			}
 		});
 		btn_cardTopUp.setHorizontalAlignment(SwingConstants.CENTER);
@@ -238,16 +229,21 @@ public class PanelSubMessage extends JPanel {
 			return;
 		}
 		txt_cardLog.setText("更新中。。。。。。");
-		// 创建线程执行爬取卡费；
-		UIUtils.setPreferredLookAndFeel();
-        NativeInterface.open();
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-//            	MyLog.write(getClass(), "Thread Start");
-            	try {            		
-            		WebDigitalJnu web = new WebDigitalJnu();
-            		cardBalance = web.getBalance(cardID, password);
-            		if (cardBalance.equals("")) {
+		// 创建线程执行爬取卡费；   
+        SwingWorker<String, Object> task = new SwingWorker<String, Object>() {
+
+			@Override
+			protected String doInBackground() throws Exception {
+				// TODO Auto-generated method stub
+				WebDigitalJnu web = new WebDigitalJnu();
+				return web.getBalance(cardID, password);
+			}
+        	
+			@Override
+			protected void done() {
+				try {
+					cardBalance = get();
+					if (cardBalance.equals("")) {
             			txt_cardLog.setText("登录失败，请检查学号和密码！");
             		}
             		else {
@@ -255,21 +251,74 @@ public class PanelSubMessage extends JPanel {
             			//设置日期格式
             			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             			txt_cardLog.setText("更新成功！ " + df.format(new Date()));
-            		}
-            		            		
-            	} catch(Exception e) {
-            		e.printStackTrace();
+            		}								
+				} catch(Exception e) {
+					e.printStackTrace();
             		txt_cardLog.setText("更新失败，请检查网络！");
-            	} finally {
-            		cardLog = txt_cardLog.getText();
-            	}
-            }
-        });
-        NativeInterface.runEventPump();
+				} finally {
+					cardLog = txt_cardLog.getText();
+				}
+			}
+        };
+        task.execute();
+        
 	}
 
+	private static boolean HELLO = false;
+	
 	private void updateElectrityInfo() {
 		// TODO Auto-generated method stub
+		
+		SwingWorker<String, Integer> eleTask = new SwingWorker<String, Integer>() {
+			
+			private int cnt = 0;
+			
+			@Override
+			protected String doInBackground() throws Exception {
+				// TODO Auto-generated method stub
+				int i = 0;
+				String log = "更新中";
+				while(!HELLO) {
+					if(i < 100) {
+						Thread.sleep(200);
+						setProgress(i);
+						publish(i);
+						i++;
+					}
+					else {
+						return null;
+					}
+				}
+				
+				return "Hello";
+			}
+			
+			@Override
+			protected void process(List<Integer> chunks) {
+				Integer i = chunks.get(0) % 6;
+				String text = "更新中。";
+				while(i-- > 0)
+					text += "。";
+				txt_eleLog.setText(text);
+			}
+			
+			@Override
+			protected void done() {
+				String result = null;
+				try {
+					if( (result = get()) == null ) {
+						txt_eleLog.setText("ERROR!");
+					}
+					else
+						txt_eleLog.setText(result);
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+		};
+		eleTask.execute();
+		
 		
 	}
 }

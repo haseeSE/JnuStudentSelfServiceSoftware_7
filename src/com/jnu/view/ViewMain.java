@@ -48,8 +48,8 @@ public class ViewMain {
 	private JMenuBar menuBar_top;
 	private static JPanel panel_main;
 	
-	private int x = 100;
-	private int y = 100;
+//	private PanelWebBrowser web;
+	
 	private int width = 1000;
 	private int height = 600;
 	
@@ -99,7 +99,8 @@ public class ViewMain {
 		});
 		frame.setTitle("暨南大学珠海校区学生自助程序");
 		frame.setResizable(false);
-		frame.setBounds(x, y, width, height);
+		frame.setSize(width, height);
+		frame.setLocationRelativeTo(null);//在屏幕中居中显示
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		menuBar_top = new JMenuBar();
@@ -204,7 +205,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent e) {
 				// TODO
 				frame.setEnabled(false);
-				ViewDownloadDoc windows = new ViewDownloadDoc(x + 200, y + 100);
+				ViewDownloadDoc windows = new ViewDownloadDoc();
 				windows.frame.setVisible(true);
 				windows.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				windows.frame.addWindowListener(new WindowAdapter() {
@@ -222,42 +223,89 @@ public class ViewMain {
 		menuItem_fourm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				UIUtils.setPreferredLookAndFeel();
-		        NativeInterface.open();
-		        SwingUtilities.invokeLater(new Runnable() {
-		            public void run() {
-		            	PanelWebBrowser web = new PanelWebBrowser();
-		            	web.openFourm();
-		            	changePanelMain(web);
-		            }
-		        });
-		        NativeInterface.runEventPump();
+				openWebFourm();
 		        MyLog.write(ViewMain.class, "点击了打开学校论坛");
 			}
 			
 		});
 		menu_other.add(menuItem_fourm);
 		
+		JMenuItem menuItem_userInfo = new JMenuItem("个人信息");
+		menuItem_userInfo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				openPersonal();
+			}
+		});
+		menu_other.add(menuItem_userInfo);
+		
 	}
 	
 	// 切换模板；
-	public static void changePanelTemplate(JPanel panel) {
+	private static void changePanelTemplate(JPanel panel) {
 		changePanelMain(new PanelTemplate(panel));
 	}
 	
 	// 切换整个面板；
-	public static void changePanelMain(JPanel panel) {
+	private static void changePanelMain(JPanel panel) {
 		panel_main.removeAll();
 		panel_main.add(panel);
 		panel_main.updateUI();
 	}
 	
-	public static JFrame getFrame() {
-		return frame;
-	}
+//	public static JFrame getFrame() {
+//		return frame;
+//	}
 	
-	public static void panelBack() {
+	// 打开通知主界面；
+	public static void openMainMessage() {
 		changePanelTemplate(new PanelMessage());
 	}
 	
+	// 打开个人信息界面；
+	public static void openPersonal() {
+		changePanelMain(new PanelPersonalInfo());
+	}
+	
+	
+	// 打开网页；
+	public static void openWeb(String url) {		
+		UIUtils.setPreferredLookAndFeel();
+        NativeInterface.open();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	PanelWebBrowser web = new PanelWebBrowser();
+            	web.loadUrl(url, null);
+            	changePanelMain(web);
+            }
+        });
+        NativeInterface.runEventPump();
+	}
+
+	public static void openWebDigitalJnu() {
+		// TODO Auto-generated method stub	
+		UIUtils.setPreferredLookAndFeel();
+        NativeInterface.open();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	PanelWebBrowser web = new PanelWebBrowser();
+            	web.openDigitalJnu();
+            	changePanelMain(web);
+            }
+        });
+        NativeInterface.runEventPump();
+	}
+	
+	public static void openWebFourm() {
+		UIUtils.setPreferredLookAndFeel();
+        NativeInterface.open();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	PanelWebBrowser web = new PanelWebBrowser();
+            	web.openFourm();
+            	changePanelMain(web);
+            }
+        });
+        NativeInterface.runEventPump();
+	}
 }

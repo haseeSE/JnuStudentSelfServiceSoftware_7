@@ -150,7 +150,7 @@ button_editDocCommit.addMouseListener(new MouseAdapter() {
 		EditDoc doc = new EditDoc();
 		doc.createWord();
 		
-		ViewMain.changePanelMain(new PanelPersonalInfo());
+		ViewMain.openMainMessage();
 		MyLog.write(PanelTopBanner.class, "点击了修改用户信息");
 	}
 });

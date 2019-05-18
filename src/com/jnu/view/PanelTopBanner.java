@@ -51,7 +51,7 @@ public class PanelTopBanner extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Switch to PanelPersonalInfo;
-				ViewMain.changePanelMain(new PanelPersonalInfo());
+				ViewMain.openPersonal();
 				MyLog.write(PanelTopBanner.class, "点击了修改用户信息");
 			}
 		});
