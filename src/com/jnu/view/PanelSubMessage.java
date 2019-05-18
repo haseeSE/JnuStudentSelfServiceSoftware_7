@@ -48,20 +48,27 @@ public class PanelSubMessage extends JPanel {
 	private static String eleBalance = "";
 	private static String eleLog = "尚未加载，请点击加载！";
 	
-	
 	private static String cardBalance = "";
 	private static String cardLog = "尚未加载，请点击加载！";
 	
+	// 自定义枚举类型；
+	private static enum ExecStatus {
+		UNINITIALIZED, START, SUCCESS, FAIL, NETWORK_ERROR;
+	};
 	
+	private static ExecStatus exec_card = ExecStatus.UNINITIALIZED;
+	private static ExecStatus exec_ele = ExecStatus.UNINITIALIZED;
+	
+	private SimpleDateFormat dateFormat;
 	
 	private void initialize() {
 		// TODO Auto-generated method stub
 		dorm = UserManager.getUser().get_dormitory();
 		cardID = UserManager.getUser().get_JnuDCPId();
 		password = UserManager.getUser().get_JnuDCPPassword();
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	}
 	
-
 	/**
 	 * Create the panel.
 	 */
@@ -133,7 +140,9 @@ public class PanelSubMessage extends JPanel {
 		btn_eleUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				updateElectrityInfo();
+				// 避免多次重复查询；
+//				if(exec_ele != ExecStatus.START)
+					updateElectrityInfo();
 			}
 		});
 		btn_eleUpdate.setHorizontalAlignment(SwingConstants.CENTER);
@@ -205,7 +214,9 @@ public class PanelSubMessage extends JPanel {
 		btn_cardUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				updateCardInfo();
+				// 避免多次重复查询；
+//				if(exec_card != ExecStatus.START)
+					updateCardInfo();
 			}
 			
 		});
@@ -216,21 +227,65 @@ public class PanelSubMessage extends JPanel {
 		panel.add(btn_cardUpdate);
 		
 		// 设置电费、卡费；
-//		updateElectrityInfo();
-//		updateCardInfo();
+		if(exec_ele == ExecStatus.UNINITIALIZED) updateElectrityInfo();
+		if(exec_card == ExecStatus.UNINITIALIZED) updateCardInfo();
 	}
 
 	private void updateCardInfo() {
 		// TODO Auto-generated method stub
 		// 检查用户是否存在；
-		if(cardID == null || cardID.equals("")
-				|| password == null || password.equals("")) {
+		if(cardID == null || cardID.equals("") || password == null || password.equals("")) {
 			txt_cardLog.setText("未检测到相关用户账户信息！");
 			return;
 		}
 		txt_cardLog.setText("更新中。。。。。。");
+		
+		// 状态：启动；
+		exec_card = ExecStatus.START;
+		
+		// 动态更新LOG设置；
+		SwingWorker<String, Integer> logTask = new SwingWorker<String, Integer>() {
+			private int cnt = 0;	
+			@Override
+			protected String doInBackground() throws Exception {
+				// TODO Auto-generated method stub
+				while(exec_card == ExecStatus.START) {
+					Thread.sleep(200);
+					setProgress(1);
+					publish(1);
+				}
+				return "Hello";
+			}
+			
+			@Override
+			protected void process(List<Integer> chunks) {
+				int i = cnt++ % 6;
+				String text = "更新中";
+				while(i-- > 0) text += "。";
+				txt_cardLog.setText(text);
+			}
+			
+			@Override
+			protected void done() {
+				try {
+					switch(exec_card) {
+						case NETWORK_ERROR:	cardLog = "更新失败，请检查网络！"; break;
+						case FAIL:			cardLog = "登录失败，请检查学号和密码！"; break;
+						case SUCCESS:		cardLog = "更新成功！ " + dateFormat.format(new Date()); break;
+						default:
+					}
+				} catch(Exception e) {
+					e.printStackTrace();
+				}finally {
+					txt_cardLog.setText(cardLog);
+				}
+			}
+			
+		};
+		logTask.execute();
+		
 		// 创建线程执行爬取卡费；   
-        SwingWorker<String, Object> task = new SwingWorker<String, Object>() {
+        SwingWorker<String, Object> cardTask = new SwingWorker<String, Object>() {
 
 			@Override
 			protected String doInBackground() throws Exception {
@@ -243,81 +298,65 @@ public class PanelSubMessage extends JPanel {
 			protected void done() {
 				try {
 					cardBalance = get();
-					if (cardBalance.equals("")) {
-            			txt_cardLog.setText("登录失败，请检查学号和密码！");
-            		}
-            		else {
-            			txt_cardBalance.setText(cardBalance);
-            			//设置日期格式
-            			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            			txt_cardLog.setText("更新成功！ " + df.format(new Date()));
-            		}								
+					if (cardBalance.equals("")) exec_card = ExecStatus.FAIL;
+            		else exec_card = ExecStatus.SUCCESS;
 				} catch(Exception e) {
 					e.printStackTrace();
-            		txt_cardLog.setText("更新失败，请检查网络！");
+            		exec_card = ExecStatus.NETWORK_ERROR;
 				} finally {
-					cardLog = txt_cardLog.getText();
+					txt_cardBalance.setText(cardBalance);
 				}
 			}
         };
-        task.execute();
+        cardTask.execute();
         
 	}
-
-	private static boolean HELLO = false;
 	
 	private void updateElectrityInfo() {
 		// TODO Auto-generated method stub
 		
-		SwingWorker<String, Integer> eleTask = new SwingWorker<String, Integer>() {
-			
-			private int cnt = 0;
-			
+		
+		exec_ele = ExecStatus.START;
+		// 动态更新LOG设置；
+		SwingWorker<String, Integer> logTask = new SwingWorker<String, Integer>() {
+			private int cnt = 0;	
 			@Override
 			protected String doInBackground() throws Exception {
 				// TODO Auto-generated method stub
-				int i = 0;
-				String log = "更新中";
-				while(!HELLO) {
-					if(i < 100) {
-						Thread.sleep(200);
-						setProgress(i);
-						publish(i);
-						i++;
-					}
-					else {
-						return null;
-					}
+				while(exec_ele == ExecStatus.START) {
+					Thread.sleep(200);
+					setProgress(1);
+					publish(1);
 				}
-				
 				return "Hello";
 			}
 			
 			@Override
 			protected void process(List<Integer> chunks) {
-				Integer i = chunks.get(0) % 6;
-				String text = "更新中。";
-				while(i-- > 0)
-					text += "。";
+				int i = cnt++ % 6;
+				String text = "更新中";
+				while(i-- > 0) text += "。";
 				txt_eleLog.setText(text);
 			}
 			
 			@Override
 			protected void done() {
-				String result = null;
 				try {
-					if( (result = get()) == null ) {
-						txt_eleLog.setText("ERROR!");
+					switch(exec_ele) {
+						case NETWORK_ERROR:	eleLog = "更新失败，请检查网络！"; break;
+						case FAIL:			eleLog = "登录失败，请检查学号和密码！"; break;
+						case SUCCESS:		eleLog = "更新成功！ " + dateFormat.format(new Date()); break;
+						default:
 					}
-					else
-						txt_eleLog.setText(result);
 				} catch(Exception e) {
 					e.printStackTrace();
+				}finally {
+					txt_eleLog.setText(eleLog);
 				}
 			}
 			
 		};
-		eleTask.execute();
+		logTask.execute();
 		
 		
 	}
