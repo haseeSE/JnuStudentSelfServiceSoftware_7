@@ -15,7 +15,6 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 import com.jnu.model.MyFileOperator;
-import com.jnu.model.MyLog;
 import com.jnu.model.User;
 import com.jnu.model.UserManager;
 
@@ -42,13 +41,13 @@ import java.awt.event.WindowEvent;
  */
 
 public class ViewMain {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	private static JFrame frame;
 	// 顶部菜单栏；
 	private JMenuBar menuBar_top;
 	private static JPanel panel_main;
-	
-//	private PanelWebBrowser web;
 	
 	private int width = 1000;
 	private int height = 600;
@@ -78,6 +77,9 @@ public class ViewMain {
 	 * Create the application.
 	 */
 	public ViewMain() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		initialize();
 	}
 
@@ -90,11 +92,11 @@ public class ViewMain {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				
-				MyLog.write(ViewMain.class, "关闭程序窗口");
+				Log.info("关闭程序窗口");
 			}
 			@Override
 			public void windowOpened(WindowEvent e) {
-				MyLog.write(ViewMain.class, "打开程序窗口");
+				Log.info("打开程序窗口");
 			}
 		});
 		frame.setTitle("暨南大学珠海校区学生自助程序");
@@ -132,7 +134,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelMessage());
-				MyLog.write(ViewMain.class, "点击了查看通知及余额");
+				Log.info("点击了查看通知及余额");
 			}
 		});
 		menu_campuInquire.add(menuItem_message);
@@ -143,7 +145,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelGradeRecord());
-				MyLog.write(ViewMain.class, "点击了查询成绩");
+				Log.info("点击了查询成绩");
 			}
 		});
 		menu_campuInquire.add(menuItem_grade);
@@ -155,7 +157,7 @@ public class ViewMain {
 				// TODO
 //				JOptionPane.showMessageDialog(frame, "JOB", "Message", JOptionPane.PLAIN_MESSAGE);
 				changePanelTemplate(new PanelEmploymentInfo());
-				MyLog.write(ViewMain.class, "点击了查看就业信息");
+				Log.info("点击了查看就业信息");
 			}
 		});
 		menu_campuInquire.add(menuItem_jobInfo);
@@ -169,7 +171,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelCourseSelection());
-				MyLog.write(ViewMain.class, "点击了选课");
+				Log.info("点击了选课");
 			}
 		});
 		menu_study.add(menuItem_courseSelection);
@@ -180,7 +182,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelTrainingProgram());
-				MyLog.write(ViewMain.class, "点击了查看培养方案");
+				Log.info("点击了查看培养方案");
 			}
 		});
 		menu_study.add(menuItem_trainingProgram);
@@ -191,7 +193,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelLeaveDocEdit());
-				MyLog.write(ViewMain.class, "点击了打开请假功能");
+				Log.info("点击了打开请假功能");
 			}
 		});
 		menu_study.add(menuItem_leave);
@@ -213,7 +215,7 @@ public class ViewMain {
 						frame.setEnabled(true);
 					}
 				});
-				MyLog.write(ViewMain.class, "点击了打开模板下载");
+				Log.info("点击了打开模板下载");
 			}
 			
 		});
@@ -224,7 +226,7 @@ public class ViewMain {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				openWebFourm();
-		        MyLog.write(ViewMain.class, "点击了打开学校论坛");
+		        Log.info("点击了打开学校论坛");
 			}
 			
 		});

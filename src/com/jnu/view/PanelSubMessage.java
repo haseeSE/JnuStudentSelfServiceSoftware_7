@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import com.jnu.model.MyLog;
 import com.jnu.model.UserManager;
 import com.jnu.model.WebDigitalJnu;
 
@@ -24,6 +23,9 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+
+import org.apache.log4j.Logger;
+
 import javax.swing.JTextField;
 import java.awt.SystemColor;
 
@@ -32,6 +34,8 @@ import java.awt.SystemColor;
  */
 
 public class PanelSubMessage extends JPanel {
+	
+	private Logger Log = Logger.getLogger(getClass());
 	
 	private JLabel txt_dorm;
 	private JLabel txt_elebalance;
@@ -73,6 +77,9 @@ public class PanelSubMessage extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelSubMessage() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		// 初始化各变量；
 		initialize();
 		
@@ -249,6 +256,7 @@ public class PanelSubMessage extends JPanel {
 			@Override
 			protected String doInBackground() throws Exception {
 				// TODO Auto-generated method stub
+				Log.info("卡费爬取状态输出开始");
 				while(exec_card == ExecStatus.START) {
 					Thread.sleep(200);
 					setProgress(1);
@@ -276,8 +284,10 @@ public class PanelSubMessage extends JPanel {
 					}
 				} catch(Exception e) {
 					e.printStackTrace();
+					Log.info("卡费爬取状态出错");
 				}finally {
 					txt_cardLog.setText(cardLog);
+					Log.info("卡费爬取状态输出结束");
 				}
 			}
 			
@@ -290,6 +300,7 @@ public class PanelSubMessage extends JPanel {
 			@Override
 			protected String doInBackground() throws Exception {
 				// TODO Auto-generated method stub
+				Log.info("卡费爬取线程启动");
 				WebDigitalJnu web = new WebDigitalJnu();
 				return web.getBalance(cardID, password);
 			}
@@ -303,8 +314,10 @@ public class PanelSubMessage extends JPanel {
 				} catch(Exception e) {
 					e.printStackTrace();
             		exec_card = ExecStatus.NETWORK_ERROR;
+            		Log.error("卡费爬取线程出错");
 				} finally {
 					txt_cardBalance.setText(cardBalance);
+					Log.info("卡费爬取线程结束");
 				}
 			}
         };
@@ -323,6 +336,7 @@ public class PanelSubMessage extends JPanel {
 			@Override
 			protected String doInBackground() throws Exception {
 				// TODO Auto-generated method stub
+				Log.info("电费爬取状态输出开始");
 				while(exec_ele == ExecStatus.START) {
 					Thread.sleep(200);
 					setProgress(1);
@@ -350,8 +364,10 @@ public class PanelSubMessage extends JPanel {
 					}
 				} catch(Exception e) {
 					e.printStackTrace();
+					Log.error("电费爬取状态输出出错");
 				}finally {
 					txt_eleLog.setText(eleLog);
+					Log.info("电费爬取状态输出结束");
 				}
 			}
 			

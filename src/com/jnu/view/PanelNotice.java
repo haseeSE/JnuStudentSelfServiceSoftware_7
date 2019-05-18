@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,6 +28,8 @@ import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 
 public class PanelNotice extends JPanel implements ListSelectionListener {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	/**
 	 * Create the panel.
@@ -41,6 +44,10 @@ public class PanelNotice extends JPanel implements ListSelectionListener {
 	
 	public PanelNotice(int notice_type) {
 		super(new BorderLayout());
+		
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		listModel = new DefaultListModel<String>();
 		//添加数据
 		try {

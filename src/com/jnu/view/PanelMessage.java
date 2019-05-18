@@ -4,16 +4,23 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 /*
  * created by fengsijian;
  */
 
 public class PanelMessage extends JPanel {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelMessage() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		setLayout(null);
 		
 		setSubMessage();

@@ -10,7 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.jnu.model.MyLog;
+import org.apache.log4j.Logger;
+
 import com.jnu.model.UserManager;
 
 import java.awt.event.MouseAdapter;
@@ -22,12 +23,17 @@ import java.awt.event.MouseEvent;
 
 public class PanelTopBanner extends JPanel {
 	
+	private Logger Log = Logger.getLogger(getClass());
+	
 	private JTextField textField_editSearch;
 	
 	/**
 	 * Create the panel.
 	 */
 	public PanelTopBanner() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		setLayout(null);
 		
 		textField_editSearch = new JTextField();
@@ -52,7 +58,7 @@ public class PanelTopBanner extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Switch to PanelPersonalInfo;
 				ViewMain.openPersonal();
-				MyLog.write(PanelTopBanner.class, "点击了修改用户信息");
+				Log.info("点击了修改用户信息");
 			}
 		});
 		lblEdit.setForeground(Color.RED);

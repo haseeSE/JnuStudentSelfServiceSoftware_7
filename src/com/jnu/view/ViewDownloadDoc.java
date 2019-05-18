@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import com.jnu.model.MyLog;
+import org.apache.log4j.Logger;
 
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -26,6 +26,8 @@ import java.awt.event.ItemEvent;
  */
 
 public class ViewDownloadDoc {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	JFrame frame;
 	private JTextField textField;
@@ -51,6 +53,9 @@ public class ViewDownloadDoc {
 	 * Create the application.
 	 */
 	public ViewDownloadDoc() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		initialize();
 	}
 
@@ -89,7 +94,7 @@ public class ViewDownloadDoc {
 				// TODO
 				
 				JOptionPane.showMessageDialog(frame, "下载成功", "提示信息", JOptionPane.PLAIN_MESSAGE);
-				MyLog.write(ViewDownloadDoc.class, "成功下载了模板");
+				Log.info("成功下载了模板");
 			}
 		});
 		
