@@ -68,10 +68,10 @@ public class EditDoc
 	    }
     
 	 private void getData(Map<String, Object> dataMap) {
-		 	String s1 =new String(UserManager.get_studentId());
-		 	String s2 =new String(UserManager.get_name());
-		 	String s3 =new String(UserManager.get_college());
-		 	String s4 =new String(UserManager.get_major());
+		 	String s1 =new String(UserManager.getUser().get_studentId());
+		 	String s2 =new String(UserManager.getUser().get_name());
+		 	String s3 =new String(UserManager.getUser().get_college());
+		 	String s4 =new String(UserManager.getUser().get_major());
 	/*	 	String s5 =new String(PanelLeaveDocEdit.DocReason);*/
 	        dataMap.put("number", s1);  
 	        dataMap.put("name", s2);
