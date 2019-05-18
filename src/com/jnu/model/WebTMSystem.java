@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -24,6 +25,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class WebTMSystem {
+	private Logger Log = Logger.getLogger(getClass());
+	
 	private static WebClient wc;
 	private HtmlPage page;
 	
@@ -40,17 +43,16 @@ public class WebTMSystem {
 		IS_INITIALIZED = true;
 	}
 	
-	//��ȡ��֤��
 	public ImageIcon gettxtFJM() {
 		initialize();
 		try {
 			page = wc.getPage("https://jwxt.jnu.edu.cn/Login.aspx");
 //			page.refresh();
 			HtmlImage login=(HtmlImage) page.getFirstByXPath(
-				"//*[@id=\"Table16\"]/tbody/tr[9]/td[3]/img");//��֤��ͼƬ�洢 ��������֤���ͼƬid
+				"//*[@id=\"Table16\"]/tbody/tr[9]/td[3]/img");
 			File storeFile = new File("Data/vc.gif");
 			login.saveAs(storeFile);
-			
+			Log.info("验证码已下载");
 			ImageIcon icon = new ImageIcon(ImageIO.read(new File("Data/vc.gif")));
 			return icon;
 		
@@ -62,46 +64,43 @@ public class WebTMSystem {
 		
 	}
 	
-	//��¼
-		public boolean logintmsystem(String username, String password, String vc) {
-			initialize();
-			 //������־����ԭҳ��js�쳣����ӡ
-	        LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log",    "org.apache.commons.logging.impl.NoOpLog");  
-	        java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit")  
-	            .setLevel(Level.OFF);  
-	        java.util.logging.Logger.getLogger("org.apache.commons.httpclient")  
-	            .setLevel(Level.OFF); 
-	        
-	        MyLog.write(WebTMSystem.class, username + " " + " " + password.length() + vc);
-	        
-	        try {
-//					HtmlPage page = wc.getPage("https://jwxt.jnu.edu.cn/Login.aspx");//��½����
-	        		
-					HtmlInput txtYHBS = page.getHtmlElementById("txtYHBS");//ѧ��
-					HtmlInput txtYHMM = page.getHtmlElementById("txtYHMM");//����				
-					HtmlInput txtFJM=(HtmlInput) page.getElementById("txtFJM");//��֤����������id          
-					HtmlInput btn = page.getFirstByXPath("//*[@id=\"btnLogin\"]");//��½��ť
 
-					txtYHBS.setAttribute("value", username);
-					txtYHMM.setAttribute("value", password);
-					txtFJM.setAttribute("value", vc);
+	public boolean logintmsystem(String username, String password, String vc) {
+		initialize();
+	    LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log",    "org.apache.commons.logging.impl.NoOpLog");  
+	    java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit")  
+	        .setLevel(Level.OFF);  
+	    java.util.logging.Logger.getLogger("org.apache.commons.httpclient")  
+	        .setLevel(Level.OFF); 
+	        
+	    Log.info(username + " " + " " + password.length() + vc);
+	    
+	    try {        		
+			HtmlInput txtYHBS = page.getHtmlElementById("txtYHBS");
+			HtmlInput txtYHMM = page.getHtmlElementById("txtYHMM");				
+			HtmlInput txtFJM=(HtmlInput) page.getElementById("txtFJM");   
+			HtmlInput btn = page.getFirstByXPath("//*[@id=\"btnLogin\"]");
+
+			txtYHBS.setAttribute("value", username);
+			txtYHMM.setAttribute("value", password);
+			txtFJM.setAttribute("value", vc);
 					
-					HtmlPage res = btn.click();
+			HtmlPage res = btn.click();
 					
-					MyLog.write(WebTMSystem.class, res.getBaseURI());
-					
-					if(!res.getBaseURI().equals("https://jwxt.jnu.edu.cn/Login.aspx")) {
-						return true;
-					}
+			Log.info(res.getBaseURI());
 				
+			if(!res.getBaseURI().equals("https://jwxt.jnu.edu.cn/Login.aspx")) {
+				return true;
 			}
-			catch (FailingHttpStatusCodeException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
-			}
-	        return false;
+				
 		}
+		catch (FailingHttpStatusCodeException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	    return false;
+	}
 	
 	public void searchScores() {	
 		initialize();

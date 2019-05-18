@@ -5,12 +5,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import com.jnu.model.MyLog;
 import com.jnu.model.UserManager;
 import com.jnu.model.WebDigitalJnu;
 
@@ -22,6 +22,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+
+import org.apache.log4j.Logger;
+
 import javax.swing.JTextField;
 import java.awt.SystemColor;
 
@@ -30,6 +34,8 @@ import java.awt.SystemColor;
  */
 
 public class PanelSubMessage extends JPanel {
+	
+	private Logger Log = Logger.getLogger(getClass());
 	
 	private JLabel txt_dorm;
 	private JLabel txt_elebalance;
@@ -46,26 +52,34 @@ public class PanelSubMessage extends JPanel {
 	private static String eleBalance = "";
 	private static String eleLog = "尚未加载，请点击加载！";
 	
-	
 	private static String cardBalance = "";
 	private static String cardLog = "尚未加载，请点击加载！";
 	
+	// 自定义枚举类型；
+	private static enum ExecStatus {
+		UNINITIALIZED, START, SUCCESS, FAIL, NETWORK_ERROR;
+	};
 	
+	private static ExecStatus exec_card = ExecStatus.UNINITIALIZED;
+	private static ExecStatus exec_ele = ExecStatus.UNINITIALIZED;
+	
+	private SimpleDateFormat dateFormat;
 	
 	private void initialize() {
 		// TODO Auto-generated method stub
 		dorm = UserManager.getUser().get_dormitory();
 		cardID = UserManager.getUser().get_JnuDCPId();
 		password = UserManager.getUser().get_JnuDCPPassword();
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		eleLog = df.format(new Date());
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	}
 	
-
 	/**
 	 * Create the panel.
 	 */
 	public PanelSubMessage() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		// 初始化各变量；
 		initialize();
 		
@@ -133,7 +147,9 @@ public class PanelSubMessage extends JPanel {
 		btn_eleUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+				// 避免多次重复查询；
+//				if(exec_ele != ExecStatus.START)
+					updateElectrityInfo();
 			}
 		});
 		btn_eleUpdate.setHorizontalAlignment(SwingConstants.CENTER);
@@ -192,16 +208,7 @@ public class PanelSubMessage extends JPanel {
 		btn_cardTopUp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				UIUtils.setPreferredLookAndFeel();
-		        NativeInterface.open();
-		        SwingUtilities.invokeLater(new Runnable() {
-		            public void run() {
-		            	PanelWebBrowser web = new PanelWebBrowser();
-		            	web.openDigitalJnu();
-		            	ViewMain.changePanelMain(web);
-		            }
-		        });
-		        NativeInterface.runEventPump();
+				ViewMain.openWebDigitalJnu();
 			}
 		});
 		btn_cardTopUp.setHorizontalAlignment(SwingConstants.CENTER);
@@ -214,7 +221,9 @@ public class PanelSubMessage extends JPanel {
 		btn_cardUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				updateCardInfo();
+				// 避免多次重复查询；
+//				if(exec_card != ExecStatus.START)
+					updateCardInfo();
 			}
 			
 		});
@@ -225,51 +234,146 @@ public class PanelSubMessage extends JPanel {
 		panel.add(btn_cardUpdate);
 		
 		// 设置电费、卡费；
-//		updateElectrityInfo();
-//		updateCardInfo();
+		if(exec_ele == ExecStatus.UNINITIALIZED) updateElectrityInfo();
+		if(exec_card == ExecStatus.UNINITIALIZED) updateCardInfo();
 	}
 
 	private void updateCardInfo() {
 		// TODO Auto-generated method stub
 		// 检查用户是否存在；
-		if(cardID == null || cardID.equals("")
-				|| password == null || password.equals("")) {
+		if(cardID == null || cardID.equals("") || password == null || password.equals("")) {
 			txt_cardLog.setText("未检测到相关用户账户信息！");
 			return;
 		}
 		txt_cardLog.setText("更新中。。。。。。");
-		// 创建线程执行爬取卡费；
-		UIUtils.setPreferredLookAndFeel();
-        NativeInterface.open();
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-//            	MyLog.write(getClass(), "Thread Start");
-            	try {            		
-            		WebDigitalJnu web = new WebDigitalJnu();
-            		cardBalance = web.getBalance(cardID, password);
-            		if (cardBalance.equals("")) {
-            			txt_cardLog.setText("登录失败，请检查学号和密码！");
-            		}
-            		else {
-            			txt_cardBalance.setText(cardBalance);
-            			//设置日期格式
-            			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            			txt_cardLog.setText("更新成功！ " + df.format(new Date()));
-            		}
-            		            		
-            	} catch(Exception e) {
-            		e.printStackTrace();
-            		txt_cardLog.setText("更新失败，请检查网络！");
-            	} finally {
-            		cardLog = txt_cardLog.getText();
-            	}
-            }
-        });
-        NativeInterface.runEventPump();
-	}
+		
+		// 状态：启动；
+		exec_card = ExecStatus.START;
+		
+		// 动态更新LOG设置；
+		SwingWorker<String, Integer> logTask = new SwingWorker<String, Integer>() {
+			private int cnt = 0;	
+			@Override
+			protected String doInBackground() throws Exception {
+				// TODO Auto-generated method stub
+				Log.info("卡费爬取状态输出开始");
+				while(exec_card == ExecStatus.START) {
+					Thread.sleep(200);
+					setProgress(1);
+					publish(1);
+				}
+				return "Hello";
+			}
+			
+			@Override
+			protected void process(List<Integer> chunks) {
+				int i = cnt++ % 6;
+				String text = "更新中";
+				while(i-- > 0) text += "。";
+				txt_cardLog.setText(text);
+			}
+			
+			@Override
+			protected void done() {
+				try {
+					switch(exec_card) {
+						case NETWORK_ERROR:	cardLog = "更新失败，请检查网络！"; break;
+						case FAIL:			cardLog = "登录失败，请检查学号和密码！"; break;
+						case SUCCESS:		cardLog = "更新成功！ " + dateFormat.format(new Date()); break;
+						default:
+					}
+				} catch(Exception e) {
+					e.printStackTrace();
+					Log.info("卡费爬取状态出错");
+				}finally {
+					txt_cardLog.setText(cardLog);
+					Log.info("卡费爬取状态输出结束");
+				}
+			}
+			
+		};
+		logTask.execute();
+		
+		// 创建线程执行爬取卡费；   
+        SwingWorker<String, Object> cardTask = new SwingWorker<String, Object>() {
 
+			@Override
+			protected String doInBackground() throws Exception {
+				// TODO Auto-generated method stub
+				Log.info("卡费爬取线程启动");
+				WebDigitalJnu web = new WebDigitalJnu();
+				return web.getBalance(cardID, password);
+			}
+        	
+			@Override
+			protected void done() {
+				try {
+					cardBalance = get();
+					if (cardBalance.equals("")) exec_card = ExecStatus.FAIL;
+            		else exec_card = ExecStatus.SUCCESS;
+				} catch(Exception e) {
+					e.printStackTrace();
+            		exec_card = ExecStatus.NETWORK_ERROR;
+            		Log.error("卡费爬取线程出错");
+				} finally {
+					txt_cardBalance.setText(cardBalance);
+					Log.info("卡费爬取线程结束");
+				}
+			}
+        };
+        cardTask.execute();
+        
+	}
+	
 	private void updateElectrityInfo() {
 		// TODO Auto-generated method stub
+		
+		
+		exec_ele = ExecStatus.START;
+		// 动态更新LOG设置；
+		SwingWorker<String, Integer> logTask = new SwingWorker<String, Integer>() {
+			private int cnt = 0;	
+			@Override
+			protected String doInBackground() throws Exception {
+				// TODO Auto-generated method stub
+				Log.info("电费爬取状态输出开始");
+				while(exec_ele == ExecStatus.START) {
+					Thread.sleep(200);
+					setProgress(1);
+					publish(1);
+				}
+				return "Hello";
+			}
+			
+			@Override
+			protected void process(List<Integer> chunks) {
+				int i = cnt++ % 6;
+				String text = "更新中";
+				while(i-- > 0) text += "。";
+				txt_eleLog.setText(text);
+			}
+			
+			@Override
+			protected void done() {
+				try {
+					switch(exec_ele) {
+						case NETWORK_ERROR:	eleLog = "更新失败，请检查网络！"; break;
+						case FAIL:			eleLog = "登录失败，请检查学号和密码！"; break;
+						case SUCCESS:		eleLog = "更新成功！ " + dateFormat.format(new Date()); break;
+						default:
+					}
+				} catch(Exception e) {
+					e.printStackTrace();
+					Log.error("电费爬取状态输出出错");
+				}finally {
+					txt_eleLog.setText(eleLog);
+					Log.info("电费爬取状态输出结束");
+				}
+			}
+			
+		};
+		logTask.execute();
+		
 		
 	}
 }

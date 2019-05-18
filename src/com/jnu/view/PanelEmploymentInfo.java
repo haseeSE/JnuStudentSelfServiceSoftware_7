@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import org.apache.log4j.Logger;
+
 import java.awt.CardLayout;
 
 /*
@@ -16,11 +19,16 @@ import java.awt.CardLayout;
  */
 
 public class PanelEmploymentInfo extends JPanel {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelEmploymentInfo() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		setLayout(new CardLayout(0, 0));
 		
 		JTabbedPane tab = new JTabbedPane(JTabbedPane.TOP);

@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import com.jnu.model.MyLog;
+import org.apache.log4j.Logger;
 
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -26,6 +26,8 @@ import java.awt.event.ItemEvent;
  */
 
 public class ViewDownloadDoc {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	JFrame frame;
 	private JTextField textField;
@@ -38,7 +40,7 @@ public class ViewDownloadDoc {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewDownloadDoc window = new ViewDownloadDoc(100, 100);
+					ViewDownloadDoc window = new ViewDownloadDoc();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,18 +52,22 @@ public class ViewDownloadDoc {
 	/**
 	 * Create the application.
 	 */
-	public ViewDownloadDoc(int x, int y) {
-		initialize(x, y);
+	public ViewDownloadDoc() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
+		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(int x, int y) {
+	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("\u6A21\u677F\u4E0B\u8F7D");
 		frame.setResizable(false);
-		frame.setBounds(x, y, 450, 300);
+		frame.setSize(450, 300);
+		frame.setLocationRelativeTo(null);//在屏幕中居中显示
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel label = new JLabel("\u6A21\u677F\u7C7B\u578B\uFF1A");
@@ -88,7 +94,7 @@ public class ViewDownloadDoc {
 				// TODO
 				
 				JOptionPane.showMessageDialog(frame, "下载成功", "提示信息", JOptionPane.PLAIN_MESSAGE);
-				MyLog.write(ViewDownloadDoc.class, "成功下载了模板");
+				Log.info("成功下载了模板");
 			}
 		});
 		

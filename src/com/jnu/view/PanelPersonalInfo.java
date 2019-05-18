@@ -16,8 +16,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
 
+import org.apache.log4j.Logger;
+
 import com.jnu.model.MyFileOperator;
-import com.jnu.model.MyLog;
 import com.jnu.model.User;
 import com.jnu.model.UserManager;
 import com.jnu.model.WebTMSystem;
@@ -27,6 +28,8 @@ import com.jnu.model.WebTMSystem;
  */
 
 public class PanelPersonalInfo extends JPanel {
+	
+	private Logger Log = Logger.getLogger(getClass());
 	
 	private JLabel src_signal;
 	private JTextField txt_signal;
@@ -41,6 +44,9 @@ public class PanelPersonalInfo extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelPersonalInfo() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		initialize();
 		
 		setLayout(null);
@@ -229,7 +235,7 @@ public class PanelPersonalInfo extends JPanel {
 //				MyLog.write(PanelPersonalInfo.class, "LOGIN");
 //				JOptionPane.showMessageDialog(ViewMain.getFrame(), res ? "true" : "false", "保存成功", JOptionPane.PLAIN_MESSAGE);
 				
-				ViewMain.panelBack();
+				ViewMain.openMainMessage();
 				
 			}
 		});

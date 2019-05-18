@@ -15,7 +15,6 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 import com.jnu.model.MyFileOperator;
-import com.jnu.model.MyLog;
 import com.jnu.model.User;
 import com.jnu.model.UserManager;
 
@@ -42,14 +41,14 @@ import java.awt.event.WindowEvent;
  */
 
 public class ViewMain {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	private static JFrame frame;
 	// 顶部菜单栏；
 	private JMenuBar menuBar_top;
 	private static JPanel panel_main;
 	
-	private int x = 100;
-	private int y = 100;
 	private int width = 1000;
 	private int height = 600;
 	
@@ -78,6 +77,9 @@ public class ViewMain {
 	 * Create the application.
 	 */
 	public ViewMain() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		initialize();
 	}
 
@@ -90,16 +92,17 @@ public class ViewMain {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				
-				MyLog.write(ViewMain.class, "关闭程序窗口");
+				Log.info("关闭程序窗口");
 			}
 			@Override
 			public void windowOpened(WindowEvent e) {
-				MyLog.write(ViewMain.class, "打开程序窗口");
+				Log.info("打开程序窗口");
 			}
 		});
 		frame.setTitle("暨南大学珠海校区学生自助程序");
 		frame.setResizable(false);
-		frame.setBounds(x, y, width, height);
+		frame.setSize(width, height);
+		frame.setLocationRelativeTo(null);//在屏幕中居中显示
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		menuBar_top = new JMenuBar();
@@ -131,7 +134,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelMessage());
-				MyLog.write(ViewMain.class, "点击了查看通知及余额");
+				Log.info("点击了查看通知及余额");
 			}
 		});
 		menu_campuInquire.add(menuItem_message);
@@ -142,7 +145,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelGradeRecord());
-				MyLog.write(ViewMain.class, "点击了查询成绩");
+				Log.info("点击了查询成绩");
 			}
 		});
 		menu_campuInquire.add(menuItem_grade);
@@ -154,7 +157,7 @@ public class ViewMain {
 				// TODO
 //				JOptionPane.showMessageDialog(frame, "JOB", "Message", JOptionPane.PLAIN_MESSAGE);
 				changePanelTemplate(new PanelEmploymentInfo());
-				MyLog.write(ViewMain.class, "点击了查看就业信息");
+				Log.info("点击了查看就业信息");
 			}
 		});
 		menu_campuInquire.add(menuItem_jobInfo);
@@ -168,7 +171,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelCourseSelection());
-				MyLog.write(ViewMain.class, "点击了选课");
+				Log.info("点击了选课");
 			}
 		});
 		menu_study.add(menuItem_courseSelection);
@@ -179,7 +182,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelTrainingProgram());
-				MyLog.write(ViewMain.class, "点击了查看培养方案");
+				Log.info("点击了查看培养方案");
 			}
 		});
 		menu_study.add(menuItem_trainingProgram);
@@ -190,7 +193,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 				changePanelTemplate(new PanelLeaveDocEdit());
-				MyLog.write(ViewMain.class, "点击了打开请假功能");
+				Log.info("点击了打开请假功能");
 			}
 		});
 		menu_study.add(menuItem_leave);
@@ -204,7 +207,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent e) {
 				// TODO
 				frame.setEnabled(false);
-				ViewDownloadDoc windows = new ViewDownloadDoc(x + 200, y + 100);
+				ViewDownloadDoc windows = new ViewDownloadDoc();
 				windows.frame.setVisible(true);
 				windows.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				windows.frame.addWindowListener(new WindowAdapter() {
@@ -212,7 +215,7 @@ public class ViewMain {
 						frame.setEnabled(true);
 					}
 				});
-				MyLog.write(ViewMain.class, "点击了打开模板下载");
+				Log.info("点击了打开模板下载");
 			}
 			
 		});
@@ -222,42 +225,89 @@ public class ViewMain {
 		menuItem_fourm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				UIUtils.setPreferredLookAndFeel();
-		        NativeInterface.open();
-		        SwingUtilities.invokeLater(new Runnable() {
-		            public void run() {
-		            	PanelWebBrowser web = new PanelWebBrowser();
-		            	web.openFourm();
-		            	changePanelMain(web);
-		            }
-		        });
-		        NativeInterface.runEventPump();
-		        MyLog.write(ViewMain.class, "点击了打开学校论坛");
+				openWebFourm();
+		        Log.info("点击了打开学校论坛");
 			}
 			
 		});
 		menu_other.add(menuItem_fourm);
 		
+		JMenuItem menuItem_userInfo = new JMenuItem("个人信息");
+		menuItem_userInfo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				openPersonal();
+			}
+		});
+		menu_other.add(menuItem_userInfo);
+		
 	}
 	
 	// 切换模板；
-	public static void changePanelTemplate(JPanel panel) {
+	private static void changePanelTemplate(JPanel panel) {
 		changePanelMain(new PanelTemplate(panel));
 	}
 	
 	// 切换整个面板；
-	public static void changePanelMain(JPanel panel) {
+	private static void changePanelMain(JPanel panel) {
 		panel_main.removeAll();
 		panel_main.add(panel);
 		panel_main.updateUI();
 	}
 	
-	public static JFrame getFrame() {
-		return frame;
-	}
+//	public static JFrame getFrame() {
+//		return frame;
+//	}
 	
-	public static void panelBack() {
+	// 打开通知主界面；
+	public static void openMainMessage() {
 		changePanelTemplate(new PanelMessage());
 	}
 	
+	// 打开个人信息界面；
+	public static void openPersonal() {
+		changePanelMain(new PanelPersonalInfo());
+	}
+	
+	
+	// 打开网页；
+	public static void openWeb(String url) {		
+		UIUtils.setPreferredLookAndFeel();
+        NativeInterface.open();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	PanelWebBrowser web = new PanelWebBrowser();
+            	web.loadUrl(url, null);
+            	changePanelMain(web);
+            }
+        });
+        NativeInterface.runEventPump();
+	}
+
+	public static void openWebDigitalJnu() {
+		// TODO Auto-generated method stub	
+		UIUtils.setPreferredLookAndFeel();
+        NativeInterface.open();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	PanelWebBrowser web = new PanelWebBrowser();
+            	web.openDigitalJnu();
+            	changePanelMain(web);
+            }
+        });
+        NativeInterface.runEventPump();
+	}
+	
+	public static void openWebFourm() {
+		UIUtils.setPreferredLookAndFeel();
+        NativeInterface.open();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	PanelWebBrowser web = new PanelWebBrowser();
+            	web.openFourm();
+            	changePanelMain(web);
+            }
+        });
+        NativeInterface.runEventPump();
+	}
 }

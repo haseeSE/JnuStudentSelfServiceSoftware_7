@@ -10,11 +10,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.apache.log4j.Logger;
+
 /*
  * created by chenqinquan;
  */
 
 public class PanelTemplate extends JPanel {
+	
+	private Logger Log = Logger.getLogger(getClass());
 	
 	private PanelTopBanner topBanner;
 	private JPanel panel_basic;
@@ -23,6 +27,9 @@ public class PanelTemplate extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelTemplate(JPanel panel) {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		setLayout(null);
 		
 		topBanner = new PanelTopBanner();

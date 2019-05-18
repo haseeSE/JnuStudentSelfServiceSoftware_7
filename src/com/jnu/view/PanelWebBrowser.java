@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.Cookie;
 
 import com.jnu.model.WebDigitalJnu;
@@ -16,6 +17,8 @@ import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
  */
 
 public class PanelWebBrowser extends JPanel {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	private final static String URL_ELECTRICITY = "http://202.116.25.12";
 	private final static String URL_DIGITAL_JNU = "https://icas.jnu.edu.cn/cas/login?service=http%3A%2F%2Fi.jnu.edu.cn%2Fdcp%2Findex.jsp";
@@ -28,6 +31,10 @@ public class PanelWebBrowser extends JPanel {
 	 */
 	public PanelWebBrowser() {
 		super(new BorderLayout());
+		
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
         JPanel webBrowserPanel = new JPanel(new BorderLayout());
         webBrowser = new JWebBrowser();
         webBrowser.setButtonBarVisible(false);
@@ -59,6 +66,7 @@ public class PanelWebBrowser extends JPanel {
 				webBrowser.setCookie(url, ck.getValue());
 			}
 		}
+		Log.info("打开网址：" + url);
         webBrowser.navigate(url);
 	}
 }

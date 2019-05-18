@@ -8,6 +8,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.log4j.Logger;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
@@ -16,11 +19,16 @@ import javax.swing.GroupLayout.Alignment;
  */
 
 public class PanelGradeRecord extends JPanel {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelGradeRecord() {
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		JTable table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {

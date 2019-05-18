@@ -10,18 +10,23 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import com.jnu.model.MyLog;
+import org.apache.log4j.Logger;
 
 /*
  * created by nizehang;
  */
 
 public class PanelCourseSelection extends JPanel {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelCourseSelection() {	
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		setLayout(null);
 		
 		JTextField textField_1 = new JTextField();
@@ -53,7 +58,7 @@ public class PanelCourseSelection extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panel_1.setVisible(true);
-				MyLog.write(PanelCourseSelection.class, "点击了搜素课程");
+				Log.info("点击了搜素课程");
 			}
 		});
 		btnNewButton.setFont(new Font("宋体", Font.PLAIN, 18));

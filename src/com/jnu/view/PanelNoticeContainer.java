@@ -4,10 +4,15 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+
+import org.apache.log4j.Logger;
+
 import java.awt.Color;
 import java.awt.Font;
 
 public class PanelNoticeContainer extends JPanel {
+	
+	private Logger Log = Logger.getLogger(getClass());
 
 	/**
 	 * Create the panel.
@@ -16,6 +21,10 @@ public class PanelNoticeContainer extends JPanel {
 	
 	public PanelNoticeContainer() {
 		super(new BorderLayout());
+		
+		// <----------	LOG: CREATED	------------>
+		Log.info("CREATED");
+		
 		//往JTabbedPane添加Panel
 		JPanel panel_school_notice = new PanelNotice(1);
 		JPanel panel_college_notice = new PanelNotice(2);
