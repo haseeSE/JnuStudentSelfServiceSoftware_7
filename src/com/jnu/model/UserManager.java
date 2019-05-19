@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class UserManager {
 
 	private static User _user = new User();
-	private static ArrayList<Score> scores;
+	private static ArrayList<Score> scores = new ArrayList<>();
 	
 	public static User getUser() {
 		return _user;
@@ -15,14 +15,18 @@ public class UserManager {
 		_user = user;
 	}
 	
-	public static void loadUser() {
+	public static boolean loadUser() {
 		MyFileOperator operator = new MyFileOperator();
 		setUser(operator.load());
+		if(_user != null)
+			return true;
+		_user = new User();
+		return false;
 	}
 	
-	public static void saveUser() {
+	public static boolean saveUser() {
 		MyFileOperator operator = new MyFileOperator();
-		operator.save(_user);
+		return operator.save(_user);
 	}
 
 	public static ArrayList<Score> getScores() {
