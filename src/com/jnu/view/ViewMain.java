@@ -310,4 +310,17 @@ public class ViewMain {
         });
         NativeInterface.runEventPump();
 	}
+	
+	public static void openWebElectrity() {
+		UIUtils.setPreferredLookAndFeel();
+        NativeInterface.open();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	PanelWebBrowser web = new PanelWebBrowser();
+            	web.openElecticity();
+            	changePanelMain(web);
+            }
+        });
+        NativeInterface.runEventPump();
+	}
 }

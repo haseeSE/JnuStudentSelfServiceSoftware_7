@@ -149,6 +149,7 @@ public class PanelSubMessage extends JPanel {
 		btn_eleTopUp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				ViewMain.openWebElectrity();
 			}
 		});
 		btn_eleTopUp.setForeground(new Color(0, 255, 255));
