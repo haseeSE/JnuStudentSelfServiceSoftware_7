@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 
 import com.jnu.model.UserManager;
 import com.jnu.model.WebDigitalJnu;
+import com.jnu.model.WebElectrity;
 
 import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
@@ -38,7 +39,7 @@ public class PanelSubMessage extends JPanel {
 	private Logger Log = Logger.getLogger(getClass());
 	
 	private JLabel txt_dorm;
-	private JLabel txt_elebalance;
+	private JLabel txt_eleBalance;
 	private JLabel txt_eleLog;
 	
 	private JLabel txt_cardID;
@@ -65,14 +66,27 @@ public class PanelSubMessage extends JPanel {
 	
 	private SimpleDateFormat dateFormat;
 	
+	// 爬虫线程；
+	private static SwingWorker<String, Object> eleTask = null;
+	private static SwingWorker<String, Object> cardTask = null;
+	
+	private static SwingWorker<String, Integer> logTaskForEle = null;
+	private static SwingWorker<String, Integer> logTaskForCard = null;
+	
 	private void initialize() {
 		// TODO Auto-generated method stub
 		dorm = UserManager.getUser().get_dormitory();
 		cardID = UserManager.getUser().get_JnuDCPId();
 		password = UserManager.getUser().get_JnuDCPPassword();
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		// 线程初始化；
+//		initThreadForEle();
+//		initThreadForCard();
+		initThreadForEleLog();
+		initThreadForCardLog();
 	}
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -113,11 +127,11 @@ public class PanelSubMessage extends JPanel {
 		txt_dorm.setBounds(70, 40, 90, 15);
 		panel_electrity.add(txt_dorm);
 		
-		txt_elebalance = new JLabel(eleBalance);
-		txt_elebalance.setHorizontalAlignment(SwingConstants.LEFT);
-		txt_elebalance.setFont(new Font("新宋体", Font.PLAIN, 14));
-		txt_elebalance.setBounds(70, 65, 90, 15);
-		panel_electrity.add(txt_elebalance);
+		txt_eleBalance = new JLabel(eleBalance);
+		txt_eleBalance.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_eleBalance.setFont(new Font("新宋体", Font.PLAIN, 14));
+		txt_eleBalance.setBounds(70, 65, 90, 15);
+		panel_electrity.add(txt_eleBalance);
 		
 		JLabel label_eleBalance = new JLabel("余额：");
 		label_eleBalance.setHorizontalAlignment(SwingConstants.LEFT);
@@ -148,7 +162,7 @@ public class PanelSubMessage extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// 避免多次重复查询；
-//				if(exec_ele != ExecStatus.START)
+				if(exec_ele != ExecStatus.START)
 					updateElectrityInfo();
 			}
 		});
@@ -222,7 +236,7 @@ public class PanelSubMessage extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// 避免多次重复查询；
-//				if(exec_card != ExecStatus.START)
+				if(exec_card != ExecStatus.START)
 					updateCardInfo();
 			}
 			
@@ -233,6 +247,14 @@ public class PanelSubMessage extends JPanel {
 		btn_cardUpdate.setBounds(170, 41, 50, 15);
 		panel.add(btn_cardUpdate);
 		
+		if(exec_ele == ExecStatus.START) {
+			eleTask.execute();
+			logTaskForEle.execute();			
+		}
+		if(exec_card == ExecStatus.START) {
+			cardTask.execute();
+			logTaskForCard.execute();
+		}
 		// 设置电费、卡费；
 		if(exec_ele == ExecStatus.UNINITIALIZED) updateElectrityInfo();
 		if(exec_card == ExecStatus.UNINITIALIZED) updateCardInfo();
@@ -245,13 +267,137 @@ public class PanelSubMessage extends JPanel {
 			txt_cardLog.setText("未检测到相关用户账户信息！");
 			return;
 		}
-		txt_cardLog.setText("更新中。。。。。。");
-		
+//		txt_cardLog.setText("更新中。。。。。。");
+		initThreadForCard();
+		initThreadForCardLog();
 		// 状态：启动；
-		exec_card = ExecStatus.START;
-		
-		// 动态更新LOG设置；
-		SwingWorker<String, Integer> logTask = new SwingWorker<String, Integer>() {
+		exec_card = ExecStatus.START;					
+		// 动态更新LOG启动；
+		logTaskForCard.execute();		
+		// 启动线程执行爬取卡费；   
+        cardTask.execute();
+        
+	}
+
+	private void updateElectrityInfo() {
+		// TODO Auto-generated method stub
+		if(dorm == null || dorm.equals("")) {
+			txt_eleLog.setText("未检测到宿舍信息");
+			return;
+		}
+		initThreadForEle();
+		initThreadForEleLog();
+		// 状态：启动；
+		exec_ele = ExecStatus.START;		
+		// 动态更新LOG启动；
+		logTaskForEle.execute();		
+		// 启动线程执行爬取电费；   
+		eleTask.execute();
+	}
+	
+	private void initThreadForEle() {
+		// TODO Auto-generated method stub
+		//线程为null时初始化；
+		eleTask = new SwingWorker<String, Object>() {
+			@Override
+			protected String doInBackground() throws Exception {
+				// TODO Auto-generated method stub
+				Log.info("电费爬取线程启动");
+				WebElectrity web = new WebElectrity();
+				return web.getBalance(dorm);
+			}	        	
+			@Override
+			protected void done() {
+				try {
+					eleBalance = get();
+					if (eleBalance == null || eleBalance.equals("")) exec_ele = ExecStatus.FAIL;
+            		else exec_ele = ExecStatus.SUCCESS;
+				} catch(Exception e) {
+					e.printStackTrace();
+            		exec_ele = ExecStatus.NETWORK_ERROR;
+            		Log.error("电费爬取线程出错");
+				} finally {
+//					txt_eleBalance.setText(eleBalance);
+					Log.info("电费爬取线程结束");
+				}
+			}
+        };
+	}
+	
+	private void initThreadForCard() {
+		// TODO Auto-generated method stub
+		cardTask = new SwingWorker<String, Object>() {
+			@Override
+			protected String doInBackground() throws Exception {
+				// TODO Auto-generated method stub
+				Log.info("卡费爬取线程启动");
+				WebDigitalJnu web = new WebDigitalJnu();
+				return web.getBalance(cardID, password);
+			}
+			@Override
+			protected void done() {
+				try {
+					cardBalance = get();
+					if (cardBalance == null || cardBalance.equals("")) exec_card = ExecStatus.FAIL;
+            		else exec_card = ExecStatus.SUCCESS;
+				} catch(Exception e) {
+					e.printStackTrace();
+            		exec_card = ExecStatus.NETWORK_ERROR;
+            		Log.error("卡费爬取线程出错");
+				} finally {
+//					txt_cardBalance.setText(cardBalance);
+					Log.info("卡费爬取线程结束");
+				}
+			}
+        };
+	}
+	
+	private void initThreadForEleLog() {
+		// TODO Auto-generated method stub
+		logTaskForEle = new SwingWorker<String, Integer>() {
+			private int cnt = 0;	
+			@Override
+			protected String doInBackground() throws Exception {
+				// TODO Auto-generated method stub
+				Log.info("电费爬取状态输出开始");
+				while(exec_ele == ExecStatus.START) {
+					Thread.sleep(200);
+					setProgress(1);
+					publish(1);
+				}
+				return "Hello";
+			}
+			@Override
+			protected void process(List<Integer> chunks) {
+				int i = cnt++ % 6;
+				String text = "更新中";
+				while(i-- > 0) text += "。";
+				txt_eleLog.setText(text);
+			}	
+			@Override
+			protected void done() {
+				try {
+					switch(exec_ele) {
+						case NETWORK_ERROR:	eleLog = "更新失败，请检查网络！"; break;
+						case FAIL:			eleLog = "登录失败，请检查宿舍号！"; break;
+						case SUCCESS:		eleLog = "更新成功！ " + dateFormat.format(new Date()); break;
+						default:
+					}
+				} catch(Exception e) {
+					e.printStackTrace();
+					Log.error("电费爬取状态输出出错");
+				}finally {
+					txt_eleBalance.setText(eleBalance);
+					txt_eleLog.setText(eleLog);
+					Log.info("电费爬取状态输出结束");
+				}
+			}			
+		};
+	}
+	
+	private void initThreadForCardLog() {
+		// TODO Auto-generated method stub
+		logTaskForCard = new SwingWorker<String, Integer>() {
 			private int cnt = 0;	
 			@Override
 			protected String doInBackground() throws Exception {
@@ -263,16 +409,14 @@ public class PanelSubMessage extends JPanel {
 					publish(1);
 				}
 				return "Hello";
-			}
-			
+			}		
 			@Override
 			protected void process(List<Integer> chunks) {
 				int i = cnt++ % 6;
 				String text = "更新中";
 				while(i-- > 0) text += "。";
 				txt_cardLog.setText(text);
-			}
-			
+			}			
 			@Override
 			protected void done() {
 				try {
@@ -286,94 +430,11 @@ public class PanelSubMessage extends JPanel {
 					e.printStackTrace();
 					Log.info("卡费爬取状态出错");
 				}finally {
+					txt_cardBalance.setText(cardBalance);
 					txt_cardLog.setText(cardLog);
 					Log.info("卡费爬取状态输出结束");
 				}
-			}
-			
+			}		
 		};
-		logTask.execute();
-		
-		// 创建线程执行爬取卡费；   
-        SwingWorker<String, Object> cardTask = new SwingWorker<String, Object>() {
-
-			@Override
-			protected String doInBackground() throws Exception {
-				// TODO Auto-generated method stub
-				Log.info("卡费爬取线程启动");
-				WebDigitalJnu web = new WebDigitalJnu();
-				return web.getBalance(cardID, password);
-			}
-        	
-			@Override
-			protected void done() {
-				try {
-					cardBalance = get();
-					if (cardBalance.equals("")) exec_card = ExecStatus.FAIL;
-            		else exec_card = ExecStatus.SUCCESS;
-				} catch(Exception e) {
-					e.printStackTrace();
-            		exec_card = ExecStatus.NETWORK_ERROR;
-            		Log.error("卡费爬取线程出错");
-				} finally {
-					txt_cardBalance.setText(cardBalance);
-					Log.info("卡费爬取线程结束");
-				}
-			}
-        };
-        cardTask.execute();
-        
-	}
-	
-	private void updateElectrityInfo() {
-		// TODO Auto-generated method stub
-		
-		
-		exec_ele = ExecStatus.START;
-		// 动态更新LOG设置；
-		SwingWorker<String, Integer> logTask = new SwingWorker<String, Integer>() {
-			private int cnt = 0;	
-			@Override
-			protected String doInBackground() throws Exception {
-				// TODO Auto-generated method stub
-				Log.info("电费爬取状态输出开始");
-				while(exec_ele == ExecStatus.START) {
-					Thread.sleep(200);
-					setProgress(1);
-					publish(1);
-				}
-				return "Hello";
-			}
-			
-			@Override
-			protected void process(List<Integer> chunks) {
-				int i = cnt++ % 6;
-				String text = "更新中";
-				while(i-- > 0) text += "。";
-				txt_eleLog.setText(text);
-			}
-			
-			@Override
-			protected void done() {
-				try {
-					switch(exec_ele) {
-						case NETWORK_ERROR:	eleLog = "更新失败，请检查网络！"; break;
-						case FAIL:			eleLog = "登录失败，请检查学号和密码！"; break;
-						case SUCCESS:		eleLog = "更新成功！ " + dateFormat.format(new Date()); break;
-						default:
-					}
-				} catch(Exception e) {
-					e.printStackTrace();
-					Log.error("电费爬取状态输出出错");
-				}finally {
-					txt_eleLog.setText(eleLog);
-					Log.info("电费爬取状态输出结束");
-				}
-			}
-			
-		};
-		logTask.execute();
-		
-		
 	}
 }
