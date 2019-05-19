@@ -58,7 +58,7 @@ public class PanelSubMessage extends JPanel {
 	
 	// 自定义枚举类型；
 	private static enum ExecStatus {
-		UNINITIALIZED, START, SUCCESS, FAIL, NETWORK_ERROR;
+		UNINITIALIZED, START, SUCCESS, FAIL, NETWORK_ERROR, CHANGE
 	};
 	
 	private static ExecStatus exec_card = ExecStatus.UNINITIALIZED;
@@ -75,16 +75,53 @@ public class PanelSubMessage extends JPanel {
 	
 	private void initialize() {
 		// TODO Auto-generated method stub
-		dorm = UserManager.getUser().get_dormitory();
-		cardID = UserManager.getUser().get_JnuDCPId();
-		password = UserManager.getUser().get_JnuDCPPassword();
-		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
+		// 组件设计前的操作；
+		String newDorm = UserManager.getUser().get_dormitory();
+		if(dorm != newDorm) {
+			dorm = newDorm;
+			if(exec_ele != ExecStatus.UNINITIALIZED)
+				exec_ele = ExecStatus.CHANGE;
+		}
+		String newCardID = UserManager.getUser().get_JnuDCPId();
+		if(cardID != newCardID) {
+			cardID = newCardID;
+			if(exec_card != ExecStatus.UNINITIALIZED)
+				exec_card = ExecStatus.CHANGE;
+		}
+		password = UserManager.getUser().get_JnuDCPPassword();		
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");		
 		// 线程初始化；
 //		initThreadForEle();
 //		initThreadForCard();
 		initThreadForEleLog();
 		initThreadForCardLog();
+	}
+	
+	private void latterInfo() {
+		// TODO Auto-generated method stub
+		// 组件设计完成后的操作；
+		// 线程未执行结束,继续执行；
+		if(exec_ele == ExecStatus.START) {
+			eleTask.execute();
+			logTaskForEle.execute();			
+		}
+		if(exec_card == ExecStatus.START) {
+			cardTask.execute();
+			logTaskForCard.execute();
+		}
+		// 线程为启动,启动
+		if(exec_ele == ExecStatus.UNINITIALIZED || exec_card == ExecStatus.UNINITIALIZED) {
+			updateElectrityInfo();
+			updateCardInfo();
+			return;
+		}
+		// 更换账号时重新启动
+		if(exec_ele == ExecStatus.CHANGE) {
+			updateElectrityInfo();
+		}
+		if(exec_card == ExecStatus.CHANGE) {
+			updateCardInfo();
+		}
 	}
 
 	/**
@@ -248,17 +285,7 @@ public class PanelSubMessage extends JPanel {
 		btn_cardUpdate.setBounds(170, 41, 50, 15);
 		panel.add(btn_cardUpdate);
 		
-		if(exec_ele == ExecStatus.START) {
-			eleTask.execute();
-			logTaskForEle.execute();			
-		}
-		if(exec_card == ExecStatus.START) {
-			cardTask.execute();
-			logTaskForCard.execute();
-		}
-		// 设置电费、卡费；
-		if(exec_ele == ExecStatus.UNINITIALIZED) updateElectrityInfo();
-		if(exec_card == ExecStatus.UNINITIALIZED) updateCardInfo();
+		latterInfo();
 	}
 
 	private void updateCardInfo() {
@@ -388,7 +415,7 @@ public class PanelSubMessage extends JPanel {
 					e.printStackTrace();
 					Log.error("电费爬取状态输出出错");
 				}finally {
-					txt_eleBalance.setText(eleBalance);
+					txt_eleBalance.setText(eleBalance + " 度");
 					txt_eleLog.setText(eleLog);
 					Log.info("电费爬取状态输出结束");
 				}
@@ -431,7 +458,7 @@ public class PanelSubMessage extends JPanel {
 					e.printStackTrace();
 					Log.info("卡费爬取状态出错");
 				}finally {
-					txt_cardBalance.setText(cardBalance);
+					txt_cardBalance.setText(cardBalance + " 元");
 					txt_cardLog.setText(cardLog);
 					Log.info("卡费爬取状态输出结束");
 				}
