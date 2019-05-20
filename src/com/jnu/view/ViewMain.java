@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import com.jnu.model.MyFileOperator;
 import com.jnu.model.User;
 import com.jnu.model.UserManager;
+import com.jnu.model.WebTMSystem;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -44,6 +45,8 @@ public class ViewMain {
 	
 	private Logger Log = Logger.getLogger(getClass());
 
+	private static WebTMSystem web =new WebTMSystem();
+	
 	private static JFrame frame;
 	// 顶部菜单栏；
 	private JMenuBar menuBar_top;
@@ -181,7 +184,7 @@ public class ViewMain {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
-				changePanelTemplate(new PanelTrainingProgram());
+				changePanelTemplate(new PanelTrainingProgram(web.GetTrainPlan()));
 				Log.info("点击了查看培养方案");
 			}
 		});

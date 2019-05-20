@@ -406,16 +406,18 @@ public class PanelSubMessage extends JPanel {
 			protected void done() {
 				try {
 					switch(exec_ele) {
-						case NETWORK_ERROR:	eleLog = "更新失败，请检查网络！"; break;
-						case FAIL:			eleLog = "登录失败，请检查宿舍号！"; break;
-						case SUCCESS:		eleLog = "更新成功！ " + dateFormat.format(new Date()); break;
+						case NETWORK_ERROR:	eleLog = "更新失败，请检查网络或宿舍号！"; break;
+						case FAIL:			eleLog = "登录失败，请检查网络或宿舍号！"; break;
+						case SUCCESS:		
+							eleLog = "更新成功！ " + dateFormat.format(new Date());
+							txt_eleBalance.setText(eleBalance + " 度");
+							break;
 						default:
 					}
 				} catch(Exception e) {
 					e.printStackTrace();
 					Log.error("电费爬取状态输出出错");
 				}finally {
-					txt_eleBalance.setText(eleBalance + " 度");
 					txt_eleLog.setText(eleLog);
 					Log.info("电费爬取状态输出结束");
 				}
@@ -451,14 +453,16 @@ public class PanelSubMessage extends JPanel {
 					switch(exec_card) {
 						case NETWORK_ERROR:	cardLog = "更新失败，请检查网络！"; break;
 						case FAIL:			cardLog = "登录失败，请检查学号和密码！"; break;
-						case SUCCESS:		cardLog = "更新成功！ " + dateFormat.format(new Date()); break;
+						case SUCCESS:		
+							cardLog = "更新成功！ " + dateFormat.format(new Date()); 
+							txt_cardBalance.setText(cardBalance + " 元");
+							break;
 						default:
 					}
 				} catch(Exception e) {
 					e.printStackTrace();
 					Log.info("卡费爬取状态出错");
 				}finally {
-					txt_cardBalance.setText(cardBalance + " 元");
 					txt_cardLog.setText(cardLog);
 					Log.info("卡费爬取状态输出结束");
 				}

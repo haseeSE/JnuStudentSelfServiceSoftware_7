@@ -6,6 +6,7 @@ public class UserManager {
 
 	private static User _user = new User();
 	private static ArrayList<Score> scores = new ArrayList<>();
+	private static WebTMSystem web = new WebTMSystem();
 	
 	public static User getUser() {
 		return _user;
@@ -33,8 +34,8 @@ public class UserManager {
 		return scores;
 	}
 
-	public static void setScores(ArrayList<Score> scores) {
-		UserManager.scores = scores;
+	public static void setScores() {
+		scores = web.searchScores();
 	}
 	
 }
