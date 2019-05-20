@@ -360,7 +360,9 @@ public class PanelSubMessage extends JPanel {
 				// TODO Auto-generated method stub
 				Log.info("卡费爬取线程启动");
 				WebDigitalJnu web = new WebDigitalJnu();
-				return web.getBalance(cardID, password);
+				String result = web.getBalance(cardID, password);
+				web.close();
+				return result;
 			}
 			@Override
 			protected void done() {
