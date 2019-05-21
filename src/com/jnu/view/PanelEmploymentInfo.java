@@ -1,155 +1,358 @@
 package com.jnu.view;
 
-import java.awt.Font;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import java.awt.CardLayout;
+import com.jnu.model.NoticeContainer;
+import com.jnu.model.UserManager;
 
-/*
- * created by zhujiayu;
- */
+public class PanelEmploymentInfo extends JPanel implements ListSelectionListener {
 
-public class PanelEmploymentInfo extends JPanel {
-	
 	private Logger Log = Logger.getLogger(getClass());
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelEmploymentInfo() {
+	JScrollPane listScrollPane;
+	private JList<String> list_EmploymentInfo;
+	private DefaultListModel<String> listModel;
+	
+//	private static final String noticeString = "CollegeNotice";
+//	ArrayList<String> notice_date_container = new ArrayList<String>();
+//	ArrayList<String> notice_content_container = new ArrayList<String>();
+	
+	public PanelEmploymentInfo(int employmentInfo_type) {
+		super(new BorderLayout());
+		
 		// <----------	LOG: CREATED	------------>
 		Log.info("CREATED");
 		
-		setLayout(new CardLayout(0, 0));
+		listModel = new DefaultListModel<String>();
+		//添加数据
+		try {
+			addData(employmentInfo_type);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		JTabbedPane tab = new JTabbedPane(JTabbedPane.TOP);
-		add(tab, "name_61410775837642");
-
-//
-//		JTabbedPane tab = new JTabbedPane(JTabbedPane.TOP);
-		tab.setFont(new Font("新宋体",Font.BOLD, 20));
-		tab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		
-		add(tab, "name_61410775837642");
-		
-		//对象化面板
-		JPanel p1 = new JPanel();
-  
-		JPanel p2 = new JPanel();
-		
-		JPanel p3 = new JPanel();
-  
-		JPanel p4 = new JPanel();
-
-		tab.add(p1,"新闻动态");
-        
-        JLabel label = new JLabel("\u6211\u68212018\u5E74\u7B80\u5386\u8BBE\u8BA1\u53CA\u6A21\u62DF\u9762\u8BD5\u5927\u8D5B\u5706\u6EE1\u843D\u5E55");
-        label.setFont(new Font("新宋体", Font.PLAIN, 16));
-        
-        JLabel label_1 = new JLabel("\u5173\u4E8E\u53D1\u5E03\u300A\u66A8\u5357\u5927\u5B662018\u5E74\u5EA6\u6BD5\u4E1A\u751F\u5C31\u4E1A\u8D28\u91CF\u62A5\u544A\u300B\u7684\u516C\u544A");
-        label_1.setFont(new Font("新宋体", Font.PLAIN, 16));
-        GroupLayout gl_p1 = new GroupLayout(p1);
-        gl_p1.setHorizontalGroup(
-        	gl_p1.createParallelGroup(Alignment.LEADING)
-        		.addComponent(label, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-        		.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-        );
-        gl_p1.setVerticalGroup(
-        	gl_p1.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_p1.createSequentialGroup()
-        			.addComponent(label)
-        			.addGap(6)
-        			.addComponent(label_1))
-        );
-        p1.setLayout(gl_p1);
-		tab.add(p2,"通知公告");
-		
-		JLabel label_3 = new JLabel("\u66A8\u5357\u5927\u5B662019\u5C4A\u6BD5\u4E1A\u751F\u6C42\u804C\u521B\u4E1A\u8865\u8D34\u540D\u5355\u7684\u516C\u793A");
-		label_3.setFont(new Font("新宋体", Font.PLAIN, 16));
-		
-		JLabel label_4 = new JLabel("\u5E7F\u897F\u58EE\u65CF\u81EA\u6CBB\u533A2019\u5E74\u9009\u8C03\u5E94\u5C4A\u4F18\u79C0\u5927\u5B66\u6BD5\u4E1A\u751F\u5DE5\u4F5C\u516C\u544A");
-		label_4.setFont(new Font("新宋体", Font.PLAIN, 16));
-		
-		GroupLayout gl_p2 = new GroupLayout(p2);
-		gl_p2.setHorizontalGroup(
-			gl_p2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_p2.createSequentialGroup()
-					.addGroup(gl_p2.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_3, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label_4, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(289, Short.MAX_VALUE))
-		);
-		gl_p2.setVerticalGroup(
-			gl_p2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_p2.createSequentialGroup()
-					.addComponent(label_3)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(label_4)
-					.addContainerGap(285, Short.MAX_VALUE))
-		);
-		p2.setLayout(gl_p2);
-		tab.add(p3,"招聘热点");
-		
-		JLabel label_5 = new JLabel("\u519C\u884C\u5E7F\u4E1C\u7701\u5206\u884C2019\u5E74\u6625\u5B63\u6821\u56ED\u62DB\u8058\u516C\u544A");
-		label_5.setFont(new Font("新宋体", Font.PLAIN, 16));
-		
-		JLabel label_6 = new JLabel("\u6B22\u8FCE\u52A0\u5165\u5E7F\u5DDE\u8B66\u961F\uFF01");
-		label_6.setFont(new Font("新宋体", Font.PLAIN, 16));
-		
-		GroupLayout gl_p3 = new GroupLayout(p3);
-		gl_p3.setHorizontalGroup(
-			gl_p3.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_p3.createSequentialGroup()
-					.addGroup(gl_p3.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_5)
-						.addComponent(label_6, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE))
-					.addGap(289))
-		);
-		gl_p3.setVerticalGroup(
-			gl_p3.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_p3.createSequentialGroup()
-					.addComponent(label_5)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(label_6)
-					.addContainerGap(285, Short.MAX_VALUE))
-		);
-		p3.setLayout(gl_p3);
-		tab.add(p4,"政策解读");
-		
-		JLabel label_2 = new JLabel("\u5F81\u9014\u6D69\u6DFC\uFF0C\u8E0F\u6D6A\u524D\u884C-\u66A8\u5357\u5927\u5B662017\u5E74\u5B66\u751F\u5C31\u4E1A\u521B\u4E1A\u98CE\u91C7\u96C6");
-		label_2.setFont(new Font("新宋体", Font.PLAIN, 16));
-		
-		JLabel label_7 = new JLabel("\u66A8\u5357\u5927\u5B662018\u5E74\u6BD5\u4E1A\u751F\u5C31\u4E1A\u521B\u4E1A\u98CE\u91C7\u96C6");
-		label_7.setFont(new Font("新宋体", Font.PLAIN, 16));
-		
-		GroupLayout gl_p4 = new GroupLayout(p4);
-		gl_p4.setHorizontalGroup(
-			gl_p4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_p4.createSequentialGroup()
-					.addGroup(gl_p4.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_2, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label_7, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(289, Short.MAX_VALUE))
-		);
-		gl_p4.setVerticalGroup(
-			gl_p4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_p4.createSequentialGroup()
-					.addComponent(label_2)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(label_7)
-					.addContainerGap(285, Short.MAX_VALUE))
-		);
-		p4.setLayout(gl_p4);
+		list_EmploymentInfo = new JList<String>(listModel);
+        list_EmploymentInfo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list_EmploymentInfo.setSelectedIndex(0);
+        list_EmploymentInfo.addListSelectionListener(this);
+        list_EmploymentInfo.setVisibleRowCount(5);
+        list_EmploymentInfo.setFont(getFont().deriveFont((float) (getFont().getSize() + 3)));		// 设置字体大小
+        list_EmploymentInfo.setSelectionForeground(Color.BLUE);										// 设置选中选项的字体颜色
+        list_EmploymentInfo.setSelectionBackground(Color.CYAN);										// 设置选中条的颜色
+        list_EmploymentInfo.setFixedCellWidth(200);													//设置是否限制字符长度
+        listScrollPane = new JScrollPane(list_EmploymentInfo);
+        list_EmploymentInfo.addMouseListener(new MouseAdapter(){
+        	public void mouseClicked(MouseEvent e){
+                if(e.getClickCount()==2){ 
+                //When double click JList  
+                    whenDbClickLst(list_EmploymentInfo.getSelectedValue(),"");   //Event  
+                }  
+            }
+        });
+        add(listScrollPane);
 	}
 
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//双击事件
+	private void whenDbClickLst(Object value,String url){
+//		ViewMain.changePanelTemplate(new PanelNoticeDetail());
+//		UIUtils.setPreferredLookAndFeel();
+//        NativeInterface.open();
+//        SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//            	PanelWebBrowser web = new PanelWebBrowser();
+////            	web.openDigitalJnu();
+//            	web.loadUrl(url, null);
+//            	ViewMain.changePanelMain(web);
+//            }
+//        });
+//        NativeInterface.runEventPump();
+		ViewMain.openWeb(url);
+	}
+
+	private void addData(int employmentInfo_type) throws Exception{
+		int index = 0;
+		switch(employmentInfo_type){
+			case 1:
+				ArrayList<NoticeContainer> newsAndTrends = initializeNewsAndTrends();
+				index = 0;
+				while(newsAndTrends.get(index)!=null){
+					listModel.addElement(newsAndTrends.get(index).getDate()+"          "+newsAndTrends.get(index).getTitle());
+					index++;
+				}
+				break;
+		
+			case 2:
+				ArrayList<NoticeContainer> noticeAndAnnouncement = initializeNoticeAndAnnouncement();
+				index = 0;
+				while(noticeAndAnnouncement.get(index)!=null){
+					listModel.addElement(noticeAndAnnouncement.get(index).getDate()+"          "+noticeAndAnnouncement.get(index).getTitle());
+					index++;
+				}
+				break;
+				
+			case 3:
+				ArrayList<NoticeContainer> hotRecruitment = initializeHotRecruitment();
+				index = 0;
+				while(hotRecruitment.get(index)!=null){
+					listModel.addElement(hotRecruitment.get(index).getDate()+"          "+hotRecruitment.get(index).getTitle());
+					index++;
+				}
+				break;
+			case 4:
+				ArrayList<NoticeContainer> policyInterpretation = initializePolicyInterpretation();
+				index = 0;
+				while(policyInterpretation.get(index)!=null){
+					listModel.addElement(policyInterpretation.get(index).getDate()+"          "+policyInterpretation.get(index).getTitle());
+					index++;
+				}
+				break;
+				
+		}
+		
+	}
+	
+	
+	public static ArrayList<NoticeContainer> initializeNewsAndTrends() throws Exception {
+		ArrayList<NoticeContainer> newsAndTrends = new ArrayList<NoticeContainer>();
+		String urlBase = "https://career.jnu.edu.cn/eweb/jygl/index.so?modcode=jyw_xwgg&subsyscode=jyw&type=searchNews&newsType=xwdt";
+		String urlAdditional = "type=goPager&requestPager=pager&pageMethod=next&currentPage=";
+		int page = 0;
+		String url;
+//        Connection connect;
+        Document document;
+		Elements items;
+        
+        try {
+
+            //循环读取每一页的内容，共3页
+            for(; page < 3; page++) {
+            	url = urlBase + "&" + urlAdditional + page;
+            	
+		    	CloseableHttpClient closeableHttpClient = HttpClients.createDefault() ;
+		        HttpPost httpPost = new HttpPost(url) ;
+		        CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpPost) ;
+		        HttpEntity entity = closeableHttpResponse.getEntity();
+		        String s = EntityUtils.toString(entity);
+		        
+		        document = Jsoup.parse(s);
+            	
+            	
+//            	// 利用Jsoup获得连接新闻动态的首页
+//                connect = Jsoup.connect(url).timeout(1000000);
+//                // 得到Document对象
+//                document = connect.get();
+                //items中保存每一页所有的（10则）新闻
+            	items = document.select(".sy_inf li");
+            	for(Element item: items)
+            	{
+            		//必需在循环内创建（new）一个containerTem，在循环外创建containerTem会导致newsAndTrends.add()方法覆盖之前的内容
+            		NoticeContainer containerTem = new NoticeContainer();
+            		//获取一则新闻动态并添加到newsAndTrends
+            		Elements title = item.select("a");
+            		containerTem.setTitle(title.text());
+            		containerTem.setHref(title.attr("abs:href"));
+            		Elements date = item.select(".gg_year");
+            		containerTem.setDate(date.text());
+            		newsAndTrends.add(containerTem);
+            	}
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }	
+        return newsAndTrends;
+	}
+
+	//初始化通知公告noticeAndAnnouncement
+	public static ArrayList<NoticeContainer>  initializeNoticeAndAnnouncement() throws Exception{
+		ArrayList<NoticeContainer> noticeAndAnnouncement = new ArrayList<NoticeContainer>();
+		String urlBase = "https://career.jnu.edu.cn/eweb/jygl/index.so?modcode=jyw_tzgg&subsyscode=jyw&type=searchNews&newsType=tzgg";
+		String urlAdditional = "type=goPager&requestPager=pager&pageMethod=next&currentPage=";
+		int page = 0;
+		String url;
+//        Connection connect;
+        Document document;
+		Elements items;
+        
+        try {
+
+            //循环读取每一页的内容，共14页
+            for(; page < 14; page++) {
+            	url = urlBase + "&" + urlAdditional + page;
+            	
+		    	CloseableHttpClient closeableHttpClient = HttpClients.createDefault() ;
+		        HttpPost httpPost = new HttpPost(url) ;
+		        CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpPost) ;
+		        HttpEntity entity = closeableHttpResponse.getEntity();
+		        String s = EntityUtils.toString(entity);
+		        
+		        document = Jsoup.parse(s);
+//                connect = Jsoup.connect(url);
+//                // 得到Document对象
+//                document = connect.get();
+            	items = document.select(".sy_inf li");
+            	for(Element item: items)
+            	{
+            		//必需在循环内创建（new）一个containerTem，在循环外创建containerTem会导致newsAndTrends.add()方法覆盖之前的内容
+            		NoticeContainer containerTem = new NoticeContainer();
+            		Elements title = item.select("a");
+            		containerTem.setTitle(title.text());
+            		containerTem.setHref(title.attr("abs:href"));
+            		Elements date = item.select(".gg_year");
+            		containerTem.setDate(date.text());
+            		noticeAndAnnouncement.add(containerTem);
+            	}
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		return noticeAndAnnouncement;	
+	}
+	
+    //初始化招聘热点hotRecruitment
+	public static ArrayList<NoticeContainer>  initializeHotRecruitment()  throws Exception{
+		ArrayList<NoticeContainer> hotRecruitment = new ArrayList<NoticeContainer>();
+		String urlBase = "https://career.jnu.edu.cn/eweb/jygl/zpfw.so?modcode=jygl_scfwzpxx&subsyscode=zpfw&type=searchZprd&sysType=TPZPFW&zpxxType=new";
+		String urlAdditional = "type=goPager&requestPager=pager&pageMethod=next&currentPage=";
+		String hrefBase = "https://career.jnu.edu.cn/eweb/jygl/zpfw.so?modcode=jygl_zpfwzpgg&subsyscode=zpfw&type=view&id=";
+		int page = 0;
+		String url;
+//        Connection connect;
+        Document document;
+		Elements items;
+        
+        try {
+
+            //循环读取每一页的内容，共7页
+            for(; page < 3; page++) {
+            	Boolean item1 = true;
+            	url = urlBase + "&" + urlAdditional + page;
+            	
+		    	CloseableHttpClient closeableHttpClient = HttpClients.createDefault() ;
+		        HttpPost httpPost = new HttpPost(url) ;
+		        CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpPost) ;
+		        HttpEntity entity = closeableHttpResponse.getEntity();
+		        String s = EntityUtils.toString(entity);
+		        
+		        document = Jsoup.parse(s);
+//                connect = Jsoup.connect(url).timeout(20000);
+//                // 得到Document对象
+//                document = connect.timeout(20000).get();
+            	items = document.select(".z_newsl li");
+            	for(Element item: items)
+            	{
+            		//跳过每一页的第一项
+            		if (item1 == true)
+            		{
+            			item1 = false;
+            			continue;
+            		}
+            		//必需在循环内创建（new）一个containerTem，在循环外创建containerTem会导致newsAndTrends.add()方法覆盖之前的内容
+            		NoticeContainer containerTem = new NoticeContainer();
+            		Elements title = item.select("a");
+            		containerTem.setTitle(title.text());
+            		//href由hrefBase加上 去掉首部的viewZpxx('和尾部的', 'new')的title.attr("onclick") 组成
+            		containerTem.setHref(hrefBase + title.attr("onclick").replace("viewZpxx('", "").replace("', 'news')", ""));
+            		Elements date = item.select("div").next();
+            		containerTem.setDate(date.text());
+            		hotRecruitment.add(containerTem);
+            	}
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		return hotRecruitment;	
+	}
+	
+	//初始化政策解读policyInterpretation
+	public static ArrayList<NoticeContainer> initializePolicyInterpretation()  throws Exception{
+		ArrayList<NoticeContainer> policyInterpretation = new ArrayList<NoticeContainer>();
+		String urlBase = "https://career.jnu.edu.cn/eweb/jygl/index.so?modcode=jyw_xwgg&subsyscode=jyw&type=searchNews&newsType=dfzc";
+		String urlAdditional = "type=goPager&requestPager=pager&pageMethod=next&currentPage=";
+		int page = 0;
+		String url;
+//        Connection connect;
+        Document document;
+		Elements items;
+        
+        try {
+
+            //循环读取每一页的内容，共3页
+            for(; page < 3; page++) {
+            	url = urlBase + "&" + urlAdditional + page;
+            	
+		    	CloseableHttpClient closeableHttpClient = HttpClients.createDefault() ;
+		        HttpPost httpPost = new HttpPost(url) ;
+		        CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpPost) ;
+		        HttpEntity entity = closeableHttpResponse.getEntity();
+		        String s = EntityUtils.toString(entity);
+		        
+		        document = Jsoup.parse(s);  	
+            	
+//                connect = Jsoup.connect(url);
+//                // 得到Document对象
+//                document = connect.get();
+                
+            	items = document.select(".sy_inf li");
+            	for(Element item: items)
+            	{
+            		//必需在循环内创建（new）一个containerTem，在循环外创建containerTem会导致newsAndTrends.add()方法覆盖之前的内容
+            		NoticeContainer containerTem = new NoticeContainer();
+            		Elements title = item.select("a");
+            		containerTem.setTitle(title.text());
+            		containerTem.setHref(title.attr("abs:href"));
+            		Elements date = item.select(".gg_year");
+            		containerTem.setDate(date.text());
+            		policyInterpretation.add(containerTem);
+            	}
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("error");
+        }
+		return policyInterpretation;	
+	}
+    
 }
+	
+
 
