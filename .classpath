@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="Library/selenium-server-standalone-3.9.1.jar"/>
 	<classpathentry kind="lib" path="Library/jsoup-1.11.3.jar"/>
 	<classpathentry kind="lib" path="Library/freemarker.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

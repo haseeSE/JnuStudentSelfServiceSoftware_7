@@ -1,18 +1,18 @@
 package com.jnu.model;
 
 public class User implements java.io.Serializable{
-	private String _name;
-	private String _studentId;
-	private String _phoneNum;
-	private String _college;
-	private String _major;
-	private String _dormitory;
-	private String _JnuDCPId;
-	private String _JnuDCPPassword;
-	private String _JnuForumId;
-	private String _JnuForumPassword;
-	private String _JnuEduAdminSystemId;
-	private String _JnuEduAdminSystemPassword;
+	private String _name = new String();
+	private String _studentId = new String();
+	private String _phoneNum = new String();
+	private String _college = new String();
+	private String _major = new String();
+	private String _dormitory = new String();
+	private String _JnuDCPId = new String();
+	private String _JnuDCPPassword = new String();
+	private String _JnuForumId = new String();
+	private String _JnuForumPassword = new String();
+	private String _JnuEduAdminSystemId = new String();
+	private String _JnuEduAdminSystemPassword = new String();
 	
 	public String get_name() {
 		return _name;

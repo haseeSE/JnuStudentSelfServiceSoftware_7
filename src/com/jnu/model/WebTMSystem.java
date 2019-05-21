@@ -2,6 +2,7 @@ package com.jnu.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -63,7 +64,6 @@ public class WebTMSystem {
 		}
 		
 	}
-	
 
 	public boolean logintmsystem(String username, String password, String vc) {
 		initialize();
@@ -102,8 +102,30 @@ public class WebTMSystem {
 	    return false;
 	}
 	
-	public void searchScores() {	
+	public Elements GetTrainPlan() {
+    	try {
+			HtmlPage page=wc.getPage("https://jwxt.jnu.edu.cn/default.aspx");
+			String pageXml=page.asXml();
+			//System.out.println(pageXml);
+			Document document=Jsoup.parse(pageXml);
+			Elements elements=document.select(".yaoqiu").select("table").select("tbody");
+			return elements.select("tr");
+		} catch (FailingHttpStatusCodeException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+    	return new Elements();
+	}
+	
+	public ArrayList<Score> searchScores() {	
 		initialize();
+		ArrayList<Score> scores=new ArrayList<Score>();
 		try {
 			//LoginTMSystem loginTMSytem =new LoginTMSystem();
 			//loginTMSytem.logintmsystem();
@@ -113,7 +135,7 @@ public class WebTMSystem {
 			HtmlPage cjall_page=cx_btn.click();
 			System.out.println(cjall_page.asXml());
 			
-			ArrayList<Score> scores=new ArrayList<Score>();
+			
 			//Document doc=Jsoup.connect(cjall_page.asXml()).timeout(8000).get();
 			Document doc=Jsoup.parse(cjall_page.asXml());
 			Elements elements=doc.select("#GVLSCJ").select("tbody");
@@ -144,6 +166,7 @@ public class WebTMSystem {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return scores;
 	}
 	
 }	

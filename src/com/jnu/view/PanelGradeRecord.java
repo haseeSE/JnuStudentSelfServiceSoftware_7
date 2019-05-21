@@ -1,15 +1,19 @@
 package com.jnu.view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.Logger;
+import com.jnu.model.Score;
+import com.jnu.model.UserManager;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -20,74 +24,60 @@ import javax.swing.GroupLayout.Alignment;
 
 public class PanelGradeRecord extends JPanel {
 	
-	private Logger Log = Logger.getLogger(getClass());
 
+	private JTable table;
 	/**
 	 * Create the panel.
 	 */
 	public PanelGradeRecord() {
-		// <----------	LOG: CREATED	------------>
-		Log.info("CREATED");
+		setBackground(Color.LIGHT_GRAY);
+		setBounds(0, 0, 982, 524);
+		setLayout(null);
 		
-		JTable table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"\u5B66\u5E74", "\u5B66\u671F", "\u8BFE\u7A0B\u540D\u79F0", "\u5B66\u5206", "\u6210\u7EE9", "\u7EE9\u70B9", "\u8BFE\u7A0B\u7C7B\u522B"},
-				{"2016-2017", "\u4E0A", "\u4E2D\u56FD\u8FD1\u4EE3\u53F2\u7EB2\u8981", new Double(2.0), new Double(88.0), new Double(7.6), "\u5FC5\u4FEE\u8BFE"},
-				{"2016-2017", "\u4E0A", "\u5927\u5B66\u82F1\u8BED\u4E2D\u7EA7", new Double(4.0), new Double(80.0), new Double(12.0), "\u5FC5\u4FEE\u8BFE"},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"\u5B66\u5E74", "\u5B66\u671F", "\u8BFE\u7A0B\u540D\u79F0", "\u5B66\u5206", "\u6210\u7EE9", "\u7EE9\u70B9", "\u8BFE\u7A0B\u7C7B\u522B"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(3).setResizable(false);
-		table.getColumnModel().getColumn(4).setResizable(false);
-		table.getColumnModel().getColumn(5).setResizable(false);
-		table.getColumnModel().getColumn(6).setResizable(false);
-		table.setBounds(70, 162, 683, 278);
-		
-		JLabel label = new JLabel("\u6210\u7EE9", JLabel.CENTER);
-		label.setFont(new Font("宋体", Font.PLAIN, 30));
-		label.setBounds(340, 120, 120, 35);
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(364)
-							.addComponent(label))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(161)
-							.addComponent(table, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(164, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(44)
-					.addComponent(label)
-					.addGap(124)
-					.addComponent(table, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(192, Short.MAX_VALUE))
-		);
-		setLayout(groupLayout);
+		JPanel SeekGrade_panel = new JPanel();
+		SeekGrade_panel.setBackground(Color.WHITE);
+		SeekGrade_panel.setBounds(0, 0, 982, 524);
+		add(SeekGrade_panel);
+		SeekGrade_panel.setLayout(null);
+		String[] arr1=new String[] {"学年","学期","课程名称","学分","成绩","绩点","考试日期","性质","类别","休学类别","取消否"};
+		Object[][] cellData = null;
+		//table = new JTable(,arr1);
+		//DefaultTableModel tableModel=(DefaultTableModel)table.getModel();
+		DefaultTableModel tableModel=new DefaultTableModel(null, arr1);
+		tableModel.setRowCount(0);
+		tableModel.setColumnCount(11);
+		UserManager.setScores();
+		for(Score score:UserManager.getScores()) {
+			String[] arr=new String[11];
+			arr[0]=score.getAcademic_year();
+		    arr[1]=score.getTerm();
+		    arr[2]=score.getCourse();
+		    arr[3]=score.getCredit();
+		    arr[4]=score.getGrades();
+		    arr[5]=score.getGPA();
+		    arr[6]=score.getExam_date();
+		    arr[7]=score.getExam_properties();
+		    arr[8]=score.getCourse_type();
+		    arr[9]=score.getStudy_type();
+		    arr[10]=score.getStatus();
+			tableModel.addRow(arr);
+		}
+		JTable table =new JTable(tableModel);
+		table.invalidate();
+		table.getColumnModel().getColumn(2).setPreferredWidth(200);
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(6).setPreferredWidth(100);
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table.setBounds(28, 65, 940, 446);
+		table.setRowHeight(30);
+		//添加滚动条
+        //table.setPreferredScrollableViewportSize(new Dimension(450,63));
+        //table.setFillsViewportHeight(true);
+        
+		JScrollPane jScrollPane=new JScrollPane(table);
+		jScrollPane.setVisible(true);
+		jScrollPane.setBounds(28, 48, 940, 446);
+		SeekGrade_panel.add(jScrollPane);
 
 	}
 

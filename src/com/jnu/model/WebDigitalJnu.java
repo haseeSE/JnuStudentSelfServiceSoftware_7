@@ -88,4 +88,8 @@ public class WebDigitalJnu {
 	public static Set<Cookie> getCookies() {
 		return cookies;
 	}
+	
+	public void close() {
+		driver.close();
+	}
 }

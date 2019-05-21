@@ -1,6 +1,8 @@
 package com.jnu.view;
 
 import java.awt.BorderLayout;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -11,6 +13,7 @@ import org.openqa.selenium.Cookie;
 import com.jnu.model.WebDigitalJnu;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+import chrriis.dj.nativeswing.swtimpl.components.WebBrowserNavigationParameters;
 
 /*
  * created by chenqinquan;
@@ -61,12 +64,18 @@ public class PanelWebBrowser extends JPanel {
 	
 	public void loadUrl(String url, Set<Cookie> cookies) {
 		// 设置cookies；
-		if (cookies != null) {
-			for(Cookie ck: cookies) {
-				webBrowser.setCookie(url, ck.getValue());
-			}
-		}
-		Log.info("打开网址：" + url);
-        webBrowser.navigate(url);
+
+		Log.info(" 打开网址: " + url);
+		
+		if(cookies != null) {
+			String cookie = cookies.toString();
+		
+			Log.info("Cookie: " + cookie);
+		
+			webBrowser.setCookie(url, cookie);
+		}	
+		
+		webBrowser.navigate(url);
+           
 	}
 }
