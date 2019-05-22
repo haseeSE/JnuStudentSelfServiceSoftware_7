@@ -226,7 +226,7 @@ public class PanelSubMessage extends JPanel {
 		scrollPane.setBounds(0, 30, 228, 2);
 		panel.add(scrollPane);
 		
-		JLabel label_cardID = new JLabel("宿舍号：");
+		JLabel label_cardID = new JLabel("学生号：");
 		label_cardID.setHorizontalAlignment(SwingConstants.LEFT);
 		label_cardID.setFont(new Font("新宋体", Font.PLAIN, 14));
 		label_cardID.setBounds(6, 40, 60, 15);

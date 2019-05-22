@@ -8,6 +8,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -18,11 +19,14 @@ import org.apache.log4j.Logger;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
 /*
- * created bu dingyiyuan;
+ * created by ding yiyuan;
  */
 
 public class ViewDownloadDoc {
@@ -32,6 +36,8 @@ public class ViewDownloadDoc {
 	JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
+	public static String destFileName;
+	public static String destPath;
 
 	/**
 	 * Launch the application.
@@ -47,6 +53,11 @@ public class ViewDownloadDoc {
 				}
 			}
 		});
+	}
+	
+	private static void copyFile(File source, File dest)
+	        throws IOException {    
+	        Files.copy(source.toPath(), dest.toPath());
 	}
 
 	/**
@@ -79,8 +90,9 @@ public class ViewDownloadDoc {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		textField = new JTextField();
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setColumns(15);
+		textField.setText("请假条.doc");
+		destFileName = textField.getText();
 		
 		JLabel label_1 = new JLabel("\u4FDD\u5B58\u4F4D\u7F6E\uFF1A");
 		
@@ -92,6 +104,14 @@ public class ViewDownloadDoc {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO
+				File source = new File("./请假条.doc");
+				File dest = new File(destPath + destFileName);
+				try {
+					copyFile(source, dest);
+				} catch (IOException e1) {
+					// TODO 自动生成的 catch 块
+					e1.printStackTrace();
+				}
 				
 				JOptionPane.showMessageDialog(frame, "下载成功", "提示信息", JOptionPane.PLAIN_MESSAGE);
 				Log.info("成功下载了模板");
@@ -99,6 +119,21 @@ public class ViewDownloadDoc {
 		});
 		
 		JButton btnNewButton = new JButton("S");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO
+				JFileChooser fileChooser = new JFileChooser("D:\\");
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int returnVal = fileChooser.showOpenDialog(fileChooser);
+				if(returnVal == JFileChooser.APPROVE_OPTION) {
+					String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+					textField_1.setText(filePath);
+					destPath = textField_1.getText();
+				}
+			}
+		});
+		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)

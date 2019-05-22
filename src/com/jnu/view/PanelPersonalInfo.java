@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import org.apache.log4j.Logger;
 
 import com.jnu.model.MyFileOperator;
+import com.jnu.model.MyNumKeyAdapter;
 import com.jnu.model.User;
 import com.jnu.model.UserManager;
 import com.jnu.model.WebTMSystem;
@@ -69,8 +70,6 @@ public class PanelPersonalInfo extends JPanel {
 		add(textField_Name);
 		textField_Name.setColumns(10);
 		
-
-		
 		JLabel label_studentId = new JLabel("  学号：");
 		label_studentId.setFont(new Font("新宋体", Font.PLAIN, 20));
 		label_studentId.setBounds(173, 113, 80, 24);
@@ -101,6 +100,7 @@ public class PanelPersonalInfo extends JPanel {
 		textField_studentId.setColumns(10);
 		textField_studentId.setBounds(263, 113, 150, 24);
 		textField_studentId.setText(UserManager.getUser().get_studentId());
+		textField_studentId.addKeyListener(new MyNumKeyAdapter());
 		add(textField_studentId);
 		
 		JTextField textField_phoneNum = new JTextField();
@@ -108,6 +108,7 @@ public class PanelPersonalInfo extends JPanel {
 		textField_phoneNum.setColumns(10);
 		textField_phoneNum.setBounds(263, 147, 150, 24);
 		textField_phoneNum.setText(UserManager.getUser().get_phoneNum());
+		textField_phoneNum.addKeyListener(new MyNumKeyAdapter());
 		add(textField_phoneNum);
 		
 		JTextField textField_college = new JTextField();
@@ -129,6 +130,7 @@ public class PanelPersonalInfo extends JPanel {
 		textField_dormitory.setColumns(10);
 		textField_dormitory.setBounds(655, 147, 150, 24);
 		textField_dormitory.setText(UserManager.getUser().get_dormitory());
+		textField_dormitory.addKeyListener(new MyNumKeyAdapter());
 		add(textField_dormitory);
 		
 		JLabel label_jnuDCPId = new JLabel("数字暨大账号：");
@@ -165,6 +167,7 @@ public class PanelPersonalInfo extends JPanel {
 		textField_jnuDCPId.setColumns(10);
 		textField_jnuDCPId.setBounds(479, 205, 150, 24);
 		textField_jnuDCPId.setText(UserManager.getUser().get_JnuDCPId());
+		textField_jnuDCPId.addKeyListener(new MyNumKeyAdapter());
 		add(textField_jnuDCPId);
 		
 		JTextField textField_jnuDCPPassword = new JPasswordField();
@@ -189,6 +192,7 @@ public class PanelPersonalInfo extends JPanel {
 		textField_jnuEduAdminSystemId.setColumns(10);
 		textField_jnuEduAdminSystemId.setBounds(479, 339, 150, 24);
 		textField_jnuEduAdminSystemId.setText(UserManager.getUser().get_JnuEduAdminSystemId());
+		textField_jnuEduAdminSystemId.addKeyListener(new MyNumKeyAdapter());
 		add(textField_jnuEduAdminSystemId);
 		
 		JTextField textField_jnuEduAdminSystemPassword = new JPasswordField();
@@ -228,9 +232,10 @@ public class PanelPersonalInfo extends JPanel {
 				
 				UserManager.setUser(user);
 				UserManager.saveUser();
+				boolean res = false;
 				try {
 					String vc = txt_signal.getText();
-					boolean res = web.logintmsystem(user.get_JnuEduAdminSystemId(),
+					res = web.logintmsystem(user.get_JnuEduAdminSystemId(),
 						user.get_JnuEduAdminSystemPassword(), vc);
 					
 				} catch(Exception e1) {
@@ -239,7 +244,8 @@ public class PanelPersonalInfo extends JPanel {
 					
 				}
 				
-//				JOptionPane.showMessageDialog(ViewMain.getFrame(), res ? "true" : "false", "保存成功", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(ViewMain.getFrame(), res ? "登录教务系统成功" : 
+					"登录教务系统失败，将导致选课、查询成绩、培养方案无法使用！", "提示信息", JOptionPane.PLAIN_MESSAGE);
 				
 				ViewMain.openMainMessage();
 				

@@ -36,6 +36,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.Toolkit;
 
 /*
  * created by chenqinquan;
@@ -91,6 +92,7 @@ public class ViewMain {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Image/jnu.jpg"));
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -147,7 +149,12 @@ public class ViewMain {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
-				changePanelTemplate(new PanelGradeRecord());
+				if(!WebTMSystem.getIsLogined()) {
+					JOptionPane.showMessageDialog(frame, "尚未成功登录教务系统，请重新登录！", "提示", JOptionPane.WARNING_MESSAGE);
+					changePanelMain(new PanelPersonalInfo());
+				}
+				else
+					changePanelTemplate(new PanelGradeRecord());
 				Log.info("点击了查询成绩");
 			}
 		});
@@ -159,7 +166,7 @@ public class ViewMain {
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
 //				JOptionPane.showMessageDialog(frame, "JOB", "Message", JOptionPane.PLAIN_MESSAGE);
-				changePanelTemplate(new PanelEmploymentInfo());
+				changePanelTemplate(new PanelEmploymentInfoContainer());
 				Log.info("点击了查看就业信息");
 			}
 		});
@@ -173,7 +180,8 @@ public class ViewMain {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
-				changePanelTemplate(new PanelCourseSelection());
+//				changePanelTemplate(new PanelCourseSelection());
+				JOptionPane.showMessageDialog(frame, "选课系统目前关闭，无法使用！", "提示", JOptionPane.WARNING_MESSAGE);
 				Log.info("点击了选课");
 			}
 		});
@@ -184,7 +192,12 @@ public class ViewMain {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
-				changePanelTemplate(new PanelTrainingProgram(web.GetTrainPlan()));
+				if(!WebTMSystem.getIsLogined()) {
+					JOptionPane.showMessageDialog(frame, "尚未成功登录教务系统，请重新登录！", "提示", JOptionPane.WARNING_MESSAGE);
+					changePanelMain(new PanelPersonalInfo());
+				}
+				else
+					changePanelTemplate(new PanelTrainingProgram(web.GetTrainPlan()));
 				Log.info("点击了查看培养方案");
 			}
 		});
@@ -195,7 +208,14 @@ public class ViewMain {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
-				changePanelTemplate(new PanelLeaveDocEdit());
+				String name = UserManager.getUser().get_name();
+				String id = UserManager.getUser().get_studentId();
+				if(name == null || name.equals("") || id == null || id.equals("")) {
+					JOptionPane.showMessageDialog(frame, "姓名或学号为空，请重新登录！", "提示", JOptionPane.WARNING_MESSAGE);
+					changePanelMain(new PanelPersonalInfo());
+				}
+				else
+					changePanelTemplate(new PanelLeaveDocEdit());
 				Log.info("点击了打开请假功能");
 			}
 		});
@@ -208,8 +228,7 @@ public class ViewMain {
 		menuItem_download.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO
-				frame.setEnabled(false);
+				/*frame.setEnabled(false);
 				ViewDownloadDoc windows = new ViewDownloadDoc();
 				windows.frame.setVisible(true);
 				windows.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -217,7 +236,8 @@ public class ViewMain {
 					public void windowClosing(WindowEvent e) {
 						frame.setEnabled(true);
 					}
-				});
+				});*/
+				openDownloadDoc();
 				Log.info("点击了打开模板下载");
 			}
 			
@@ -258,9 +278,21 @@ public class ViewMain {
 		panel_main.updateUI();
 	}
 	
-//	public static JFrame getFrame() {
-//		return frame;
-//	}
+	// 切换到下载页面；
+	private static void changeFrame(ViewDownloadDoc windows) {
+		frame.setEnabled(false);
+		windows.frame.setVisible(true);
+		windows.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		windows.frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				frame.setEnabled(true);
+			}
+		});
+	}
+	
+	public static JFrame getFrame() {
+		return frame;
+	}
 	
 	// 打开通知主界面；
 	public static void openMainMessage() {
@@ -275,6 +307,12 @@ public class ViewMain {
 	
 	// 打开网页；
 	public static void openWeb(String url) {		
+		if(url == null && url.equals("")) {
+			Logger log = Logger.getLogger(ViewMain.class);
+			log.error("打开空网址");
+			JOptionPane.showMessageDialog(frame,"正打开一个空网址", "警告", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		UIUtils.setPreferredLookAndFeel();
         NativeInterface.open();
         SwingUtilities.invokeLater(new Runnable() {
@@ -286,7 +324,19 @@ public class ViewMain {
         });
         NativeInterface.runEventPump();
 	}
-
+	
+	// 请假提交后打开下载界面；
+		public static void openToDownloadDoc() {
+			changePanelTemplate(new PanelToViewDnwnloadDoc());
+		}
+				
+		// 打开下载页面；
+		public static void openDownloadDoc() {
+			
+			changeFrame(new ViewDownloadDoc());
+			
+		}
+		
 	public static void openWebDigitalJnu() {
 		// TODO Auto-generated method stub	
 		UIUtils.setPreferredLookAndFeel();
