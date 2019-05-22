@@ -107,11 +107,6 @@ public class ViewDownloadDoc {
 				File source = new File("./请假条.doc");
 				File dest = new File(destPath + destFileName);
 				try {
-					if(!dest.exists()){
-					    //先得到文件的上级目录，并创建上级目录，在创建文件
-					    dest.getParentFile().mkdir();
-					    dest.createNewFile();
-					}
 					copyFile(source, dest);
 				} catch (IOException e1) {
 					// TODO 自动生成的 catch 块

@@ -208,7 +208,14 @@ public class ViewMain {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
-				changePanelTemplate(new PanelLeaveDocEdit());
+				String name = UserManager.getUser().get_name();
+				String id = UserManager.getUser().get_studentId();
+				if(name == null || name.equals("") || id == null || id.equals("")) {
+					JOptionPane.showMessageDialog(frame, "姓名或学号为空，请重新登录！", "提示", JOptionPane.WARNING_MESSAGE);
+					changePanelMain(new PanelPersonalInfo());
+				}
+				else
+					changePanelTemplate(new PanelLeaveDocEdit());
 				Log.info("点击了打开请假功能");
 			}
 		});
