@@ -210,8 +210,7 @@ public class ViewMain {
 		menuItem_download.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO
-				frame.setEnabled(false);
+				/*frame.setEnabled(false);
 				ViewDownloadDoc windows = new ViewDownloadDoc();
 				windows.frame.setVisible(true);
 				windows.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -219,7 +218,8 @@ public class ViewMain {
 					public void windowClosing(WindowEvent e) {
 						frame.setEnabled(true);
 					}
-				});
+				});*/
+				openDownloadDoc();
 				Log.info("点击了打开模板下载");
 			}
 			
@@ -260,6 +260,17 @@ public class ViewMain {
 		panel_main.updateUI();
 	}
 	
+	// 切换到下载页面；
+		private static void changeFrame(ViewDownloadDoc windows) {
+			frame.setEnabled(false);
+			windows.frame.setVisible(true);
+			windows.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			windows.frame.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent e) {
+					frame.setEnabled(true);
+				}
+			});
+		}
 //	public static JFrame getFrame() {
 //		return frame;
 //	}
@@ -288,7 +299,19 @@ public class ViewMain {
         });
         NativeInterface.runEventPump();
 	}
-
+	
+	// 请假提交后打开下载界面；
+		public static void openToDownloadDoc() {
+			changePanelTemplate(new PanelToViewDnwnloadDoc());
+		}
+				
+		// 打开下载页面；
+		public static void openDownloadDoc() {
+			
+			changeFrame(new ViewDownloadDoc());
+			
+		}
+		
 	public static void openWebDigitalJnu() {
 		// TODO Auto-generated method stub	
 		UIUtils.setPreferredLookAndFeel();

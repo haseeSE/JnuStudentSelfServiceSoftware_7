@@ -23,6 +23,7 @@ import java.awt.event.MouseEvent;
  * created by dingyiyuan;
  */
 
+@SuppressWarnings("serial")
 public class PanelLeaveDocEdit extends JPanel {
 	
 	private Logger Log = Logger.getLogger(getClass());
@@ -156,7 +157,7 @@ public class PanelLeaveDocEdit extends JPanel {
 			EditDoc doc = new EditDoc();
 			doc.createWord();
 			
-			ViewMain.openMainMessage();
+			ViewMain.openToDownloadDoc();
 			Log.info("点击了修改用户信息");
 		}
 	});
