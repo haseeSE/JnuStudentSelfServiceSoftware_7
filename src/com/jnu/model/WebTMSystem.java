@@ -28,6 +28,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class WebTMSystem {
 	private Logger Log = Logger.getLogger(getClass());
 	
+	private static boolean IsLogined = false;
+	
 	private static WebClient wc;
 	private HtmlPage page;
 	
@@ -90,16 +92,18 @@ public class WebTMSystem {
 			Log.info(res.getBaseURI());
 				
 			if(!res.getBaseURI().equals("https://jwxt.jnu.edu.cn/Login.aspx")) {
-				return true;
+				IsLogined = true;
 			}
+			else
+				IsLogined = false;
 				
 		}
 		catch (FailingHttpStatusCodeException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
+			IsLogined = false;
 		}
-	    return false;
+	    return IsLogined;
 	}
 	
 	public Elements GetTrainPlan() {
@@ -169,4 +173,7 @@ public class WebTMSystem {
 		return scores;
 	}
 	
+	public static boolean getIsLogined() {
+		return IsLogined;
+	}
 }	

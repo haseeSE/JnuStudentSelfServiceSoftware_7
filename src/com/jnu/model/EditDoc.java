@@ -50,7 +50,7 @@ public class EditDoc
 	        } catch (IOException e) {  
 	            e.printStackTrace();  
 	        }  
-	        File outFile = new File("./请假条.docx");  //导出文档的存放位置
+	        File outFile = new File("./请假条.doc");  //导出文档的存放位置
 	        Writer out = null;  
 	        try {  
 	            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));  

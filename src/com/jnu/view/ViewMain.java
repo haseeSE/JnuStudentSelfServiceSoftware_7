@@ -149,7 +149,12 @@ public class ViewMain {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
-				changePanelTemplate(new PanelGradeRecord());
+				if(!WebTMSystem.getIsLogined()) {
+					JOptionPane.showMessageDialog(frame, "尚未成功登录教务系统，请重新登录！", "提示", JOptionPane.WARNING_MESSAGE);
+					changePanelMain(new PanelPersonalInfo());
+				}
+				else
+					changePanelTemplate(new PanelGradeRecord());
 				Log.info("点击了查询成绩");
 			}
 		});
@@ -175,7 +180,8 @@ public class ViewMain {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
-				changePanelTemplate(new PanelCourseSelection());
+//				changePanelTemplate(new PanelCourseSelection());
+				JOptionPane.showMessageDialog(frame, "选课系统目前关闭，无法使用！", "提示", JOptionPane.WARNING_MESSAGE);
 				Log.info("点击了选课");
 			}
 		});
@@ -186,7 +192,12 @@ public class ViewMain {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO
-				changePanelTemplate(new PanelTrainingProgram(web.GetTrainPlan()));
+				if(!WebTMSystem.getIsLogined()) {
+					JOptionPane.showMessageDialog(frame, "尚未成功登录教务系统，请重新登录！", "提示", JOptionPane.WARNING_MESSAGE);
+					changePanelMain(new PanelPersonalInfo());
+				}
+				else
+					changePanelTemplate(new PanelTrainingProgram(web.GetTrainPlan()));
 				Log.info("点击了查看培养方案");
 			}
 		});
@@ -261,19 +272,20 @@ public class ViewMain {
 	}
 	
 	// 切换到下载页面；
-		private static void changeFrame(ViewDownloadDoc windows) {
-			frame.setEnabled(false);
-			windows.frame.setVisible(true);
-			windows.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-			windows.frame.addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent e) {
-					frame.setEnabled(true);
-				}
-			});
-		}
-//	public static JFrame getFrame() {
-//		return frame;
-//	}
+	private static void changeFrame(ViewDownloadDoc windows) {
+		frame.setEnabled(false);
+		windows.frame.setVisible(true);
+		windows.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		windows.frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				frame.setEnabled(true);
+			}
+		});
+	}
+	
+	public static JFrame getFrame() {
+		return frame;
+	}
 	
 	// 打开通知主界面；
 	public static void openMainMessage() {
@@ -288,6 +300,12 @@ public class ViewMain {
 	
 	// 打开网页；
 	public static void openWeb(String url) {		
+		if(url == null && url.equals("")) {
+			Logger log = Logger.getLogger(ViewMain.class);
+			log.error("打开空网址");
+			JOptionPane.showMessageDialog(frame,"正打开一个空网址", "警告", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		UIUtils.setPreferredLookAndFeel();
         NativeInterface.open();
         SwingUtilities.invokeLater(new Runnable() {

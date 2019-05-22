@@ -91,7 +91,7 @@ public class ViewDownloadDoc {
 		
 		textField = new JTextField();
 		textField.setColumns(15);
-		textField.setText("请假条.docx");
+		textField.setText("请假条.doc");
 		destFileName = textField.getText();
 		
 		JLabel label_1 = new JLabel("\u4FDD\u5B58\u4F4D\u7F6E\uFF1A");
@@ -104,9 +104,14 @@ public class ViewDownloadDoc {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO
-				File source = new File("./请假条.docx");
+				File source = new File("./请假条.doc");
 				File dest = new File(destPath + destFileName);
 				try {
+					if(!dest.exists()){
+					    //先得到文件的上级目录，并创建上级目录，在创建文件
+					    dest.getParentFile().mkdir();
+					    dest.createNewFile();
+					}
 					copyFile(source, dest);
 				} catch (IOException e1) {
 					// TODO 自动生成的 catch 块

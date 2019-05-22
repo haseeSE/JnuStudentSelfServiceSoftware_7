@@ -228,9 +228,10 @@ public class PanelPersonalInfo extends JPanel {
 				
 				UserManager.setUser(user);
 				UserManager.saveUser();
+				boolean res = false;
 				try {
 					String vc = txt_signal.getText();
-					boolean res = web.logintmsystem(user.get_JnuEduAdminSystemId(),
+					res = web.logintmsystem(user.get_JnuEduAdminSystemId(),
 						user.get_JnuEduAdminSystemPassword(), vc);
 					
 				} catch(Exception e1) {
@@ -239,7 +240,8 @@ public class PanelPersonalInfo extends JPanel {
 					
 				}
 				
-//				JOptionPane.showMessageDialog(ViewMain.getFrame(), res ? "true" : "false", "保存成功", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(ViewMain.getFrame(), res ? "登录教务系统成功" : 
+					"登录教务系统失败，将导致选课、查询成绩、培养方案无法使用！", "提示信息", JOptionPane.PLAIN_MESSAGE);
 				
 				ViewMain.openMainMessage();
 				
