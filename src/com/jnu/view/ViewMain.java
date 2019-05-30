@@ -267,7 +267,7 @@ public class ViewMain {
 	}
 	
 	// 切换模板；
-	private static void changePanelTemplate(JPanel panel) {
+	public static void changePanelTemplate(JPanel panel) {
 		changePanelMain(new PanelTemplate(panel));
 	}
 	
