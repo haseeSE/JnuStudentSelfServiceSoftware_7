@@ -59,7 +59,8 @@ public class PanelTopBanner extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String str_search = textField_editSearch.getText();
-				if(str_search != null && str_search != "") {
+				Log.info("搜索:" + str_search);
+				if(str_search != null && !str_search.equals("")) {
 					
 					ArrayList<NoticeContainer> searchResList = new ArrayList<NoticeContainer>();
 					
@@ -87,6 +88,7 @@ public class PanelTopBanner extends JPanel {
 					ViewMain.changePanelTemplate(searchPanel);
 				}
 				else {
+					Log.info("搜索: 空");
 					JOptionPane.showMessageDialog(ViewMain.getFrame(),"请输入关键词", "警告", JOptionPane.ERROR_MESSAGE);
 				}
 			}
