@@ -4,19 +4,25 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jnu.model.MyFileOperator;
 import com.jnu.model.Score;
 import com.jnu.model.User;
 import com.jnu.model.UserManager;
 
 public class UserManagerTest {
+	private User backup;
+	
 	private User user;
 	private ArrayList<Score> scores;	
 	
 	@Before
 	public void setUp() throws Exception {
+		backup = MyFileOperator.load();
+		
 		user = new User();
 		user.set_name("name");
 		user.set_college("college");
@@ -99,6 +105,11 @@ public class UserManagerTest {
 //		ArrayList<Score> tmp = UserManager.getScores();
 //		assertEquals(tmp.size(), scores.size());
 //		assertEquals(tmp.get(0).getCourse(), scores.get(0).getCourse());
+	}
+	
+	@After
+	public void TearDown() {
+		MyFileOperator.save(backup);
 	}
 
 }
