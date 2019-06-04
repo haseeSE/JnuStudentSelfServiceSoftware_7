@@ -323,16 +323,16 @@ public class ViewMain {
 	}
 	
 	// 请假提交后打开下载界面；
-		public static void openToDownloadDoc() {
-			changePanelTemplate(new PanelToViewDnwnloadDoc());
-		}
-				
-		// 打开下载页面；
-		public static void openDownloadDoc() {
+	public static void openToDownloadDoc() {
+		changePanelTemplate(new PanelToViewDnwnloadDoc());
+	}
 			
-			changeFrame(new ViewDownloadDoc());
-			
-		}
+	// 打开下载页面；
+	public static void openDownloadDoc() {
+		
+		changeFrame(new ViewDownloadDoc());
+		
+	}
 		
 	public static void openWebDigitalJnu() {
 		// TODO Auto-generated method stub	
