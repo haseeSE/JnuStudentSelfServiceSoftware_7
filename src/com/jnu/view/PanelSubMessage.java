@@ -77,13 +77,13 @@ public class PanelSubMessage extends JPanel {
 		// TODO Auto-generated method stub
 		// 组件设计前的操作；
 		String newDorm = UserManager.getUser().get_dormitory();
-		if(dorm != newDorm) {
+		if(!dorm.equals(newDorm)) {
 			dorm = newDorm;
 			if(exec_ele != ExecStatus.UNINITIALIZED)
 				exec_ele = ExecStatus.CHANGE;
 		}
 		String newCardID = UserManager.getUser().get_JnuDCPId();
-		if(cardID != newCardID) {
+		if(!cardID.equals(newCardID)) {
 			cardID = newCardID;
 			if(exec_card != ExecStatus.UNINITIALIZED)
 				exec_card = ExecStatus.CHANGE;
