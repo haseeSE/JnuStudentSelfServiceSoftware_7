@@ -176,4 +176,10 @@ public class WebTMSystem {
 	public static boolean getIsLogined() {
 		return IsLogined;
 	}
+	
+	public static void loginOut() {
+		IsLogined = false;
+		Logger log = Logger.getLogger(WebTMSystem.class);
+		log.info("教务系统退出当前登录！");
+	}
 }	

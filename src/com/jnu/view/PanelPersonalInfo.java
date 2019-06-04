@@ -204,7 +204,7 @@ public class PanelPersonalInfo extends JPanel {
 		textField_jnuEduAdminSystemPassword.setText(UserManager.getUser().get_JnuEduAdminSystemPassword());
 		add(textField_jnuEduAdminSystemPassword);
 		
-		JButton button_save = new JButton("登录");
+		JButton button_save = new JButton("保存进入");
 		button_save.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -239,34 +239,48 @@ public class PanelPersonalInfo extends JPanel {
 					Log.info("保持当前教务系统的登陆: " + jnuEduId);
 					ViewMain.openMainMessage();
 				}
-				else {				
-					ImageIcon icon = web.gettxtFJM();
-					String input = (String)JOptionPane.showInputDialog(ViewMain.getFrame(), "请输入验证码", "提示",
-							JOptionPane.INFORMATION_MESSAGE, icon, null, null);
-					Log.info("验证码输入： " + input);
-					// 当点击取消或关闭时input为null；
-					try {
-						web.logintmsystem(jnuEduId, jnuEduPwd, input == null ? "" : input);	
-					} catch(Exception e1) {
-						e1.printStackTrace();
-						Log.error("登录失败");						
-					}
-					if(!input.equals(""))
-					{
-						if(!web.getIsLogined()) {
-							String options[]={"重新填写","坚持进入"};
-							int value = JOptionPane.showOptionDialog(ViewMain.getFrame(), "登陆教务系统 失败！",
-									"提示", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,options, "重新填写");
-							if (value != JOptionPane.CLOSED_OPTION) {
-								switch (value) {	
-									case 0:	break;	
-									case 1:	ViewMain.openMainMessage(); break;	
+				else {
+					web.loginOut();
+					String options[] = {"登录","直接进入"};
+					int value = JOptionPane.showOptionDialog(ViewMain.getFrame(), "尚未登陆到教务系统 ！",
+							"提示", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,options, "登陆");
+					if (value != JOptionPane.CLOSED_OPTION) {
+						switch (value) {	
+							case 0:	
+								ImageIcon icon = web.gettxtFJM();
+								if(icon == null) {
+									JOptionPane.showMessageDialog(ViewMain.getFrame(), "请检查网络！", "提示", JOptionPane.WARNING_MESSAGE);
+									break;
 								}
-							}
+								String input = (String)JOptionPane.showInputDialog(ViewMain.getFrame(), "请输入验证码", "提示",
+										JOptionPane.INFORMATION_MESSAGE, icon, null, null);
+								Log.info("验证码输入： " + input);
+								if(input != null) {
+									try {
+										web.logintmsystem(user.get_JnuEduAdminSystemId(), user.get_JnuEduAdminSystemPassword(),
+												input == null ? "" : input);	
+									} catch(Exception e1) {
+										e1.printStackTrace();
+										Log.error("登录失败");
+										JOptionPane.showMessageDialog(ViewMain.getFrame(), "请检查网络！", "提示", JOptionPane.WARNING_MESSAGE);
+										break;
+									}
+									if(!web.getIsLogined()) {
+										JOptionPane.showMessageDialog(ViewMain.getFrame(), "登录失败！", "登录教务系统", JOptionPane.ERROR_MESSAGE);
+									}else
+										ViewMain.openMainMessage();
+								}
+								break;
+//								try {
+//									web.logintmsystem(jnuEduId, jnuEduPwd, input == null ? "" : input);	
+//								} catch(Exception e1) {
+//									e1.printStackTrace();
+//									Log.error("登录失败");						
+//								}
+//								if(!web.getIsLogined())	break;	
+							case 1:	ViewMain.openMainMessage(); break;	
 						}
-						else
-							ViewMain.openMainMessage();
-					}				
+					}			
 				}			
 			}
 		});
