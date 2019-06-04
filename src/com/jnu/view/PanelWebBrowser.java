@@ -23,10 +23,6 @@ public class PanelWebBrowser extends JPanel {
 	
 	private Logger Log = Logger.getLogger(getClass());
 
-	private final static String URL_ELECTRICITY = "http://202.116.25.12";
-	private final static String URL_DIGITAL_JNU = "https://icas.jnu.edu.cn/cas/login?service=http%3A%2F%2Fi.jnu.edu.cn%2Fdcp%2Findex.jsp";
-	private final static String URL_FOURM = "http://www.ijnu.cn/";
-	
 	private JWebBrowser webBrowser = null;
 	
 	/**
@@ -50,30 +46,30 @@ public class PanelWebBrowser extends JPanel {
         //webBrowser.executeJavascript("alert('hello swing')");
 	}
 
-	public void openFourm() {
-		loadUrl(URL_FOURM, null);
-	}
-	
-	public void openElecticity() {
-		loadUrl(URL_ELECTRICITY, null);
-	}
-	
-	public void openDigitalJnu() {
-		loadUrl(WebDigitalJnu.HOME_URL, WebDigitalJnu.getCookies());
-	}
+//	public void openFourm() {
+//		loadUrl(URL_FOURM, null);
+//	}
+//	
+//	public void openElecticity() {
+//		loadUrl(URL_ELECTRICITY, null);
+//	}
+//	
+//	public void openDigitalJnu() {
+//		loadUrl(WebDigitalJnu.HOME_URL, WebDigitalJnu.getCookies());
+//	}
 	
 	public void loadUrl(String url, Set<Cookie> cookies) {
 		// 设置cookies；
 
-		Log.info(" 打开网址: " + url);
-		
-		if(cookies != null) {
-			String cookie = cookies.toString();
-		
-			Log.info("Cookie: " + cookie);
-		
-			webBrowser.setCookie(url, cookie);
-		}	
+//		Log.info(" 打开网址: " + url);
+//		
+//		if(cookies != null) {
+//			String cookie = cookies.toString();
+//		
+//			Log.info("Cookie: " + cookie);
+//		
+//			webBrowser.setCookie(url, cookie);
+//		}	
 		
 		webBrowser.navigate(url);
            
