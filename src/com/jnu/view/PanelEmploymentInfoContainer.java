@@ -23,6 +23,10 @@ public class PanelEmploymentInfoContainer extends JPanel {
 	 * Create the panel.
 	 */
 	JTabbedPane tab= new JTabbedPane(JTabbedPane.TOP);
+	public static ArrayList<NoticeContainer> newsAndTrends;
+	public static ArrayList<NoticeContainer> noticeAndAnnouncement;
+	public static ArrayList<NoticeContainer> hotRecruitment;
+	public static ArrayList<NoticeContainer> policyInterpretation;
 	
 	public PanelEmploymentInfoContainer() {
 		super(new BorderLayout());
@@ -30,10 +34,10 @@ public class PanelEmploymentInfoContainer extends JPanel {
 		// <----------	LOG: CREATED	------------>
 		Log.info("CREATED");
 		
-		ArrayList<NoticeContainer> newsAndTrends = new ArrayList<NoticeContainer>();
-		ArrayList<NoticeContainer> noticeAndAnnouncement = new ArrayList<NoticeContainer>();
-		ArrayList<NoticeContainer> hotRecruitment = new ArrayList<NoticeContainer>();
-		ArrayList<NoticeContainer> policyInterpretation = new ArrayList<NoticeContainer>();
+		newsAndTrends = new ArrayList<NoticeContainer>();
+		noticeAndAnnouncement = new ArrayList<NoticeContainer>();
+		hotRecruitment = new ArrayList<NoticeContainer>();
+		policyInterpretation = new ArrayList<NoticeContainer>();
 		
 		//获取各个版块的ArrayList
 		try {

@@ -267,7 +267,7 @@ public class ViewMain {
 	}
 	
 	// 切换模板；
-	private static void changePanelTemplate(JPanel panel) {
+	public static void changePanelTemplate(JPanel panel) {
 		changePanelMain(new PanelTemplate(panel));
 	}
 	
@@ -304,76 +304,46 @@ public class ViewMain {
 		changePanelMain(new PanelPersonalInfo());
 	}
 	
-	
-	// 打开网页；
-	public static void openWeb(String url) {		
+	public static void openWebBrowser(String title, String url) {
 		if(url == null && url.equals("")) {
 			Logger log = Logger.getLogger(ViewMain.class);
 			log.error("打开空网址");
 			JOptionPane.showMessageDialog(frame,"正打开一个空网址", "警告", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		UIUtils.setPreferredLookAndFeel();
-        NativeInterface.open();
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	PanelWebBrowser web = new PanelWebBrowser();
-            	web.loadUrl(url, null);
-            	changePanelMain(web);
-            }
-        });
-        NativeInterface.runEventPump();
+		ViewWebBrowser webBrowser = new ViewWebBrowser(frame, title);
+		webBrowser.loadUrl(url);
+		webBrowser.getFrame().setVisible(true);
+		webBrowser.getFrame().setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+	}
+	
+	// 打开网页；
+	public static void openWeb(String url) {		
+		openWebBrowser("内嵌浏览器", url);
 	}
 	
 	// 请假提交后打开下载界面；
-		public static void openToDownloadDoc() {
-			changePanelTemplate(new PanelToViewDnwnloadDoc());
-		}
-				
-		// 打开下载页面；
-		public static void openDownloadDoc() {
+	public static void openToDownloadDoc() {
+		changePanelTemplate(new PanelToViewDnwnloadDoc());
+	}
 			
-			changeFrame(new ViewDownloadDoc());
-			
-		}
+	// 打开下载页面；
+	public static void openDownloadDoc() {
+		
+		changeFrame(new ViewDownloadDoc());
+		
+	}
 		
 	public static void openWebDigitalJnu() {
 		// TODO Auto-generated method stub	
-		UIUtils.setPreferredLookAndFeel();
-        NativeInterface.open();
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	PanelWebBrowser web = new PanelWebBrowser();
-            	web.openDigitalJnu();
-            	changePanelMain(web);
-            }
-        });
-        NativeInterface.runEventPump();
+		openWebBrowser("数字暨大", ViewWebBrowser.URL_DIGITAL_JNU);
 	}
 	
 	public static void openWebFourm() {
-		UIUtils.setPreferredLookAndFeel();
-        NativeInterface.open();
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	PanelWebBrowser web = new PanelWebBrowser();
-            	web.openFourm();
-            	changePanelMain(web);
-            }
-        });
-        NativeInterface.runEventPump();
+		openWebBrowser("暨大论坛", ViewWebBrowser.URL_FOURM);
 	}
 	
 	public static void openWebElectrity() {
-		UIUtils.setPreferredLookAndFeel();
-        NativeInterface.open();
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	PanelWebBrowser web = new PanelWebBrowser();
-            	web.openElecticity();
-            	changePanelMain(web);
-            }
-        });
-        NativeInterface.runEventPump();
+		openWebBrowser("电费学生查询平台", ViewWebBrowser.URL_ELECTRICITY);
 	}
 }

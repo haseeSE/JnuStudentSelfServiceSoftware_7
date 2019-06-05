@@ -19,45 +19,54 @@ public class PanelNoticeContainer extends JPanel {
 	 * Create the panel.
 	 */
 	JTabbedPane tab= new JTabbedPane(JTabbedPane.TOP);
+	public static ArrayList<NoticeContainer> school_notice = new ArrayList<NoticeContainer>();
+	public static ArrayList<NoticeContainer> college_notice = new ArrayList<NoticeContainer>();
+	public static ArrayList<NoticeContainer> academicAdminstration_notice = new ArrayList<NoticeContainer>();
+	
 	
 	public PanelNoticeContainer() {
 		super(new BorderLayout());
 		//获取通知数据
-		ArrayList<NoticeContainer> noticeList = new ArrayList<NoticeContainer>();
 		
 		//创建学校公告的ArrayList
-		try {
-			noticeList = NoticeDataCapture.addSchoolNotices();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(school_notice.size()==0){
+			try {
+				school_notice = NoticeDataCapture.addSchoolNotices();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		JPanel panel_school_notice = new PanelNotice(noticeList);
+		JPanel panel_school_notice = new PanelNotice(school_notice);
 		
 		//创建各学院通知的ArrayList
-		int collegeType = -1;
-		if(UserManager.getUser().get_college().contains("人文"))
-			collegeType = 1;
-		else if(UserManager.getUser().get_college().contains("翻译"))
-			collegeType = 2;
-		else if(UserManager.getUser().get_college().contains("包装"))
-			collegeType = 3;
-		try {
-			noticeList = NoticeDataCapture.addCollegeNotices(collegeType);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(college_notice.size()==0||college_notice.size()==1&&college_notice.get(0).getDate()==null){
+			int collegeType = -1;
+			if(UserManager.getUser().get_college().contains("人文"))
+				collegeType = 1;
+			else if(UserManager.getUser().get_college().contains("翻译"))
+				collegeType = 2;
+			else if(UserManager.getUser().get_college().contains("包装"))
+				collegeType = 3;
+			try {
+				college_notice = NoticeDataCapture.addCollegeNotices(collegeType);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
-		JPanel panel_college_notice = new PanelNotice(noticeList);
+		JPanel panel_college_notice = new PanelNotice(college_notice);
 		
 		//创建教务处通知的ArrayList
-		try {
-			noticeList = NoticeDataCapture.addAcademicAdminstrationNotices();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(academicAdminstration_notice.size()==0){
+			try {
+				academicAdminstration_notice = NoticeDataCapture.addAcademicAdminstrationNotices();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		JPanel panel_academic_adminstration_notice = new PanelNotice(noticeList);
+		JPanel panel_academic_adminstration_notice = new PanelNotice(academicAdminstration_notice);
 		
 		tab.setFont(new Font("新宋体", Font.BOLD, 20));
 		tab.setForeground(Color.BLACK);

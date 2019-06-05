@@ -75,7 +75,7 @@ public class WebTMSystem {
 	    java.util.logging.Logger.getLogger("org.apache.commons.httpclient")  
 	        .setLevel(Level.OFF); 
 	        
-	    Log.info(username + " " + " " + password.length() + vc);
+	    Log.info("登录信息：" + username + " " + password.length() + " " + vc);
 	    
 	    try {        		
 			HtmlInput txtYHBS = page.getHtmlElementById("txtYHBS");
@@ -175,5 +175,11 @@ public class WebTMSystem {
 	
 	public static boolean getIsLogined() {
 		return IsLogined;
+	}
+	
+	public static void loginOut() {
+		IsLogined = false;
+		Logger log = Logger.getLogger(WebTMSystem.class);
+		log.info("教务系统退出当前登录！");
 	}
 }	

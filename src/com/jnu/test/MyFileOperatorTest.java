@@ -12,9 +12,13 @@ import com.jnu.model.User;
 public class MyFileOperatorTest {
 
 	private User user;
+	private User backup;
 	
 	@Before
 	public void setUp() throws Exception {
+		// 保存备份；
+		backup = MyFileOperator.load();
+		
 		user = new User();
 		user.set_name("name");
 		user.set_college("college");
@@ -53,4 +57,9 @@ public class MyFileOperatorTest {
 		assertTrue(MyFileOperator.save(user));		
 	}
 
+	@After
+	public void TearDown() {
+		// 恢复备份；
+		MyFileOperator.save(backup);
+	}
 }

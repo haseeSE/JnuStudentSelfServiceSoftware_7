@@ -5,6 +5,7 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -12,10 +13,16 @@ import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
 
+import com.jnu.model.NoticeContainer;
+import com.jnu.model.NoticeDataCapture;
 import com.jnu.model.UserManager;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 
 /*
@@ -42,9 +49,51 @@ public class PanelTopBanner extends JPanel {
 		add(textField_editSearch);
 		textField_editSearch.setColumns(10);
 		
-		JButton btn_search = new JButton("New button");
-		btn_search.setBounds(215, 10, 46, 23);
+		JButton btn_search = new JButton("搜索");
+		btn_search.setBounds(215, 10, 69, 23);
 		add(btn_search);
+		//搜索btn点击事件
+		btn_search.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String str_search = textField_editSearch.getText();
+				Log.info("搜索:" + str_search);
+				if(str_search != null && !str_search.equals("")) {
+					
+					ArrayList<NoticeContainer> searchResList = new ArrayList<NoticeContainer>();
+					
+					ArrayList<NoticeContainer> theNotices = new ArrayList<NoticeContainer>();
+					try {
+						theNotices.addAll(PanelNoticeContainer.school_notice);
+						theNotices.addAll(PanelNoticeContainer.college_notice);
+						theNotices.addAll(PanelNoticeContainer.academicAdminstration_notice);
+						
+						theNotices.addAll(PanelEmploymentInfoContainer.newsAndTrends);
+						theNotices.addAll(PanelEmploymentInfoContainer.noticeAndAnnouncement);
+						theNotices.addAll(PanelEmploymentInfoContainer.hotRecruitment);
+						theNotices.addAll(PanelEmploymentInfoContainer.policyInterpretation);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					for(NoticeContainer searchItem:theNotices){
+						if(searchItem.getTitle().contains(str_search))
+							searchResList.add(searchItem);
+					}
+		
+					JPanel searchPanel = new PanelNotice(searchResList);
+					ViewMain.changePanelTemplate(searchPanel);
+				}
+				else {
+					Log.info("搜索: 空");
+					JOptionPane.showMessageDialog(ViewMain.getFrame(),"请输入关键词", "警告", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			
+		});
 		
 		String name = UserManager.getUser().get_name();
 		JLabel lblUsera = new JLabel( (name != null && !name.equals("")) ? name : "未登陆" );
