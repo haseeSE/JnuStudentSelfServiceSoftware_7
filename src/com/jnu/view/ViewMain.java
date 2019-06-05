@@ -244,17 +244,6 @@ public class ViewMain {
 		});
 		menu_other.add(menuItem_download);
 		
-		JMenuItem menuItem_fourm = new JMenuItem("校园论坛");
-		menuItem_fourm.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				openWebFourm();
-		        Log.info("点击了打开学校论坛");
-			}
-			
-		});
-		menu_other.add(menuItem_fourm);
-		
 		JMenuItem menuItem_userInfo = new JMenuItem("个人信息");
 		menuItem_userInfo.addMouseListener(new MouseAdapter() {
 			@Override

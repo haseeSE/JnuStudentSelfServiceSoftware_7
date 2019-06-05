@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
+import org.apache.log4j.Logger;
+
 import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
@@ -18,6 +20,8 @@ import javax.swing.JPanel;
 
 public class ViewWebBrowser {
 
+	Logger Log = Logger.getLogger(getClass());
+	
 	private JFrame frame;
 	
 	private int width = 900;
@@ -50,6 +54,7 @@ public class ViewWebBrowser {
 	 * Create the application.
 	 */
 	public ViewWebBrowser(Component parent, String title) {
+		Log.info("Create WebBrowser");
 		initialize(parent, title);
 	}
 
@@ -74,6 +79,7 @@ public class ViewWebBrowser {
 				NativeInterface.open();
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
+						Log.info("打开网址： " + url);
 						panel_main = new JPanel(new BorderLayout());
 						webBrowser = new JWebBrowser();
 						webBrowser.navigate(url);
