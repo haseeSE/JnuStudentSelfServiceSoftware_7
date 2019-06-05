@@ -137,8 +137,8 @@ public class PanelLeaveDocEdit extends JPanel {
 	textPane_editDocReasonText.setBackground(Color.WHITE);
 	textPane_editDocReasonText.setFont(new Font("黑体", Font.PLAIN, 22));
 	
-	JButton button_editDocCommit = new JButton("\u63D0\u4EA4");
-	button_editDocCommit.addMouseListener(new MouseAdapter() {
+	JButton Button_download = new JButton("下载");
+	Button_download.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			DocReason = textPane_editDocReasonText.getText();
@@ -157,12 +157,12 @@ public class PanelLeaveDocEdit extends JPanel {
 			EditDoc doc = new EditDoc();
 			doc.createWord();
 			
-			ViewMain.openToDownloadDoc();
-			Log.info("点击了修改用户信息");
+			ViewMain.openDownloadDoc();
+			Log.info("点击了请假条下载");
 		}
 	});
-	button_editDocCommit.setBounds(381, 208, 113, 27);
-	add(button_editDocCommit);
+	Button_download.setBounds(381, 208, 113, 27);
+	add(Button_download);
 
 	JLabel label_endDay = new JLabel("\u65E5");
 	label_endDay.setFont(new Font("黑体", Font.PLAIN, 22));

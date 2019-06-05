@@ -311,10 +311,6 @@ public class ViewMain {
 		openWebBrowser("内嵌浏览器", url);
 	}
 	
-	// 请假提交后打开下载界面；
-	public static void openToDownloadDoc() {
-		changePanelTemplate(new PanelToViewDnwnloadDoc());
-	}
 			
 	// 打开下载页面；
 	public static void openDownloadDoc() {
