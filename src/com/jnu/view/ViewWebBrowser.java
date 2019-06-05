@@ -62,7 +62,7 @@ public class ViewWebBrowser {
 		frame.setTitle(title);
 		frame.setSize(width, height);
 		frame.setLocationRelativeTo(parent);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));					
 	}
 	

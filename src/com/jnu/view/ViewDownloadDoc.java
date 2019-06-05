@@ -79,7 +79,7 @@ public class ViewDownloadDoc {
 		frame.setResizable(false);
 		frame.setSize(450, 300);
 		frame.setLocationRelativeTo(null);//在屏幕中居中显示
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JLabel label = new JLabel("\u6A21\u677F\u7C7B\u578B\uFF1A");
 		

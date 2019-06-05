@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 
 import com.jnu.model.MyFileOperator;
 import com.jnu.model.MyNumKeyAdapter;
+import com.jnu.model.NoticeSetting;
 import com.jnu.model.User;
 import com.jnu.model.UserManager;
 import com.jnu.model.WebTMSystem;
@@ -43,6 +44,21 @@ public class PanelPersonalInfo extends JPanel {
 	private void initialize() {
 		// TODO Auto-generated method stub
 		web.initialize();
+	}
+	
+	private void initializeNoticeSetting(String college) {
+		if (college.contains("人文"))
+			NoticeSetting.setCollegeNotice_humanities(true);
+		else if (college.contains("国商") || college.contains("国际商务"))
+			NoticeSetting.setCollegeNotice_internationalBusiness(true);
+		else if (college.contains("翻院") || college.contains("翻译"))
+			NoticeSetting.setCollegeNotice_translationStudies(true);
+		else if (college.contains("智科") || college.contains("智能科学与工程"))
+			NoticeSetting.setCollegeNotice_intelligentScienceAndEngineering(true);
+		else if (college.contains("电工") || college.contains("电气工程"))
+			NoticeSetting.setCollegeNotice_electricalEngineering(true);
+		else if (college.contains("包装"))
+			NoticeSetting.setCollegeNotice_packagingEngineering(true);
 	}
 	
 	/**
@@ -209,6 +225,10 @@ public class PanelPersonalInfo extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
+				
+				//保存学院信息到NoticeSetting（如果有的话）
+				initializeNoticeSetting(textField_college.getText());
+				
 				User user = UserManager.getUser();	
 				
 				String jnuEduId = user.get_JnuEduAdminSystemId();
