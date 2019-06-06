@@ -214,8 +214,9 @@ public class ViewNoticeSetting extends JFrame {
 	}
 	
 	public void myClose() {
-		this.dispose();
+//		this.dispose();
 		IsExisted = false;
 		ViewMain.getFrame().setEnabled(true);
+		ViewMain.openMainMessage();
 	}
 }

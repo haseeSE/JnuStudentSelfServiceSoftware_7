@@ -36,13 +36,10 @@ public class PanelNotice extends JPanel implements ListSelectionListener {
 	private DefaultListModel<String> listModel;
 	private ArrayList<NoticeContainer> theNotices;
 	
-	public PanelNotice(ArrayList<NoticeContainer> notices) {
+	public PanelNotice() {
 		super(new BorderLayout());
 		listModel = new DefaultListModel<String>();
-		this.theNotices = notices;
-		//添加数据
-		addData();
-		
+		//添加组件
 		notice_list = new JList<String>(listModel);
         notice_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         notice_list.setSelectedIndex(0);
@@ -72,21 +69,12 @@ public class PanelNotice extends JPanel implements ListSelectionListener {
 	
 	//双击事件
 	private void whenDbClickLst(String url){
-//		ViewMain.changePanelTemplate(new PanelNoticeDetail());
-//		UIUtils.setPreferredLookAndFeel();
-//        NativeInterface.open();
-//        SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-////            	PanelWebBrowser web = new PanelWebBrowser();
-////            	web.openDigitalJnu();
-//            	ViewMain.openWeb(url);
-//            }
-//        });
-//        NativeInterface.runEventPump();
 		ViewMain.openWeb(url);
 	}
 
-	private void addData(){
+	public void addData(ArrayList<NoticeContainer> notices){
+		theNotices = notices;
+		listModel.clear();
 		for(int index=0;index<theNotices.size();index++)
 			listModel.addElement(theNotices.get(index).getDate()+"          "+theNotices.get(index).getTitle());
 		

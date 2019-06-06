@@ -45,6 +45,7 @@ public class PanelMessage extends JPanel {
 				NoticeSetting.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent e) {
 //						ViewMain.getFrame().setEnabled(true);
+//						ViewMain.openMainMessage();
 					}
 				});
 				NoticeSetting.setVisible(true);
