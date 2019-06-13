@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
+import com.jnu.model.NoticeCollection;
+import com.jnu.model.NoticeContainer;
 import com.jnu.model.NoticeSetting;
 
 import javax.swing.JButton;
@@ -15,6 +17,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import java.awt.event.ItemListener;
@@ -56,12 +60,12 @@ public class PanelMessage extends JPanel {
 				if (selected == true)
 				{
 					NoticeSetting.setCollegeNotice_humanities(true);
-					
+					ViewMain.openMainMessage();
 				}
 				else
 				{
 					NoticeSetting.setCollegeNotice_humanities(false);
-					
+					ViewMain.openMainMessage();
 				}
 			}
 		});
@@ -75,11 +79,12 @@ public class PanelMessage extends JPanel {
 				if (selected == true)
 					{
 					NoticeSetting.setCollegeNotice_internationalBusiness(true);
-					
+					ViewMain.openMainMessage();
 					}
 				else
 					{
 					NoticeSetting.setCollegeNotice_internationalBusiness(false);
+					ViewMain.openMainMessage();
 					}
 			}
 		});
@@ -96,12 +101,12 @@ public class PanelMessage extends JPanel {
 				if (selected == true)
 				{
 					NoticeSetting.setCollegeNotice_translationStudies(true);
-					
+					ViewMain.openMainMessage();
 				}
 				else
 				{
 					NoticeSetting.setCollegeNotice_translationStudies(false);
-					
+					ViewMain.openMainMessage();
 				}
 			}
 		});
@@ -118,10 +123,12 @@ public class PanelMessage extends JPanel {
 				if (selected == true)
 				{
 					NoticeSetting.setCollegeNotice_intelligentScienceAndEngineering(true);
+					ViewMain.openMainMessage();
 				}
 				else
 				{
 					NoticeSetting.setCollegeNotice_intelligentScienceAndEngineering(false);
+					ViewMain.openMainMessage();
 				}
 			}
 		});
@@ -138,12 +145,12 @@ public class PanelMessage extends JPanel {
 				if (selected == true)
 				{
 					NoticeSetting.setCollegeNotice_electricalEngineering(true);
-					
+					ViewMain.openMainMessage();		
 				}
 				else
 				{
 					NoticeSetting.setCollegeNotice_electricalEngineering(false);
-					
+					ViewMain.openMainMessage();
 				}
 			}
 		});
@@ -160,12 +167,12 @@ public class PanelMessage extends JPanel {
 				if (selected == true)
 				{
 					NoticeSetting.setCollegeNotice_packagingEngineering(true);
-					
+					ViewMain.openMainMessage();
 				}
 				else
 				{
 					NoticeSetting.setCollegeNotice_packagingEngineering(false);
-					
+					ViewMain.openMainMessage();
 				}
 			}
 		});
@@ -175,18 +182,26 @@ public class PanelMessage extends JPanel {
 		add(checkBox_packagingEngineering);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(34, 3, 90, 24);
+		comboBox.setBounds(360, 4, 90, 24);
+		comboBox.addItem("--------");
 		comboBox.addItem("校内通知");
 		comboBox.addItem("新浪新闻");
+		comboBox.addItem("就业信息");
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				int index = comboBox.getSelectedIndex();
 				switch (index) {
-				case 0:
-					
-					break;
 				case 1:
-					
+					PanelNoticeContainer.change(0);
+					ViewMain.openMainMessage();
+					break;
+				case 2:
+					PanelNoticeContainer.change(1);
+					ViewMain.openMainMessage();
+					break;
+				case 3:
+					PanelNoticeContainer.change(2);
+					ViewMain.openMainMessage();
 					break;
 				}
 			}
@@ -201,30 +216,27 @@ public class PanelMessage extends JPanel {
 		btn_update.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				/*if (checkBox_collegeNotice_humanities.isSelected())
-					NoticeSetting.setCollegeNotice_humanities(true);
-				else
-					NoticeSetting.setCollegeNotice_humanities(false);
-				if (checkBox_collegeNotcie_internationalBusiness.isSelected())
-					NoticeSetting.setCollegeNotice_internationalBusiness(true);
-				else
-					NoticeSetting.setCollegeNotice_internationalBusiness(false);
-				if (checkBox_collegeNotice_translationStudies.isSelected())
-					NoticeSetting.setCollegeNotice_translationStudies(true);
-				else
-					NoticeSetting.setCollegeNotice_translationStudies(false);
-				if (checkBox_collegeNotice_intelligentScienceAndEngineering.isSelected())
-					NoticeSetting.setCollegeNotice_intelligentScienceAndEngineering(true);
-				else
-					NoticeSetting.setCollegeNotice_intelligentScienceAndEngineering(false);
-				if (checkBox_collegeNotice_electricalEngineering.isSelected())
-					NoticeSetting.setCollegeNotice_electricalEngineering(true);
-				else
-					NoticeSetting.setCollegeNotice_electricalEngineering(false);
-				if (checkBox_packagingEngineering.isSelected())
-					NoticeSetting.setCollegeNotice_packagingEngineering(true);
-				else
-					NoticeSetting.setCollegeNotice_packagingEngineering(false);*/
+				NoticeCollection noticeCollection_internationalBusiness = new NoticeCollection("internationalBusiness");
+				NoticeCollection noticeCollection_humanities = new NoticeCollection("humanities");
+				NoticeCollection noticeCollection_translationStudies = new NoticeCollection("translationStudies");
+				NoticeCollection noticeCollection_packagingEngineering = new NoticeCollection("packagingEngineering");
+				NoticeCollection noticeCollection_newsAndTrends = new NoticeCollection("newsAndTrends");
+				NoticeCollection noticeCollection_noticeAndAnnouncement = new NoticeCollection("noticeAndAnnouncement");
+				NoticeCollection noticeCollection_hotRecruitment = new NoticeCollection("hotRecruitment");
+				NoticeCollection noticeCollection_policyInterpretation = new NoticeCollection("policyInterpretation");
+				ArrayList<NoticeContainer> newlist = new ArrayList<NoticeContainer>();
+				
+				
+				noticeCollection_internationalBusiness.save(newlist);
+				noticeCollection_humanities.save(newlist);
+				noticeCollection_translationStudies.save(newlist);
+				noticeCollection_packagingEngineering.save(newlist);
+				noticeCollection_newsAndTrends.save(newlist);
+				noticeCollection_noticeAndAnnouncement.save(newlist);
+				noticeCollection_hotRecruitment.save(newlist);
+				noticeCollection_policyInterpretation.save(newlist);
+				
+				ViewMain.openMainMessage();
 			}
 		});
 		btn_update.setBounds(551, 3, 113, 27);

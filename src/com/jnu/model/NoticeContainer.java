@@ -1,9 +1,12 @@
 package com.jnu.model;
 
-public class NoticeContainer {
+import java.io.Serializable;
+
+public class NoticeContainer implements Serializable{
 	private String _title;
 	private String _date;
 	private String _href;
+	String publishingSource;
 	
 	
 	public String getTitle() {
@@ -23,6 +26,12 @@ public class NoticeContainer {
 	}
 	public void setHref(String _href) {
 		this._href = _href;
+	}
+	public String getPublishingSource() {
+		return publishingSource;
+	}
+	public void setPublishingSource(String publishingSource) {
+		this.publishingSource = publishingSource;
 	}
 	
 

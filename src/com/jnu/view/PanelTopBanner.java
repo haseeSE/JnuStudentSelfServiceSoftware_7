@@ -78,7 +78,7 @@ public class PanelTopBanner extends JPanel {
 					}
 		
 					JPanel searchPanel = new PanelNotice();
-					((PanelNotice) searchPanel).addData(searchResList);
+					((PanelNotice) searchPanel).setData(searchResList);
 					ViewMain.changePanelTemplate(searchPanel);
 				}
 				else {
