@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import com.jnu.model.EditDoc;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -158,7 +159,9 @@ public class PanelLeaveDocEdit extends JPanel {
 			doc.createWord();
 			
 			ViewMain.openDownloadDoc();
+      
 			Log.info("点击了请假条下载");
+
 		}
 	});
 	Button_download.setBounds(381, 208, 113, 27);

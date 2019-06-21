@@ -14,5 +14,12 @@
 	<classpathentry kind="lib" path="Library/jsoup-1.11.3.jar"/>
 	<classpathentry kind="lib" path="Library/freemarker.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="Library/poi-ooxml-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="Library/poi-3.14-beta1-20151223.jar"/>
+	<classpathentry kind="lib" path="Library/poi-examples-3.14-beta1-20151223.jar"/>
+	<classpathentry kind="lib" path="Library/poi-excelant-3.14-beta1-20151223.jar"/>
+	<classpathentry kind="lib" path="Library/poi-ooxml-3.14-beta1-20151223.jar"/>
+	<classpathentry kind="lib" path="Library/poi-ooxml-schemas-3.14-beta1-20151223.jar"/>
+	<classpathentry kind="lib" path="Library/poi-scratchpad-3.14-beta1-20151223.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
