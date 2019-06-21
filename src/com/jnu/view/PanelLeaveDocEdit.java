@@ -159,7 +159,9 @@ public class PanelLeaveDocEdit extends JPanel {
 			doc.createWord();
 			
 			ViewMain.openDownloadDoc();
-			Log.info("点击了下载请假条");
+      
+			Log.info("点击了请假条下载");
+
 		}
 	});
 	Button_download.setBounds(381, 208, 113, 27);

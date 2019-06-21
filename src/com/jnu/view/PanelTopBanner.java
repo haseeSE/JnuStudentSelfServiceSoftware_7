@@ -66,14 +66,7 @@ public class PanelTopBanner extends JPanel {
 					
 					ArrayList<NoticeContainer> theNotices = new ArrayList<NoticeContainer>();
 					try {
-						theNotices.addAll(PanelNoticeContainer.school_notice);
-						theNotices.addAll(PanelNoticeContainer.college_notice);
-						theNotices.addAll(PanelNoticeContainer.academicAdminstration_notice);
-						
-						theNotices.addAll(PanelEmploymentInfoContainer.newsAndTrends);
-						theNotices.addAll(PanelEmploymentInfoContainer.noticeAndAnnouncement);
-						theNotices.addAll(PanelEmploymentInfoContainer.hotRecruitment);
-						theNotices.addAll(PanelEmploymentInfoContainer.policyInterpretation);
+						theNotices = PanelNoticeContainer.getAllNotices();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -84,7 +77,8 @@ public class PanelTopBanner extends JPanel {
 							searchResList.add(searchItem);
 					}
 		
-					JPanel searchPanel = new PanelNotice(searchResList);
+					JPanel searchPanel = new PanelNotice();
+					((PanelNotice) searchPanel).setData(searchResList);
 					ViewMain.changePanelTemplate(searchPanel);
 				}
 				else {

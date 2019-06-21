@@ -60,6 +60,7 @@ public class EmploymentInfoDataCapture {
             		containerTem.setHref(hrefBase + title.attr("href"));
             		Elements date = item.select(".gg_year");
             		containerTem.setDate(date.text());
+            		containerTem.setPublishingSource("新闻动态");
             		newsAndTrends.add(containerTem);
             	}
             }
@@ -107,6 +108,7 @@ public class EmploymentInfoDataCapture {
             		containerTem.setHref(hrefBase + title.attr("abs:href"));
             		Elements date = item.select(".gg_year");
             		containerTem.setDate(date.text());
+            		containerTem.setPublishingSource("通知公告");
             		noticeAndAnnouncement.add(containerTem);
             	}
             }
@@ -163,6 +165,7 @@ public class EmploymentInfoDataCapture {
             		containerTem.setHref(hrefBase + title.attr("onclick").replace("viewZpxx('", "").replace("', 'news')", ""));
             		Elements date = item.select("div").next();
             		containerTem.setDate(date.text());
+            		containerTem.setPublishingSource("招聘热点");
             		hotRecruitment.add(containerTem);
             	}
             }
@@ -212,6 +215,7 @@ public class EmploymentInfoDataCapture {
             		containerTem.setHref(hrefBase + title.attr("abs:href"));
             		Elements date = item.select(".gg_year");
             		containerTem.setDate(date.text());
+            		containerTem.setPublishingSource("政策解读");
             		policyInterpretation.add(containerTem);
             	}
             }

@@ -8,12 +8,15 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,33 +34,35 @@ public class PanelNotice extends JPanel implements ListSelectionListener {
 	/**
 	 * Create the panel.
 	 */
-	JScrollPane listScrollPane;
-	private JList<String> notice_list;
-	private DefaultListModel<String> listModel;
+	private String[] header = {"通知概要","发布时间","发布源"};
+	Object[][] noticeTableItem;
+	private JScrollPane listScrollPane;
+	private JTable notice_table;
+	private DefaultTableModel tableModel;
 	private ArrayList<NoticeContainer> theNotices;
 	
-	public PanelNotice(ArrayList<NoticeContainer> notices) {
+	public PanelNotice() {
 		super(new BorderLayout());
-		listModel = new DefaultListModel<String>();
-		this.theNotices = notices;
-		//添加数据
-		addData();
-		
-		notice_list = new JList<String>(listModel);
-        notice_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        notice_list.setSelectedIndex(0);
-        notice_list.addListSelectionListener(this);
-        notice_list.setVisibleRowCount(5);
-        notice_list.setFont(getFont().deriveFont((float) (getFont().getSize() + 3)));		// 设置字体大小
-        notice_list.setSelectionForeground(Color.BLUE);										// 设置选中选项的字体颜色
-        notice_list.setSelectionBackground(Color.CYAN);										// 设置选中条的颜色
-        notice_list.setFixedCellWidth(200);													//设置是否限制字符长度
-        listScrollPane = new JScrollPane(notice_list);
-        notice_list.addMouseListener(new MouseAdapter(){
+		//初始化
+		theNotices = new ArrayList<NoticeContainer>();
+		notice_table = new JTable(){
+			public boolean isCellEditable(int row, int column){
+				 return false;
+			 }
+		};
+
+		tableModel = new DefaultTableModel(noticeTableItem,header);
+		listScrollPane = new JScrollPane(notice_table);
+		//组件设置
+		notice_table.setModel(tableModel);
+		notice_table.setEnabled(true);
+		notice_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        notice_table.addMouseListener(new MouseAdapter(){
         	public void mouseClicked(MouseEvent e){
                 if(e.getClickCount()==2){ 
                 //When double click JList  
-                    whenDbClickLst(theNotices.get(notice_list.getSelectedIndex()).getHref());   //Event  
+                	if(notice_table.getSelectedRow()!=-1)
+                		whenDbClickLst(theNotices.get(notice_table.getSelectedRow()).getHref());   //Event  
                 }  
             }
         });
@@ -72,24 +77,18 @@ public class PanelNotice extends JPanel implements ListSelectionListener {
 	
 	//双击事件
 	private void whenDbClickLst(String url){
-//		ViewMain.changePanelTemplate(new PanelNoticeDetail());
-//		UIUtils.setPreferredLookAndFeel();
-//        NativeInterface.open();
-//        SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-////            	PanelWebBrowser web = new PanelWebBrowser();
-////            	web.openDigitalJnu();
-//            	ViewMain.openWeb(url);
-//            }
-//        });
-//        NativeInterface.runEventPump();
 		ViewMain.openWeb(url);
 	}
 
-	private void addData(){
-		for(int index=0;index<theNotices.size();index++)
-			listModel.addElement(theNotices.get(index).getDate()+"          "+theNotices.get(index).getTitle());
-		
+	public void setData(ArrayList<NoticeContainer> notices){
+		this.theNotices = notices;
+		Object[][] noticeItem = new Object[this.theNotices.size()][3];
+		for(int row_index=0;row_index<notices.size();row_index++){
+			noticeItem[row_index][0] = notices.get(row_index).getTitle();
+			noticeItem[row_index][1] = notices.get(row_index).getDate();
+			noticeItem[row_index][2] = notices.get(row_index).getPublishingSource();
+		}
+		tableModel.setDataVector(noticeItem, header);
 	}
-
+	
 }

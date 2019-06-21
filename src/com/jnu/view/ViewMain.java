@@ -244,17 +244,6 @@ public class ViewMain {
 		});
 		menu_other.add(menuItem_download);
 		
-		JMenuItem menuItem_fourm = new JMenuItem("校园论坛");
-		menuItem_fourm.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				openWebFourm();
-		        Log.info("点击了打开学校论坛");
-			}
-			
-		});
-		menu_other.add(menuItem_fourm);
-		
 		JMenuItem menuItem_userInfo = new JMenuItem("个人信息");
 		menuItem_userInfo.addMouseListener(new MouseAdapter() {
 			@Override
@@ -322,10 +311,6 @@ public class ViewMain {
 		openWebBrowser("内嵌浏览器", url);
 	}
 	
-	// 请假提交后打开下载界面；
-	public static void openToDownloadDoc() {
-		changePanelTemplate(new PanelToViewDnwnloadDoc());
-	}
 			
 	// 打开下载页面；
 	public static void openDownloadDoc() {

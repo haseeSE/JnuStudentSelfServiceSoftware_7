@@ -285,6 +285,16 @@ public class PanelSubMessage extends JPanel {
 		btn_cardUpdate.setBounds(170, 41, 50, 15);
 		panel.add(btn_cardUpdate);
 		
+		JButton btn_openForum = new JButton("前往校园论坛");
+		btn_openForum.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				ViewMain.openWebFourm();
+			}
+		});
+		btn_openForum.setBounds(156, 306, 123, 23);
+		add(btn_openForum);
+		
 		latterInfo();
 	}
 
